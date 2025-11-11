@@ -1,0 +1,249 @@
+/* style.css */
+
+/* --- Tatanan Asas & Reset --- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* PENTING untuk butang logout */
+    position: relative; 
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+header p {
+    margin-top: 5px;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* --- Seksyen & Kad --- */
+section {
+    background-color: white;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Borang & Input --- */
+form label {
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+    width: 150px;
+}
+
+form input[type="text"], 
+form input[type="number"], 
+form select {
+    width: calc(100% - 170px);
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+/* --- Jadual --- */
+.result-area table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.result-area th, .result-area td {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: left;
+}
+
+.result-area th {
+    background-color: #e9ecef;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+
+.result-area tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* --- Gaya RANKING (Kumpulan Sahaja) --- */
+tr.rank-1 {
+    background-color: #ffdf00 !important; /* Emas */
+    font-weight: bold;
+}
+
+tr.rank-2 {
+    background-color: #c0c0c0 !important; /* Perak */
+    font-weight: bold;
+}
+
+tr.rank-3 {
+    background-color: #cd7f32 !important; /* Gangsa */
+    font-weight: bold;
+}
+
+/* --- Butang Navigasi Tab Utama (main-tab) --- */
+.main-tab-buttons {
+    display: flex;
+    border-bottom: 3px solid #007bff;
+    margin-bottom: 20px;
+}
+
+.main-tab-link {
+    background-color: #e9ecef; 
+    color: #333;
+    border: none;
+    cursor: pointer;
+    padding: 12px 20px;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    margin-top: 0; 
+    border-radius: 6px 6px 0 0;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.main-tab-link:hover {
+    background-color: #ddd;
+}
+
+/* Kelas untuk menyembunyikan tab Pendaftaran bagi pengguna biasa */
+.hidden-tab {
+    display: none !important;
+}
+
+.main-tab-link.active {
+    background-color: #007bff; 
+    color: white;
+    font-weight: bold;
+}
+
+.main-tab-content {
+    display: none;
+    padding: 15px 0; 
+}
+
+.main-tab-content.active {
+    display: block;
+}
+
+/* --- Gaya NAVIGASI SUB-TAB (sub-tab) --- */
+.tab-buttons {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+.sub-tab-link {
+    background-color: #ffc107; 
+    color: #333;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+    margin-right: 5px;
+    border-radius: 4px 4px 0 0;
+}
+
+.sub-tab-link:hover {
+    background-color: #ff9800;
+}
+
+.sub-tab-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.sub-tab-content {
+    display: none;
+    padding: 15px 0 0 0;
+    border-top: none;
+}
+
+/* --- Lain-lain --- */
+#login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#login-container h2 {
+    text-align: center;
+    color: #007bff;
+}
+
+#login-form input[type="text"], 
+#login-form input[type="password"] {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+#login-form button {
+    width: 100%;
+    background-color: #007bff;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #e9ecef;
+    color: #666;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+#filterInput {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
