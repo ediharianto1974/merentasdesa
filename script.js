@@ -32,6 +32,7 @@ function isAdmin() {
 // ==========================================================
 
 class Peserta {
+    // TAMBAH: masaLarian
     constructor(noBadan, namaPenuh, jantina, kategoriUmur, sekolahKelas, docId = null) {
         this.docId = docId; // ID Dokumen Firestore
         this.noBadan = noBadan;
@@ -40,11 +41,14 @@ class Peserta {
         this.kategoriUmur = kategoriUmur.toUpperCase().trim();
         this.sekolahKelas = sekolahKelas;
         this.kedudukan = 0; // Kedudukan Overall Rank (di set kemudian oleh admin)
+        this.masaLarian = null; // Masa Larian (dalam minit, cth: 25.45)
     }
 
     static fromJSON(data, docId) {
         const p = new Peserta(data.noBadan, data.namaPenuh, data.jantina, data.kategoriUmur, data.sekolahKelas, docId);
         p.kedudukan = data.kedudukan || 0;
+        // INISIALISASI masaLarian
+        p.masaLarian = data.masaLarian !== undefined ? data.masaLarian : null;
         return p;
     }
 }
@@ -86,10 +90,24 @@ class Kejohanan {
         }
 
         try {
-            await db.collection('peserta').doc(pesertaToUpdate.docId).update(updateData);
+            // Hasilkan data yang akan dihantar ke Firestore
+            const firestoreUpdateData = {};
+            for (const key in updateData) {
+                // Pastikan nilai null dihantar sebagai null, bukan 0 atau string kosong (kecuali untuk kedudukan)
+                firestoreUpdateData[key] = updateData[key] === '' ? null : updateData[key];
+            }
+            
+            await db.collection('peserta').doc(pesertaToUpdate.docId).update(firestoreUpdateData);
+            
             // Kemas kini model tempatan (diperlukan untuk fungsi analisis segera)
             Object.assign(pesertaToUpdate, updateData);
-            console.log(`✅ Peserta ${noBadan} dikemas kini dalam Firestore.`);
+            
+            // Jika kedudukan atau masa berubah, kemas kini paparan semula
+            if (updateData.kedudukan !== undefined || updateData.masaLarian !== undefined) {
+                 analisisIndividu(); 
+            }
+            
+            console.log(`✅ Peserta ${noBadan} dikemas kini dalam Firestore:`, firestoreUpdateData);
             return true;
         } catch (error) {
             console.error('❌ Ralat mengemas kini peserta dalam Firestore:', error);
@@ -116,13 +134,14 @@ class Kejohanan {
         
         try {
             // Gunakan noBadan sebagai ID dokumen untuk semakan duplikat yang mudah dalam Firestore
-            const docRef = await db.collection('peserta').doc(noBadanTrimmed).set({
+            await db.collection('peserta').doc(noBadanTrimmed).set({
                 noBadan: p.noBadan,
                 namaPenuh: p.namaPenuh,
                 jantina: p.jantina,
                 kategoriUmur: p.kategoriUmur,
                 sekolahKelas: p.sekolahKelas,
-                kedudukan: 0 
+                kedudukan: 0,
+                masaLarian: null // Set masa awal kepada null
             });
 
             // Muat semula data dari Firestore untuk mendapatkan docId baru, tetapi untuk kes ini 
@@ -144,12 +163,36 @@ class Kejohanan {
             return false;
         }
         
-        const kedudukanInt = (kedudukan === '' || isNaN(kedudukan)) ? 0 : Math.max(1, parseInt(kedudukan));
+        const kedudukanInt = (kedudukan === '' || isNaN(kedudukan)) ? 0 : Math.max(0, parseInt(kedudukan));
         
-        return this.updatePeserta(noBadan, { kedudukan: kedudukanInt });
+        // Jika kedudukan di-reset (0), masa juga perlu di-reset
+        const updateData = { kedudukan: kedudukanInt };
+        if (kedudukanInt === 0) {
+            updateData.masaLarian = null;
+        }
+        
+        return this.updatePeserta(noBadan, updateData);
+    }
+    
+    // FUNGSI BARU: Set Masa Larian
+    async setMasaLarian(noBadan, masaLarian) {
+        if (!isAdmin()) {
+            console.warn('❌ Akses Ditolak: Hanya Admin boleh merekod masa larian.');
+            return false;
+        }
+        
+        const masaFloat = (masaLarian === '' || isNaN(masaLarian)) ? null : parseFloat(masaLarian);
+        
+        if (masaFloat !== null && masaFloat <= 0) {
+            console.error('❌ Masa Larian mesti positif.');
+            return false;
+        }
+
+        return this.updatePeserta(noBadan, { masaLarian: masaFloat });
     }
     
     async padamPesertaIndividu(noBadan) {
+        // ... (Kekal sama)
         if (!isAdmin()) {
             alert('❌ Akses Ditolak: Hanya Admin boleh memadam peserta.');
             return false;
@@ -173,6 +216,7 @@ class Kejohanan {
     }
 
     async resetSemuaData() {
+        // ... (Kekal sama)
         if (!isAdmin()) {
             alert('❌ Akses Ditolak: Hanya Admin boleh reset data.');
             return false;
@@ -199,7 +243,7 @@ class Kejohanan {
     }
 
     // ----------------------------------------------------------------
-    // --- C. LOGIK PEMARKAHAN (Helper) --- (Kekal sama)
+    // --- C. LOGIK PEMARKAHAN & ANALISIS (Helper) --- 
     // ----------------------------------------------------------------
 
     // Dikekalkan untuk analisis individu 
@@ -222,12 +266,14 @@ class Kejohanan {
         }, {});
         
         for (const kategori in petaKategori) {
+            // Susun berdasarkan Kedudukan Overall
             petaKategori[kategori].sort((a, b) => a.kedudukan - b.kedudukan);
         }
         return petaKategori;
     }
 
     dapatkanPemenangTersusunMengikutKumpulan() {
+        // ... (Kekal sama)
         const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
         
         const petaKumpulan = pesertaSelesai.reduce((acc, peserta) => {
@@ -244,7 +290,7 @@ class Kejohanan {
     }
 
     // ----------------------------------------------------------------
-    // --- D. PAPARAN DAN ANALISIS KEPUTUSAN --- (Kekal sama, hanya bergantung pada this.senaraiPeserta)
+    // --- D. PAPARAN DAN ANALISIS KEPUTUSAN --- 
     // ----------------------------------------------------------------
     
     paparSemuaPesertaDalamJadual() {
@@ -253,15 +299,20 @@ class Kejohanan {
         }
 
         let htmlOutput = '<table>';
-        htmlOutput += '<tr><th>NO. BADAN</th><th>NAMA PENUH</th><th>JANTINA</th><th>KATEGORI</th><th>PASUKAN</th><th>KEDUDUKAN</th></tr>';
+        // TAMBAH: Lajur MASA LARIAN
+        htmlOutput += '<tr><th>NO. BADAN</th><th>NAMA PENUH</th><th>JANTINA</th><th>KATEGORI</th><th>PASUKAN</th><th>KEDUDUKAN</th><th>MASA LARIAN (minit)</th></tr>';
 
         const senaraiTersusun = [...this.senaraiPeserta].sort((a, b) => a.noBadan.localeCompare(b.noBadan)); 
 
         senaraiTersusun.forEach(p => {
             const kedudukanDisplay = p.kedudukan > 0 ? p.kedudukan : '';
+            const masaDisplay = p.masaLarian !== null ? p.masaLarian.toFixed(2) : '';
+
             // KAWALAN AKSES berdasarkan isAdmin()
             const isEditable = isAdmin() ? `contenteditable="true"` : '';
-            const cellClass = isAdmin() ? `class="kedudukan-cell"` : '';
+            const kedudukanCellClass = isAdmin() ? `class="edit-cell kedudukan-cell"` : '';
+            // Sel Masa juga boleh diedit
+            const masaCellClass = isAdmin() ? `class="edit-cell masa-cell"` : '';
 
             htmlOutput += `<tr>
                                 <td data-nobadan="${p.noBadan}">${p.noBadan}</td>
@@ -269,7 +320,8 @@ class Kejohanan {
                                 <td>${p.jantina}</td>
                                 <td>${p.kategoriUmur}</td>
                                 <td>${p.sekolahKelas}</td>
-                                <td ${isEditable} ${cellClass} data-nobadan="${p.noBadan}">${kedudukanDisplay}</td>
+                                <td ${isEditable} ${kedudukanCellClass} data-nobadan="${p.noBadan}" data-field="kedudukan">${kedudukanDisplay}</td>
+                                <td ${isEditable} ${masaCellClass} data-nobadan="${p.noBadan}" data-field="masaLarian">${masaDisplay}</td>
                            </tr>`;
         });
         
@@ -278,7 +330,7 @@ class Kejohanan {
         return htmlOutput;
     }
     
-    analisisPemenangIndividuKategori() {
+analisisPemenangIndividuKategori() {
         const pemenangKategori = this.dapatkanPemenangTersusunMengikutKategori();
         let htmlOutput = '';
 
@@ -286,20 +338,63 @@ class Kejohanan {
              return '<p>Tiada keputusan larian yang direkodkan (kedudukan > 0) untuk analisis kategori.</p>';
         }
 
+        // FUNGSI UTAMA: Mengira dan Memaparkan Analisis Individu dengan Logik Masa
         for (const kategori in pemenangKategori) {
             const senarai = pemenangKategori[kategori];
             
+            // 1. Cari masa kedudukan ke-5 yang sah dalam kategori ini
+            let masaRank5 = null;
+            // Rank Kategori ke-5 adalah index 4
+            const rank5Peserta = senarai.find((p, index) => index === 4 && p.masaLarian !== null);
+            
+            if (rank5Peserta) {
+                masaRank5 = rank5Peserta.masaLarian;
+            } else {
+                 console.warn(`[Analisis] Tiada Masa Larian direkodkan untuk Rank Kategori ke-5 dalam ${kategori}. Pengiraan automatik tidak boleh dilakukan.`);
+            }
+
             htmlOutput += `<h4>== KATEGORI: ${kategori} (${senarai.length} Peserta Selesai) ==</h4>`;
+            
+            // Mesej amaran dikekalkan untuk memberitahu Admin untuk memasukkan data
+            if (masaRank5 === null && senarai.length >= 5) {
+                htmlOutput += `<p style="color:red; font-weight: bold;">⚠️ Sila masukkan MASA LARIAN secara manual untuk Rank Kategori ke-5 untuk membolehkan pengiraan masa automatik.</p>`;
+            }
+            
             htmlOutput += '<table>';
-            htmlOutput += '<tr><th>RANK KATEGORI</th><th>KEDUDUKAN (OVERALL RANK)</th><th>NAMA</th><th>SEKOLAH/PASUKAN</th><th>NO. BADAN</th></tr>'; 
+            // HEADER Dikekalkan: MASA LARIAN (minit)
+            htmlOutput += '<tr><th>RANK KATEGORI</th><th>KEDUDUKAN (OVERALL RANK)</th><th>MASA LARIAN (minit)</th><th>NAMA</th><th>SEKOLAH/PASUKAN</th><th>NO. BADAN</th></tr>'; 
             
             for (let i = 0; i < senarai.length; i++) {
                 const p = senarai[i];
                 const rankKategori = i + 1;
                 
+                let masaDisplay = '';
+                let masaActual = p.masaLarian;
+                // let masaSource = 'MANUAL'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
+
+                // LOGIK PENGIRAAN MASA AUTOMATIK (Untuk Rank Kategori 6 dan ke atas)
+                if (rankKategori >= 6) {
+                    if (masaRank5 !== null) {
+                        masaActual = masaRank5 + ((rankKategori - 5) * 0.03); // T5 + (n-5) * 0.03
+                        // masaSource = 'AUTO (+0.03)'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
+                    } else {
+                        // masaSource = 'TIADA MASA KATEGORI KE-5'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
+                    }
+                }
+                
+                // PENGUBAHSUAIAN UTAMA DI SINI:
+                // Hanya paparkan nilai masa (sehingga 2 titik perpuluhan) tanpa perkataan MANUAL/AUTO.
+                if (masaActual !== null) {
+                    masaDisplay = masaActual.toFixed(2); // Cuma nilai masa
+                } else if (p.kedudukan > 0) {
+                    // Paparkan "BELUM DIREKOD" jika kedudukan ada tetapi masa tiada (terutamanya untuk Rank 1-5)
+                    masaDisplay = 'BELUM DIREKOD'; 
+                }
+
                 htmlOutput += `<tr>
                                     <td>${rankKategori}</td>
                                     <td>${p.kedudukan}</td>
+                                    <td>${masaDisplay}</td>
                                     <td>${p.namaPenuh}</td>
                                     <td>${p.sekolahKelas}</td>
                                     <td>${p.noBadan}</td>
@@ -311,6 +406,7 @@ class Kejohanan {
     }
 
     analisisPemenangKumpulan() {
+        // ... (Kekal sama)
         const petaKumpulan = this.dapatkanPemenangTersusunMengikutKumpulan();
         
         const keputusanMengikutKategori = {};
@@ -403,6 +499,7 @@ class Kejohanan {
 const kejohanan = new Kejohanan();
 
 async function handleMuatNaikCSV() {
+    // ... (Kekal sama)
     if (!isAdmin()) {
         alert('❌ Akses Ditolak: Hanya Admin boleh muat naik data.');
         return;
@@ -432,6 +529,7 @@ async function handleMuatNaikCSV() {
             
             if (data.length >= 5 && data[0] && data[1]) { 
                 try {
+                    // Tiada masa dalam CSV, ia akan diset kepada null secara default dalam constructor
                     const p = new Peserta(data[0], data[1], data[2], data[3], data[4]);
                     
                     // Semak duplikat tempatan sebelum cuba mendaftar
@@ -462,58 +560,97 @@ async function handleMuatNaikCSV() {
     reader.readAsText(file);
 }
 
-// PENGENDALI KEMASUKAN KEDUDUKAN 
-function handleKedudukanEdit(e) {
+// PENGENDALI KEMASUKAN KEDUDUKAN & MASA (DIUBAHSUAI)
+function handleEditCell(e) {
     if (!isAdmin()) return;
 
-    if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('kedudukan-cell')) {
+    if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
         const noBadan = e.target.getAttribute('data-nobadan');
+        const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
         
         e.target.onblur = async function() {
-            let kedudukanBaru = e.target.textContent.trim();
+            let nilaiBaru = e.target.textContent.trim();
+            let updated = false;
             
-            if (kedudukanBaru === '') {
-                const updated = await kejohanan.setKedudukan(noBadan, 0); 
-                if (updated) {
-                    console.log(`Kedudukan No. Badan ${noBadan} ditetapkan semula (0)`);
-                    e.target.textContent = ''; 
+            if (field === 'kedudukan') {
+                if (nilaiBaru === '') {
+                    updated = await kejohanan.setKedudukan(noBadan, 0); // Set kedudukan kepada 0
                 } else {
-                    alert('Gagal mengemas kini kedudukan di Firestore.');
-                }
-            } else {
-                const kedudukanInt = parseInt(kedudukanBaru);
-                
-                if (isNaN(kedudukanInt) || kedudukanInt < 1) {
-                    alert('❌ Ralat: Sila masukkan nombor kedudukan positif yang sah.');
-                    const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
-                    e.target.textContent = peserta && peserta.kedudukan > 0 ? peserta.kedudukan : '';
-                    return;
+                    const kedudukanInt = parseInt(nilaiBaru);
+                    
+                    if (isNaN(kedudukanInt) || kedudukanInt < 0) {
+                        alert('❌ Ralat: Sila masukkan nombor kedudukan positif yang sah (atau kosongkan).');
+                        // Pulihkan nilai lama
+                        const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
+                        e.target.textContent = peserta && peserta.kedudukan > 0 ? peserta.kedudukan : '';
+                        return;
+                    }
+                    updated = await kejohanan.setKedudukan(noBadan, kedudukanInt);
                 }
                 
-                const updated = await kejohanan.setKedudukan(noBadan, kedudukanInt);
-                if (updated) {
-                     console.log(`✅ Kedudukan No. Badan ${noBadan} dikemas kini kepada ${kedudukanInt}`);
+            } else if (field === 'masaLarian') {
+                if (nilaiBaru === '') {
+                    updated = await kejohanan.setMasaLarian(noBadan, null); // Set masa kepada null
                 } else {
-                    alert('Gagal mengemas kini kedudukan di Firestore.');
+                    const masaFloat = parseFloat(nilaiBaru);
+                    
+                    if (isNaN(masaFloat) || masaFloat <= 0) {
+                        alert('❌ Ralat: Sila masukkan nombor masa larian positif yang sah (cth: 25.45) atau kosongkan.');
+                        // Pulihkan nilai lama
+                        const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
+                        e.target.textContent = peserta && peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
+                        return;
+                    }
+                    updated = await kejohanan.setMasaLarian(noBadan, masaFloat);
+                }
+            }
+            
+            if (updated) {
+                 console.log(`✅ ${field} No. Badan ${noBadan} dikemas kini kepada ${nilaiBaru || 'null'}`);
+                 // Muat semula paparan keseluruhan jadual untuk mengemaskini nilai (sekiranya ada perbezaan format)
+                 paparSemuaPeserta();
+            } else if (nilaiBaru !== '' && !updated) {
+                alert(`Gagal mengemas kini ${field} di Firestore. Sila semak konsol.`);
+                // Pulihkan nilai lama jika gagal
+                const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
+                if (field === 'kedudukan') {
+                     e.target.textContent = peserta && peserta.kedudukan > 0 ? peserta.kedudukan : '';
+                } else if (field === 'masaLarian') {
+                    e.target.textContent = peserta && peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
                 }
             }
         };
         
-        // Memastikan hanya nombor boleh ditaip (pilihan)
+        // Memastikan hanya nombor dan titik boleh ditaip untuk masa, dan hanya nombor untuk kedudukan
         e.target.onkeydown = function(event) {
-            const allowedKeys = [8, 9, 37, 39, 46]; // Backspace, Tab, Left Arrow, Right Arrow, Delete
-            if (!((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || allowedKeys.includes(event.keyCode))) {
-                event.preventDefault();
+            const allowedKeys = [8, 9, 37, 39, 46, 110, 190]; // Backspace, Tab, Arrows, Delete, Decimal/Period
+            const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
+
+            if (field === 'kedudukan') {
+                // Hanya benarkan nombor
+                if (!(isNumber || allowedKeys.slice(0, 5).includes(event.keyCode))) {
+                    event.preventDefault();
+                }
+            } else if (field === 'masaLarian') {
+                 // Benarkan nombor dan titik (untuk nombor perpuluhan)
+                 if (!(isNumber || allowedKeys.includes(event.keyCode))) {
+                    event.preventDefault();
+                }
+                // Pastikan hanya satu titik dibenarkan
+                if ((event.keyCode === 110 || event.keyCode === 190) && e.target.textContent.includes('.')) {
+                    event.preventDefault();
+                }
             }
         };
     }
 }
 
-document.getElementById('result-senarai').addEventListener('click', handleKedudukanEdit);
+document.getElementById('result-senarai').addEventListener('click', handleEditCell);
 
 
 // --- FUNGSI PADAM DATA (DILINDUNG) ---
 async function handlePadamPeserta() {
+    // ... (Kekal sama)
     if (!isAdmin()) {
         alert('❌ Akses Ditolak: Hanya Admin boleh memadam data.');
         return;
@@ -530,6 +667,7 @@ async function handlePadamPeserta() {
 }
 
 async function resetSemuaData() {
+    // ... (Kekal sama)
     if (!isAdmin()) {
         alert('❌ Akses Ditolak: Hanya Admin boleh reset data.');
         return;
@@ -560,6 +698,7 @@ function paparSemuaPeserta() {
 }
 
 function analisisIndividu() {
+    // Menggunakan fungsi analisis yang telah diubah suai
     const html = kejohanan.analisisPemenangIndividuKategori();
     document.getElementById('result-individu').innerHTML = html;
 }
@@ -570,6 +709,7 @@ function analisisKumpulan() {
 }
 
 function filterTable() {
+    // ... (Kekal sama)
     const filterValue = document.getElementById("filterInput").value.toUpperCase();
     const container = document.getElementById("result-senarai");
     const table = container.querySelector("table");
@@ -578,10 +718,12 @@ function filterTable() {
 
     const rows = table.getElementsByTagName("tr");
     
+    // Mulakan dari i=1 untuk melangkau header
     for (let i = 1; i < rows.length; i++) {
         let row = rows[i];
         let displayRow = false; 
 
+        // cells[0] hingga cells[4] adalah NoBadan, Nama, Jantina, Kategori, Pasukan
         const cells = row.getElementsByTagName("td");
         
         for (let j = 0; j < 5; j++) { 
@@ -608,6 +750,7 @@ function filterTable() {
 document.getElementById('login-form').addEventListener('submit', handleLogin);
 
 async function handleLogin(e) {
+    // ... (Kekal sama)
     e.preventDefault();
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value.trim();
@@ -627,6 +770,7 @@ async function handleLogin(e) {
 }
 
 function handleLogout() {
+    // ... (Kekal sama)
     auth.signOut().then(() => {
         // onAuthStateChanged akan mengendalikan pembersihan UI
         alert('✅ Anda telah log keluar.');
@@ -637,6 +781,7 @@ function handleLogout() {
 }
 
 function initializeApplicationView(user) {
+    // ... (Kekal sama)
     const dataTabButton = document.getElementById('data-tab-btn');
     const analisisTabButton = document.getElementById('analisis-tab-btn');
 
@@ -683,6 +828,7 @@ function initializeApplicationView(user) {
 
 
 function openMainTab(evt, tabName) {
+    // ... (Kekal sama)
     if (tabName === 'data-tab' && !isAdmin()) {
         alert('❌ Akses Ditolak: Hanya Admin boleh mengakses tab Pendaftaran & Data.');
         return;
@@ -717,6 +863,7 @@ function openMainTab(evt, tabName) {
 
 
 function openSubTab(evt, tabName, analysisFunction = null) {
+    // ... (Kekal sama)
     let i, tabcontent, tablinks;
 
     tabcontent = document.getElementsByClassName("sub-tab-content");
