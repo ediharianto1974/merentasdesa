@@ -13,22 +13,46 @@ body {
 header {
     background-color: #007bff;
     color: white;
-    padding: 20px 0;
+    padding: 20px; /* Padding diubah suai untuk memberi ruang kepada Log Keluar */
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* PENTING untuk butang logout */
-    position: relative; 
+    
+    /* PENGEMASKINIAN UTAMA UNTUK HEADER */
+    display: flex;
+    flex-direction: column; /* Menyusun elemen anak secara menegak */
+    align-items: center; /* Menengahkan elemen secara mendatar */
+    position: relative; /* Kekalkan relatif jika perlu untuk elemen lain */
 }
 
 header h1 {
     margin: 0;
     font-size: 2em;
+    width: 100%; /* Memastikan H1 mengambil lebar penuh untuk perataan tengah */
 }
 
 header p {
     margin-top: 5px;
     font-style: italic;
     opacity: 0.9;
+    width: 100%; /* Memastikan P mengambil lebar penuh untuk perataan tengah */
+}
+
+/* GAYA UTAMA UNTUK BUTANG LOG KELUAR */
+#logout-btn {
+    /* override inline display: none */
+    display: block !important; 
+    /* Mengalihkan butang ke kanan di dalam header */
+    margin: 10px 20px 0 auto; 
+    
+    /* Memastikan butang tidak berada di tengah seperti H1/P */
+    align-self: flex-end; 
+    
+    /* Menambah gaya tambahan untuk kelihatan kemas */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 main {
@@ -169,6 +193,10 @@ tr.rank-3 {
 }
 
 /* --- Gaya NAVIGASI SUB-TAB (sub-tab) --- */
+.tab-container {
+    padding: 1px; /* Untuk mengatasi margin tab */
+}
+
 .tab-buttons {
     overflow: hidden;
     border-bottom: 1px solid #ccc;
@@ -218,11 +246,12 @@ tr.rank-3 {
     color: #007bff;
 }
 
-#login-form input[type="text"], 
+#login-form input[type="email"], 
 #login-form input[type="password"] {
     width: 100%;
     margin-bottom: 15px;
     padding: 10px;
+    box-sizing: border-box; /* Tambahan untuk memastikan lebar 100% berfungsi */
 }
 
 #login-form button {
