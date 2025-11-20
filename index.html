@@ -15,7 +15,7 @@
     <header>
         <h1>🏆 Regional/State Level Cross Country Championship Scoring and Statistics System 🏃‍♂️</h1>
         <p>Age-Category Based Web Application</p>
-        <button id="logout-btn" onclick="handleLogout()" style="display: none; position: absolute; top: 20px; right: 20px; background-color: #ffc107; color: #333; padding: 5px 10px;">
+        <button id="logout-btn" onclick="handleLogout()" style="display: none; background-color: #ffc107; color: #333; padding: 5px 10px;">
             Log Keluar
         </button>
     </header>
@@ -58,8 +58,8 @@
             </section>
 
             <section class="card">
-                <h2>2. Participants List (Ranking & Time Entry)</h2>
-                <p>Click and edit directly in the KEDUDUKAN (RANK) field and MASA (TIME) field to record the Results. MASA Larian hanya diisi secara manual untuk **5 Kedudukan Kategori Terbaik**.</p>
+                <h2>2. Participants List (Ranking Entry)</h2>
+                <p>Click and edit directly in the KEDUDUKAN (RANK) field to record the Results (Overall Rank)..</p>
                 <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="FIND">
                 <div id="result-senarai" class="result-area">
                     <p>Participants List will be display HERE.</p>
@@ -79,7 +79,7 @@
 
                     <div id="individu-tab" class="sub-tab-content active">
                         <h3>Individual Ranking (Category Based)</h3>
-                        <p>Analysis show Ranking Placing Based on Category for each participant. MASA Larian di bawah Kedudukan Kategori ke-5 dikira secara automatik (+0.03 minit).</p>
+                        <p>Analysis show Ranking Placing Based on Category for each participant.</p>
                         <div id="result-individu" class="result-area">
                             <p>Individual Result Analysis will be shown HERE.</p>
                         </div>
