@@ -10,49 +10,70 @@ body {
     line-height: 1.6;
 }
 
+/* GAYA HEADER DENGAN GAMBAR bgheader.png */
 header {
-    background-color: #007bff;
-    color: white;
-    padding: 20px; /* Padding diubah suai untuk memberi ruang kepada Log Keluar */
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('bgheader.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     
-    /* PENGEMASKINIAN UTAMA UNTUK HEADER */
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    
     display: flex;
-    flex-direction: column; /* Menyusun elemen anak secara menegak */
-    align-items: center; /* Menengahkan elemen secara mendatar */
-    position: relative; /* Kekalkan relatif jika perlu untuk elemen lain */
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-height: 200px; /* Tinggi minimum untuk memastikan header kelihatan baik */
+}
+
+/* Overlay untuk memastikan teks boleh dibaca dengan baik */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Overlay lebih ringan untuk gambar asal kelihatan */
+    z-index: 1;
+}
+
+/* Pastikan semua kandungan dalam header berada di atas overlay */
+header > * {
+    position: relative;
+    z-index: 2;
 }
 
 header h1 {
     margin: 0;
     font-size: 2em;
-    width: 100%; /* Memastikan H1 mengambil lebar penuh untuk perataan tengah */
+    width: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 header p {
     margin-top: 5px;
     font-style: italic;
     opacity: 0.9;
-    width: 100%; /* Memastikan P mengambil lebar penuh untuk perataan tengah */
+    width: 100%;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* GAYA UTAMA UNTUK BUTANG LOG KELUAR */
 #logout-btn {
-    /* override inline display: none */
-    display: block !important; 
-    /* Mengalihkan butang ke kanan di dalam header */
-    margin: 10px 20px 0 auto; 
-    
-    /* Memastikan butang tidak berada di tengah seperti H1/P */
-    align-self: flex-end; 
-    
-    /* Menambah gaya tambahan untuk kelihatan kemas */
+    display: block !important;
+    margin: 10px 20px 0 auto;
+    align-self: flex-end;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    position: relative; /* Pastikan butang berada di atas overlay */
+    z-index: 3;
 }
 
 main {
@@ -155,14 +176,14 @@ tr.rank-3 {
 }
 
 .main-tab-link {
-    background-color: #e9ecef; 
+    background-color: #e9ecef;
     color: #333;
     border: none;
     cursor: pointer;
     padding: 12px 20px;
     transition: background-color 0.3s;
     font-size: 18px;
-    margin-top: 0; 
+    margin-top: 0;
     border-radius: 6px 6px 0 0;
     margin-right: 10px;
     font-weight: bold;
@@ -178,14 +199,14 @@ tr.rank-3 {
 }
 
 .main-tab-link.active {
-    background-color: #007bff; 
+    background-color: #007bff;
     color: white;
     font-weight: bold;
 }
 
 .main-tab-content {
     display: none;
-    padding: 15px 0; 
+    padding: 15px 0;
 }
 
 .main-tab-content.active {
@@ -194,7 +215,7 @@ tr.rank-3 {
 
 /* --- Gaya NAVIGASI SUB-TAB (sub-tab) --- */
 .tab-container {
-    padding: 1px; /* Untuk mengatasi margin tab */
+    padding: 1px;
 }
 
 .tab-buttons {
@@ -204,7 +225,7 @@ tr.rank-3 {
 }
 
 .sub-tab-link {
-    background-color: #ffc107; 
+    background-color: #ffc107;
     color: #333;
     float: left;
     border: none;
@@ -251,7 +272,7 @@ tr.rank-3 {
     width: 100%;
     margin-bottom: 15px;
     padding: 10px;
-    box-sizing: border-box; /* Tambahan untuk memastikan lebar 100% berfungsi */
+    box-sizing: border-box;
 }
 
 #login-form button {
@@ -275,4 +296,26 @@ footer {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+/* Responsif untuk peranti mudah alih */
+@media (max-width: 768px) {
+    header {
+        padding: 20px 15px;
+        min-height: 150px;
+    }
+    
+    header h1 {
+        font-size: 1.5em;
+    }
+    
+    .main-tab-buttons {
+        flex-direction: column;
+    }
+    
+    .main-tab-link {
+        margin-right: 0;
+        margin-bottom: 5px;
+        border-radius: 4px;
+    }
 }
