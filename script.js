@@ -338,72 +338,68 @@ analisisPemenangIndividuKategori() {
              return '<p>Tiada keputusan larian yang direkodkan (kedudukan > 0) untuk analisis kategori.</p>';
         }
 
-        // FUNGSI UTAMA: Mengira dan Memaparkan Analisis Individu dengan Logik Masa
-        for (const kategori in pemenangKategori) {
-            const senarai = pemenangKategori[kategori];
-            
-            // 1. Cari masa kedudukan ke-5 yang sah dalam kategori ini
-            let masaRank10 = null;
-            // Rank Kategori ke-5 adalah index 4
-            const rank5Peserta = senarai.find((p, index) => index === 4 && p.masaLarian !== null);
-            
-            if (rank5Peserta) {
-                masaRank10 = rank5Peserta.masaLarian;
-            } else {
-                 console.warn(`[Analisis] Tiada Masa Larian direkodkan untuk Rank Kategori ke-5 dalam ${kategori}. Pengiraan automatik tidak boleh dilakukan.`);
-            }
-
-            htmlOutput += `<h4>== KATEGORI: ${kategori} (${senarai.length} Peserta Selesai) ==</h4>`;
-            
-            // Mesej amaran dikekalkan untuk memberitahu Admin untuk memasukkan data
-            if (masaRank10 === null && senarai.length >= 5) {
-                htmlOutput += `<p style="color:red; font-weight: bold;">⚠️ Sila masukkan MASA LARIAN secara manual untuk Rank Kategori ke-5 untuk membolehkan pengiraan masa automatik.</p>`;
-            }
-            
-            htmlOutput += '<table>';
-            // HEADER Dikekalkan: MASA LARIAN (minit)
-            htmlOutput += '<tr><th>RANK KATEGORI</th><th>KEDUDUKAN (OVERALL RANK)</th><th>MASA LARIAN (minit)</th><th>NAMA</th><th>SEKOLAH/PASUKAN</th><th>NO. BADAN</th></tr>'; 
-            
-            for (let i = 0; i < senarai.length; i++) {
-                const p = senarai[i];
-                const rankKategori = i + 1;
-                
-                let masaDisplay = '';
-                let masaActual = p.masaLarian;
-                // let masaSource = 'MANUAL'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
-
-                // LOGIK PENGIRAAN MASA AUTOMATIK (Untuk Rank Kategori 6 dan ke atas)
-                if (rankKategori >= 11) {
-                    if (masaRank10 !== null) {
-                        masaActual = masaRank10 + ((rankKategori - 10) * 0.03); // T5 + (n-5) * 0.03
-                        // masaSource = 'AUTO (+0.03)'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
-                    } else {
-                        // masaSource = 'TIADA MASA KATEGORI KE-10'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
-                    }
-                }
-                
-                // PENGUBAHSUAIAN UTAMA DI SINI:
-                // Hanya paparkan nilai masa (sehingga 2 titik perpuluhan) tanpa perkataan MANUAL/AUTO.
-                if (masaActual !== null) {
-                    masaDisplay = masaActual.toFixed(2); // Cuma nilai masa
-                } else if (p.kedudukan > 0) {
-                    // Paparkan "BELUM DIREKOD" jika kedudukan ada tetapi masa tiada (terutamanya untuk Rank 1-5)
-                    masaDisplay = 'BELUM DIREKOD'; 
-                }
-
-                htmlOutput += `<tr>
-                                    <td>${rankKategori}</td>
-                                    <td>${p.kedudukan}</td>
-                                    <td>${masaDisplay}</td>
-                                    <td>${p.namaPenuh}</td>
-                                    <td>${p.sekolahKelas}</td>
-                                    <td>${p.noBadan}</td>
-                                </tr>`;
-            }
-            htmlOutput += '</table>';
+// FUNGSI UTAMA: Mengira dan Memaparkan Analisis Individu dengan Logik Masa
+for (const kategori in pemenangKategori) {
+    const senarai = pemenangKategori[kategori];
+    
+    // ✅ 1. Cari masa untuk RANK KATEGORI KE-10 (iaitu index 9)
+    let masaRank10 = null;
+    if (senarai.length >= 10) {
+        const pesertaRank10 = senarai[9]; // Index 9 = Rank 10
+        if (pesertaRank10.masaLarian !== null && typeof pesertaRank10.masaLarian === 'number') {
+            masaRank10 = pesertaRank10.masaLarian;
         }
-        return htmlOutput;
     }
+
+    // Paparan amaran jika rank 10 tiada masa (tapi ada ≥10 peserta)
+    if (masaRank10 === null && senarai.length >= 10) {
+        console.warn(`[Analisis] Tiada Masa Larian direkodkan untuk Rank Kategori ke-10 dalam ${kategori}. Pengiraan automatik tidak boleh dilakukan.`);
+    }
+
+    htmlOutput += `<h4>== KATEGORI: ${kategori} (${senarai.length} Peserta Selesai) ==</h4>`;
+
+    if (masaRank10 === null && senarai.length >= 10) {
+        htmlOutput += `<p style="color:red; font-weight: bold;">⚠️ Sila masukkan MASA LARIAN secara manual untuk Rank Kategori ke-10 untuk membolehkan pengiraan masa automatik (Rank 11+).</p>`;
+    }
+
+    htmlOutput += '<table>';
+    htmlOutput += '<tr><th>RANK KATEGORI</th><th>KEDUDUKAN (OVERALL RANK)</th><th>MASA LARIAN (minit)</th><th>NAMA</th><th>SEKOLAH/PASUKAN</th><th>NO. BADAN</th></tr>';
+
+    for (let i = 0; i < senarai.length; i++) {
+        const p = senarai[i];
+        const rankKategori = i + 1;
+
+        let masaActual = p.masaLarian; // Gunakan nilai manual jika ada
+
+        // ✅ LOGIK PENGIRAAN AUTOMATIK: Hanya untuk rank ≥ 11
+        if (rankKategori >= 11) {
+            if (masaRank10 !== null) {
+                // Kira berdasarkan masa rank 10
+                masaActual = parseFloat((masaRank10 + ((rankKategori - 10) * 0.03)).toFixed(2));
+            }
+            // Jika masaRank10 null, biarkan masaActual = null (akan jadi "BELUM DIREKOD")
+        }
+
+        // Paparan masa
+        let masaDisplay = '';
+        if (masaActual !== null && !isNaN(masaActual)) {
+            masaDisplay = masaActual.toFixed(2);
+        } else if (p.kedudukan > 0) {
+            masaDisplay = 'BELUM DIREKOD';
+        }
+
+        htmlOutput += `<tr>
+            <td>${rankKategori}</td>
+            <td>${p.kedudukan}</td>
+            <td>${masaDisplay}</td>
+            <td>${p.namaPenuh}</td>
+            <td>${p.sekolahKelas}</td>
+            <td>${p.noBadan}</td>
+        </tr>`;
+    }
+    htmlOutput += '</table>';
+}
+return htmlOutput;
 
     analisisPemenangKumpulan() {
         // ... (Kekal sama)
@@ -904,6 +900,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.getElementById('login-container').style.display = 'block';
 });
+
 
 
 
