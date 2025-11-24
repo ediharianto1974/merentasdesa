@@ -373,12 +373,12 @@ analisisPemenangIndividuKategori() {
                 // let masaSource = 'MANUAL'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
 
                 // LOGIK PENGIRAAN MASA AUTOMATIK (Untuk Rank Kategori 6 dan ke atas)
-                if (rankKategori >= 6) {
+                if (rankKategori >= 11) {
                     if (masaRank5 !== null) {
-                        masaActual = masaRank5 + ((rankKategori - 5) * 0.03); // T5 + (n-5) * 0.03
+                        masaActual = masaRank5 + ((rankKategori - 10) * 0.03); // T5 + (n-5) * 0.03
                         // masaSource = 'AUTO (+0.03)'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
                     } else {
-                        // masaSource = 'TIADA MASA KATEGORI KE-5'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
+                        // masaSource = 'TIADA MASA KATEGORI KE-10'; // Pemboleh ubah ini tidak lagi digunakan untuk paparan
                     }
                 }
                 
@@ -904,3 +904,4 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.getElementById('login-container').style.display = 'block';
 });
+
