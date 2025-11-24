@@ -343,12 +343,12 @@ analisisPemenangIndividuKategori() {
             const senarai = pemenangKategori[kategori];
             
             // 1. Cari masa kedudukan ke-5 yang sah dalam kategori ini
-            let masaRank5 = null;
+            let masaRank10 = null;
             // Rank Kategori ke-5 adalah index 4
             const rank5Peserta = senarai.find((p, index) => index === 4 && p.masaLarian !== null);
             
             if (rank5Peserta) {
-                masaRank5 = rank5Peserta.masaLarian;
+                masaRank10 = rank5Peserta.masaLarian;
             } else {
                  console.warn(`[Analisis] Tiada Masa Larian direkodkan untuk Rank Kategori ke-5 dalam ${kategori}. Pengiraan automatik tidak boleh dilakukan.`);
             }
@@ -356,7 +356,7 @@ analisisPemenangIndividuKategori() {
             htmlOutput += `<h4>== KATEGORI: ${kategori} (${senarai.length} Peserta Selesai) ==</h4>`;
             
             // Mesej amaran dikekalkan untuk memberitahu Admin untuk memasukkan data
-            if (masaRank5 === null && senarai.length >= 5) {
+            if (masaRank10 === null && senarai.length >= 5) {
                 htmlOutput += `<p style="color:red; font-weight: bold;">⚠️ Sila masukkan MASA LARIAN secara manual untuk Rank Kategori ke-5 untuk membolehkan pengiraan masa automatik.</p>`;
             }
             
@@ -904,5 +904,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.getElementById('login-container').style.display = 'block';
 });
+
 
 
