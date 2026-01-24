@@ -1,5 +1,5 @@
 /* =========================================
-   STYLE.CSS - MODERN DASHBOARD THEME
+   STYLE.CSS - MODERN DASHBOARD THEME (UPDATED)
    ========================================= */
 
 /* --- 1. RESET & GLOBAL VARIABLES --- */
@@ -17,7 +17,7 @@
 }
 
 * {
-    box-sizing: border-box; /* Penting untuk layout kemas */
+    box-sizing: border-box;
 }
 
 body {
@@ -30,48 +30,66 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- 2. HEADER & NAVIGATION --- */
+/* --- 2. HEADER & NAVIGATION (DIKEMASKINI) --- */
 header {
     background: linear-gradient(135deg, var(--primary-color), #0a58ca);
     color: white;
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     box-shadow: var(--shadow-md);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Jarakkan Teks (Kiri) dan Butang (Kanan) */
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
+/* Bekas Teks Tajuk */
+.header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 .header-content h1 {
     margin: 0;
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
     letter-spacing: 0.5px;
+    line-height: 1.2;
 }
 
 .header-content p {
-    margin: 5px 0 0 0;
+    margin: 0;
     font-size: 0.9rem;
-    opacity: 0.85;
-    font-weight: 300;
+    opacity: 0.9;
+    font-weight: 400;
 }
 
-/* Butang Logout di Header */
+/* Bekas Butang Kanan */
+.header-actions {
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+/* Butang Logout */
 #logout-btn {
     background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     color: white;
-    padding: 8px 16px;
+    padding: 8px 20px;
     font-size: 0.9rem;
     border-radius: 4px;
+    cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
+    display: inline-block; /* Pastikan ia sentiasa dipaparkan jika syarat JS dipenuhi */
 }
 
 #logout-btn:hover {
     background-color: white;
     color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
 /* --- 3. LAYOUT UTAMA --- */
@@ -121,14 +139,12 @@ form select,
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Efek Fokus Input */
 form input:focus, select:focus, #filterInput:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
 }
 
-/* Butang Utama */
 button, .btn {
     background-color: var(--success-color);
     color: white;
@@ -151,7 +167,6 @@ button:active {
     transform: translateY(1px);
 }
 
-/* Input File CSV Wrapper */
 .file-upload-wrapper {
     background: #f8f9fa;
     padding: 15px;
@@ -161,9 +176,7 @@ button:active {
     margin-bottom: 15px;
 }
 
-/* --- 5. TAB NAVIGASI (MODEN) --- */
-
-/* Tab Utama (Atas) */
+/* --- 5. TAB NAVIGASI --- */
 .main-tab-buttons {
     display: flex;
     gap: 10px;
@@ -196,7 +209,6 @@ button:active {
     background-color: transparent;
 }
 
-/* Sub Tabs (Kapsul/Pill Style) */
 .tab-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -211,12 +223,12 @@ button:active {
     color: #495057;
     border: none;
     padding: 8px 16px;
-    border-radius: 50px; /* Bentuk Pill */
+    border-radius: 50px;
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
-    margin: 0; /* Reset float margin */
+    margin: 0;
 }
 
 .sub-tab-link:hover {
@@ -240,7 +252,7 @@ button:active {
 
 /* --- 6. JADUAL (TABLES) --- */
 .result-area {
-    overflow-x: auto; /* Scroll melintang untuk skrin kecil */
+    overflow-x: auto;
     border-radius: 8px;
     box-shadow: 0 0 0 1px var(--border-color);
 }
@@ -258,7 +270,6 @@ th, td {
     border-bottom: 1px solid var(--border-color);
 }
 
-/* Sticky Header */
 th {
     background-color: #f8f9fa;
     color: #495057;
@@ -268,14 +279,13 @@ th {
     letter-spacing: 0.5px;
     position: sticky;
     top: 0;
-    z-index: 10; /* Supaya header sentiasa di atas */
+    z-index: 10;
 }
 
 tr:hover {
     background-color: #f1f3f5;
 }
 
-/* Gaya Sel yang boleh diedit (Admin) */
 .edit-cell {
     cursor: pointer;
     background-color: #fff;
@@ -284,11 +294,10 @@ tr:hover {
 }
 
 .edit-cell:hover {
-    background-color: #e8f0fe; /* Biru sangat muda bila hover */
+    background-color: #e8f0fe;
     box-shadow: inset 0 0 0 1px var(--primary-color);
 }
 
-/* Masukkan icon pensil kecil secara CSS (opsyenal visual cue) */
 .edit-cell:hover::after {
     content: '✎';
     position: absolute;
@@ -300,29 +309,14 @@ tr:hover {
     opacity: 0.7;
 }
 
-/* --- 7. RANKING COLORS (Pingat) --- */
-tr.rank-1 td {
-    background-color: #fff9c4 !important; /* Kuning Emas Lembut */
-    color: #856404;
-    font-weight: bold;
-    border-bottom: 1px solid #ffeeba;
-}
+/* --- 7. RANKING COLORS --- */
+tr.rank-1 td { background-color: #fff9c4 !important; color: #856404; font-weight: bold; }
 tr.rank-1 td:first-child { border-left: 4px solid #ffc107; }
 
-tr.rank-2 td {
-    background-color: #f8f9fa !important; /* Perak/Kelabu Lembut */
-    color: #343a40;
-    font-weight: bold;
-    border-bottom: 1px solid #dee2e6;
-}
+tr.rank-2 td { background-color: #f8f9fa !important; color: #343a40; font-weight: bold; }
 tr.rank-2 td:first-child { border-left: 4px solid #adb5bd; }
 
-tr.rank-3 td {
-    background-color: #fff0e6 !important; /* Gangsa/Oren Lembut */
-    color: #a84a04;
-    font-weight: bold;
-    border-bottom: 1px solid #ffe0d1;
-}
+tr.rank-3 td { background-color: #fff0e6 !important; color: #a84a04; font-weight: bold; }
 tr.rank-3 td:first-child { border-left: 4px solid #fd7e14; }
 
 /* --- 8. LOGIN PAGE --- */
@@ -348,10 +342,6 @@ tr.rank-3 td:first-child { border-left: 4px solid #fd7e14; }
     padding: 12px;
 }
 
-#login-container button:hover {
-    background-color: var(--primary-hover);
-}
-
 #login-status {
     margin-top: 15px;
     font-size: 0.9rem;
@@ -364,7 +354,7 @@ footer {
     padding: 2rem;
     color: #6c757d;
     font-size: 0.9rem;
-    margin-top: auto; /* Tolak ke bawah */
+    margin-top: auto;
 }
 
 /* --- RESPONSIVE MOBILE --- */
@@ -372,7 +362,13 @@ footer {
     header {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
+        gap: 15px;
+        padding: 1rem;
+    }
+
+    .header-actions {
+        margin-left: 0;
+        width: 100%; /* Butang penuh lebar di mobile jika mahu, atau biarkan auto */
     }
 
     .main-tab-buttons {
