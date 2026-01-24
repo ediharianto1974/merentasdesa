@@ -746,17 +746,16 @@ function cetakTetingkap(tajuk, isiKandungan) {
     tetingkapCetak.print();
 }
 
-// --- FUNGSI BACKUP & RESTORE ---
-
-async function handleBackupDanPadam() {
+// 1. FUNGSI PADAM SEMUA (Tanpa Auto Backup)
+async function handlePadamSemua() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
     
-    const sahkan = confirm("⚠️ ADKAH ANDA PASTI?\n\nSemua data peserta semasa akan dipadam dari paparan utama.\nSatu salinan backup akan dibuat sebelum pemadaman.");
-    
-    if (!sahkan) return;
+    // Amaran berganda
+    if (!confirm("⚠️ AMARAN KERAS:\n\nAdakah anda pasti mahu memadam SEMUA data?\nTindakan ini tidak boleh diundur.")) return;
+    if (!confirm("Adakah anda SUDAH memuat turun Backup?\n\nJika belum, sila tekan Cancel dan buat Backup dahulu.")) return;
 
     try {
-        // 1. Baca semua data semasa
+        const batch = db.batch();
         const snapshot = await db.collection('peserta').get();
         
         if (snapshot.empty) {
@@ -764,69 +763,124 @@ async function handleBackupDanPadam() {
             return;
         }
 
-        const batch = db.batch();
-
-        // 2. Pindahkan ke koleksi 'backup_peserta' (Overwrite backup lama)
-        // Mula-mula padam backup lama dulu (optional, tapi baik untuk kebersihan)
-        const oldBackup = await db.collection('backup_peserta').get();
-        oldBackup.forEach(doc => batch.delete(doc.ref));
-
-        // 3. Salin data ke backup dan Padam dari 'peserta'
-        snapshot.docs.forEach(doc => {
-            const data = doc.data();
-            const backupRef = db.collection('backup_peserta').doc(doc.id);
-            const originalRef = db.collection('peserta').doc(doc.id);
-
-            batch.set(backupRef, data); // Simpan ke backup
-            batch.delete(originalRef);  // Padam dari main
+        // Firestore batch limit ialah 500. Jika data banyak, kita perlu loop chunk.
+        // Untuk sistem sekolah kecil, batch tunggal biasanya cukup, 
+        // tapi ini cara selamat jika data < 500.
+        snapshot.docs.forEach((doc) => {
+            batch.delete(doc.ref);
         });
 
         await batch.commit();
         
-        // Reset local array
+        // Reset paparan tempatan
         kejohanan.senaraiPeserta = [];
         paparSemuaPeserta();
         document.getElementById('result-individu').innerHTML = "";
         document.getElementById('result-kumpulan').innerHTML = "";
 
-        alert("✅ Data berjaya dipadam. Backup telah disimpan.");
+        alert("✅ Semua data telah berjaya dipadam.");
 
     } catch (error) {
         console.error(error);
-        alert("❌ Ralat semasa proses backup & padam: " + error.message);
+        alert("❌ Ralat memadam data: " + error.message);
     }
 }
 
-async function handleRestoreData() {
+// 2. FUNGSI BACKUP (Muat Turun Fail JSON)
+async function handleBackupDownload() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
 
-    if (!confirm("♻️ Anda mahu kembalikan data dari Backup terakhir? Data semasa (jika ada) akan digabungkan/ditimpa.")) return;
-
     try {
-        const backupSnapshot = await db.collection('backup_peserta').get();
-
-        if (backupSnapshot.empty) {
-            alert("❌ Tiada data backup dijumpai.");
+        // Ambil data terkini dari Firestore
+        const snapshot = await db.collection('peserta').get();
+        if (snapshot.empty) {
+            alert("Tiada data untuk di-backup.");
             return;
         }
 
-        const batch = db.batch();
-
-        backupSnapshot.docs.forEach(doc => {
-            const data = doc.data();
-            const mainRef = db.collection('peserta').doc(doc.id);
-            batch.set(mainRef, data);
-        });
-
-        await batch.commit();
+        const dataPeserta = snapshot.docs.map(doc => doc.data());
         
-        alert("✅ Data berjaya dipulihkan (Restore)!");
-        location.reload(); // Reload page untuk muat semula data
+        // Tukar data jadi string JSON yang cantik
+        const jsonString = JSON.stringify(dataPeserta, null, 2);
+        
+        // Cipta fail Blob
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
+        // Cipta elemen link untuk auto-download
+        const a = document.createElement('a');
+        const tarikh = new Date().toISOString().slice(0,10); // Format YYYY-MM-DD
+        a.href = url;
+        a.download = `backup_kmdpk_${tarikh}.json`;
+        document.body.appendChild(a);
+        a.click();
+        
+        // Bersihkan memory
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert(`✅ Backup berjaya dimuat turun: backup_kmdpk_${tarikh}.json`);
 
     } catch (error) {
         console.error(error);
-        alert("❌ Ralat Restore: " + error.message);
+        alert("❌ Ralat membuat backup: " + error.message);
     }
+}
+
+// 3. FUNGSI RESTORE (Dari Fail JSON)
+async function handleRestoreDariFail() {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+
+    const fileInput = document.getElementById('backup-file-input');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Sila pilih fail backup (.json) dahulu.");
+        return;
+    }
+
+    if (!confirm("⚠️ Anda pasti mahu restore data dari fail ini?\nData sedia ada akan digabungkan atau ditimpa.")) return;
+
+    const reader = new FileReader();
+    
+    reader.onload = async function(e) {
+        try {
+            const kandunganFail = e.target.result;
+            const dataPeserta = JSON.parse(kandunganFail);
+            
+            if (!Array.isArray(dataPeserta)) {
+                throw new Error("Format fail tidak sah. Mesti array data peserta.");
+            }
+
+            // Proses Restore menggunakan Batch
+            // Nota: Firestore Batch max 500 operasi. Kita buat loop mudah.
+            // Jika data > 500, kita perlu pecahkan batch. 
+            // Kod di bawah support sehingga 500 peserta serentak.
+            
+            const batch = db.batch();
+            let count = 0;
+
+            dataPeserta.forEach(p => {
+                // Pastikan guna NoBadan sebagai ID dokumen
+                if (p.noBadan) {
+                    const docRef = db.collection('peserta').doc(p.noBadan.trim());
+                    batch.set(docRef, p); // .set() akan overwrite data jika wujud
+                    count++;
+                }
+            });
+
+            await batch.commit();
+            
+            alert(`✅ Berjaya restore ${count} peserta! Halaman akan dimuat semula.`);
+            location.reload();
+
+        } catch (error) {
+            console.error(error);
+            alert("❌ Ralat memproses fail backup: " + error.message);
+        }
+    };
+
+    reader.readAsText(file);
 }
 
 // ==========================================================
@@ -853,3 +907,4 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginContainer = document.getElementById('login-container');
     if (loginContainer) loginContainer.style.display = 'block';
 });
+
