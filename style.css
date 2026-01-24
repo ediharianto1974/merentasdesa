@@ -436,3 +436,54 @@ footer {
     
     th, td { padding: 8px 10px; font-size: 0.85rem; }
 }
+
+/* --- GAYA ADMIN PANEL (GRID LAYOUT) --- */
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dua lajur sama besar */
+    gap: 20px;
+    align-items: start;
+}
+
+.admin-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    height: 100%; /* Supaya ketinggian sama */
+    box-sizing: border-box;
+}
+
+/* Kotak Fail (Backup/Restore) - Tema Biru/Hijau */
+.box-safe {
+    background-color: #f8fbff;
+    border-left: 5px solid #17a2b8;
+}
+
+/* Kotak Bahaya (Padam) - Tema Merah */
+.box-danger {
+    background-color: #fff5f5;
+    border-left: 5px solid #dc3545;
+}
+
+.box-header {
+    margin-top: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #444;
+}
+
+/* Separator nipis dalam kotak */
+.divider {
+    border-top: 1px dashed #ccc;
+    margin: 15px 0;
+}
+
+/* Responsif untuk Mobile (Paparan menegak jika skrin kecil) */
+@media (max-width: 768px) {
+    .admin-grid {
+        grid-template-columns: 1fr; /* Satu lajur sahaja di mobile */
+    }
+}
+
