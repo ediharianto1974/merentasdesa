@@ -1,24 +1,24 @@
 /* =========================================
-   STYLE.CSS - MODERN DASHBOARD THEME (FINAL FIXED)
+   STYLE.CSS - MODERN DASHBOARD THEME (FINAL COMPLETE)
    ========================================= */
 
 /* --- 1. RESET & GLOBAL VARIABLES --- */
 :root {
-    --primary-color: #0d6efd; /* Biru Profesional */
+    --primary-color: #0d6efd; /* Biru Utama */
     --primary-hover: #0b5ed7;
     --secondary-color: #6c757d;
-    --success-color: #198754;
+    --success-color: #198754; /* Hijau */
+    --info-color: #0dcaf0;    /* Biru Cair (Cetak) */
+    --warning-color: #ffc107; /* Kuning (Amaran) */
+    --danger-color: #dc3545;  /* Merah (Padam) */
     --bg-color: #f0f2f5;      /* Kelabu Lembut */
     --card-bg: #ffffff;
     --text-color: #343a40;
     --border-color: #dee2e6;
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -30,43 +30,42 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ================= HEADER (BETUL-BETUL TENGAH) ================= */
+/* ================= HEADER (LAYOUT FIX) ================= */
 header {
     background: linear-gradient(to right, #0056b3, #007bff);
     color: white;
     padding: 15px 30px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     
-    /* Gunakan relative supaya anak-anak boleh di-position kan */
+    /* Setup Relative untuk anak-anak Absolute */
     position: relative; 
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Ini menolak butang ke KANAN */
-    min-height: 100px; /* Tetapkan tinggi minimum supaya tak sempit */
+    justify-content: flex-end; /* Tolak butang ke KANAN */
+    min-height: 100px; 
     z-index: 1000;
 }
 
-/* 1. STYLE UNTUK TEKS (TENGAH) */
+/* 1. TEKS TAJUK (DEAD CENTER) */
 .header-center {
-    /* Teknik meletakkan elemen di tengah secara mutlak (Absolute Center) */
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%); /* Kunci utama untuk center */
+    transform: translate(-50%, -50%); /* Kunci tengah */
     
-    text-align: center; /* Pastikan teks dalam kotak ini juga center */
-    width: 80%; /* Lebar kotak teks supaya tak melanggar butang */
-    pointer-events: none; /* Supaya ia tak ganggu klik butang jika bertindih */
+    text-align: center;
+    width: 80%;
+    pointer-events: none; /* Klik tembus ke belakang jika perlu */
 }
 
 .header-center h1 {
     margin: 0;
-    font-size: 1.6rem; /* Saiz lebih besar sedikit */
+    font-size: 1.6rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
     line-height: 1.2;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Sedikit bayang pada tulisan */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 .header-center p {
@@ -77,10 +76,10 @@ header {
     opacity: 0.95;
 }
 
-/* 2. STYLE UNTUK BUTANG (KANAN) */
+/* 2. BUTANG LOGOUT (KANAN) */
 .header-right {
     position: relative;
-    z-index: 10; /* Pastikan butang berada di atas layer teks */
+    z-index: 10;
 }
 
 #logout-btn {
@@ -94,74 +93,46 @@ header {
     font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;
-    pointer-events: auto; /* Aktifkan semula klik */
-    display: inline-block;
+    pointer-events: auto;
 }
 
 #logout-btn:hover {
-    background-color: #dc3545;
-    border-color: #dc3545;
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
-/* --- RESPONSIVE (MOBILE) --- */
-/* Bila skrin kecil (Tablet/Phone), kita batalkan 'absolute center' supaya tak bertindih */
+/* RESPONSIVE HEADER (MOBILE) */
 @media (max-width: 900px) {
     header {
-        flex-direction: column; /* Susun atas bawah */
+        flex-direction: column;
         justify-content: center;
         gap: 15px;
         padding: 20px;
         min-height: auto;
     }
 
-    /* PENTING: Gunakan class .header-center (bukan .header-left) */
     .header-center {
-        position: static; /* Hilangkan absolute positioning */
+        position: static; /* Batal absolute */
         transform: none;
         width: 100%;
         margin-bottom: 10px;
         pointer-events: auto;
     }
     
-    .header-center h1 {
-        font-size: 1.2rem;
-    }
+    .header-center h1 { font-size: 1.2rem; }
 
     .header-right {
         width: 100%;
         display: flex;
-        justify-content: center; /* Butang pun center di mobile */
+        justify-content: center;
     }
     
-    #logout-btn {
-        width: 100%;
-        max-width: 200px;
-    }
-
-    /* Tab juga perlu disesuaikan di mobile */
-    .main-tab-buttons {
-        flex-direction: column;
-        border-bottom: none;
-    }
-    
-    .main-tab-link {
-        border-radius: 6px;
-        margin-bottom: 5px;
-        text-align: center;
-        background-color: #fff;
-        border: 1px solid #dee2e6;
-    }
-    
-    .main-tab-link.active {
-        background-color: var(--primary-color);
-        color: white;
-        border-color: var(--primary-color);
-    }
+    #logout-btn { width: 100%; max-width: 200px; }
 }
 
-/* --- 3. LAYOUT UTAMA --- */
+/* ================= LAYOUT UTAMA ================= */
 main {
     max-width: 1200px;
     margin: 2rem auto;
@@ -178,25 +149,101 @@ section {
     border: 1px solid var(--border-color);
 }
 
-h2, h3, h4 {
-    color: #2c3e50;
-    margin-top: 0;
+h2, h3, h4 { color: #2c3e50; margin-top: 0; }
+h2 { margin-bottom: 1.5rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+
+/* ================= ADMIN PANEL & BUTANG (BARU) ================= */
+.admin-panel-container h3 {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
 }
 
-/* --- 4. FORMS & INPUTS --- */
+/* Grid untuk butang admin */
+.action-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsif */
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Warna Butang Khusus */
+.btn-info {
+    background-color: #17a2b8; 
+    color: white;
+    border: none;
+}
+.btn-info:hover { background-color: #138496; transform: translateY(-1px); }
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+}
+.btn-warning:hover { background-color: #e0a800; transform: translateY(-1px); }
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+.btn-danger:hover { background-color: #bb2d3b; transform: translateY(-1px); }
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+}
+.btn-success:hover { background-color: #157347; transform: translateY(-1px); }
+
+/* Kotak Info & Amaran */
+.alert-info {
+    background-color: #cff4fc;
+    color: #055160;
+    padding: 15px;
+    border: 1px solid #b6effb;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 15px;
+    border: 1px solid #ffeeba;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* Butang Standard Lain */
+button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: transform 0.1s, background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ================= FORMS & INPUTS ================= */
 form label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
     color: #495057;
-    font-size: 0.95rem;
 }
 
-form input[type="text"], 
-form input[type="number"],
-form input[type="password"],
-form input[type="email"],
-form select,
+input[type="text"], 
+input[type="number"],
+input[type="password"],
+input[type="email"],
+select,
 #filterInput {
     width: 100%;
     padding: 10px 12px;
@@ -207,44 +254,26 @@ form select,
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-form input:focus, select:focus, #filterInput:focus {
+input:focus, select:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
 }
 
-button, .btn {
-    background-color: var(--success-color);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: transform 0.1s, background-color 0.2s;
-    display: inline-block;
-}
-
-button:hover {
-    background-color: #157347;
-    transform: translateY(-1px);
-}
-
-button:active {
-    transform: translateY(1px);
-}
-
 .file-upload-wrapper {
     background: #f8f9fa;
-    padding: 15px;
+    padding: 20px;
     border: 2px dashed #ced4da;
     border-radius: 6px;
     text-align: center;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
-/* --- 5. TAB NAVIGASI --- */
+/* ================= TAB NAVIGASI ================= */
 .main-tab-buttons {
     display: flex;
     gap: 10px;
@@ -261,22 +290,17 @@ button:active {
     font-weight: 600;
     cursor: pointer;
     border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
     border-radius: 6px 6px 0 0;
     margin: 0;
-}
-
-.main-tab-link:hover {
-    color: var(--primary-color);
-    background-color: rgba(13, 110, 253, 0.05);
 }
 
 .main-tab-link.active {
     color: var(--primary-color);
     border-bottom-color: var(--primary-color);
-    background-color: transparent;
+    background-color: rgba(13, 110, 253, 0.05);
 }
 
+/* Sub-Tabs */
 .tab-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -296,11 +320,6 @@ button:active {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
-    margin: 0;
-}
-
-.sub-tab-link:hover {
-    background-color: #dee2e6;
 }
 
 .sub-tab-link.active {
@@ -309,8 +328,10 @@ button:active {
     box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
 }
 
-.hidden-tab { display: none !important; }
-.main-tab-content, .sub-tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+.main-tab-content, .sub-tab-content { 
+    display: none; 
+    animation: fadeIn 0.3s ease-in-out; 
+}
 .main-tab-content.active, .sub-tab-content.active { display: block; }
 
 @keyframes fadeIn {
@@ -318,7 +339,7 @@ button:active {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- 6. JADUAL (TABLES) --- */
+/* ================= JADUAL (TABLES) ================= */
 .result-area {
     overflow-x: auto;
     border-radius: 8px;
@@ -344,50 +365,44 @@ th {
     font-weight: 700;
     text-transform: uppercase;
     font-size: 0.8rem;
-    letter-spacing: 0.5px;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 5;
 }
 
-tr:hover {
-    background-color: #f1f3f5;
-}
+tr:hover { background-color: #f1f3f5; }
 
+/* Edit Cell Indicator */
 .edit-cell {
     cursor: pointer;
-    background-color: #fff;
-    transition: background-color 0.2s;
     position: relative;
+    background-color: #fff;
 }
-
 .edit-cell:hover {
     background-color: #e8f0fe;
     box-shadow: inset 0 0 0 1px var(--primary-color);
 }
-
 .edit-cell:hover::after {
     content: '✎';
     position: absolute;
-    right: 5px;
-    top: 50%;
+    right: 5px; top: 50%;
     transform: translateY(-50%);
     font-size: 0.8rem;
     color: var(--primary-color);
     opacity: 0.7;
 }
 
-/* --- 7. RANKING COLORS --- */
+/* Ranking Colors */
 tr.rank-1 td { background-color: #fff9c4 !important; color: #856404; font-weight: bold; }
-tr.rank-1 td:first-child { border-left: 4px solid #ffc107; }
+tr.rank-1 td:first-child { border-left: 5px solid #ffc107; }
 
 tr.rank-2 td { background-color: #f8f9fa !important; color: #343a40; font-weight: bold; }
-tr.rank-2 td:first-child { border-left: 4px solid #adb5bd; }
+tr.rank-2 td:first-child { border-left: 5px solid #adb5bd; }
 
 tr.rank-3 td { background-color: #fff0e6 !important; color: #a84a04; font-weight: bold; }
-tr.rank-3 td:first-child { border-left: 4px solid #fd7e14; }
+tr.rank-3 td:first-child { border-left: 5px solid #fd7e14; }
 
-/* --- 8. LOGIN PAGE --- */
+/* ================= LOGIN PAGE ================= */
 #login-container {
     max-width: 400px;
     margin: 80px auto;
@@ -398,29 +413,26 @@ tr.rank-3 td:first-child { border-left: 4px solid #fd7e14; }
     text-align: center;
 }
 
-#login-container h2 {
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
+#login-container h2 { color: var(--primary-color); margin-bottom: 20px; }
+#login-container button { width: 100%; margin-top: 10px; padding: 12px; }
+#login-status { margin-top: 15px; font-size: 0.9rem; min-height: 20px; color: var(--danger-color); }
 
-#login-container button {
-    width: 100%;
-    background-color: var(--primary-color);
-    margin-top: 10px;
-    padding: 12px;
-}
-
-#login-status {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    min-height: 20px;
-}
-
-/* --- 9. FOOTER --- */
+/* ================= FOOTER ================= */
 footer {
     text-align: center;
     padding: 2rem;
     color: #6c757d;
     font-size: 0.9rem;
     margin-top: auto;
+    border-top: 1px solid #dee2e6;
+}
+
+/* RESPONSIVE TAMBAHAN */
+@media (max-width: 768px) {
+    .main-tab-buttons { flex-direction: column; border-bottom: none; }
+    .main-tab-link { border: 1px solid #dee2e6; margin-bottom: 5px; border-radius: 6px; text-align: center; }
+    
+    .action-buttons-grid { grid-template-columns: 1fr; } /* Butang stack di mobile */
+    
+    th, td { padding: 8px 10px; font-size: 0.85rem; }
 }
