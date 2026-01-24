@@ -12,7 +12,7 @@ const firebaseConfig = {
     measurementId: "G-FWCPVKDC23"
 };
 
-const ADMIN_UID = "op36sIcDvOfsJZnYVpxUuGgVg5B2"; // UID Admin untuk kawalan akses
+const ADMIN_UID = "op36sIcDvOfsJZnYVpxUuGgVg5B2"; // UID Admin
 
 // INISIALISASI FIREBASE
 firebase.initializeApp(firebaseConfig);
@@ -26,28 +26,40 @@ function isAdmin() {
     return currentUserID === ADMIN_UID;
 }
 
+// --- HELPER KESELAMATAN (XSS PREVENTION) ---
+// Membersihkan teks dari aksara khas HTML untuk elak kod hasad
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    return String(text).replace(/[&<>"']/g, function(m) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[m];
+    });
+}
 
 // ==========================================================
 // 1. MODEL DATA (Classes: Peserta dan Kejohanan)
 // ==========================================================
 
 class Peserta {
-    // TAMBAH: masaLarian
     constructor(noBadan, namaPenuh, jantina, kategoriUmur, sekolahKelas, docId = null) {
-        this.docId = docId; // ID Dokumen Firestore
+        this.docId = docId;
         this.noBadan = noBadan;
         this.namaPenuh = namaPenuh;
         this.jantina = jantina;
         this.kategoriUmur = kategoriUmur.toUpperCase().trim();
         this.sekolahKelas = sekolahKelas;
-        this.kedudukan = 0; // Kedudukan Overall Rank (di set kemudian oleh admin)
-        this.masaLarian = null; // Masa Larian (dalam minit, cth: 25.45)
+        this.kedudukan = 0; // Kedudukan Overall
+        this.masaLarian = null; // Masa (minit)
     }
 
     static fromJSON(data, docId) {
         const p = new Peserta(data.noBadan, data.namaPenuh, data.jantina, data.kategoriUmur, data.sekolahKelas, docId);
         p.kedudukan = data.kedudukan || 0;
-        // INISIALISASI masaLarian
         p.masaLarian = data.masaLarian !== undefined ? data.masaLarian : null;
         return p;
     }
@@ -56,84 +68,71 @@ class Peserta {
 class Kejohanan {
     constructor() {
         this.senaraiPeserta = [];
-        // Tiada loadData() di sini. Data dimuatkan selepas log masuk oleh listener Firebase.
     }
 
-    // --- A. PENGURUSAN PENYIMPANAN KEKEBAL (FIREBASE FIRESTORE) ---
+    // --- A. PENGURUSAN PENYIMPANAN (FIRESTORE) ---
 
-    // Menggantikan loadData() dengan muat turun dari Firestore
     async loadDataFromFirestore() {
         console.log('⏳ Memuatkan data peserta dari Firestore...');
         try {
             const snapshot = await db.collection('peserta').get();
             this.senaraiPeserta = snapshot.docs.map(doc => Peserta.fromJSON(doc.data(), doc.id));
-            console.log(`✅ ${this.senaraiPeserta.length} peserta dimuatkan dari Firestore.`);
-            paparSemuaPeserta(); // Panggil paparan selepas data dimuatkan
+            console.log(`✅ ${this.senaraiPeserta.length} peserta dimuatkan.`);
+            paparSemuaPeserta();
         } catch (error) {
-            console.error('❌ Ralat memuatkan data dari Firestore:', error);
+            console.error('❌ Ralat memuatkan data:', error);
             alert('Ralat memuatkan data. Sila semak konsol.');
         }
     }
     
-    // Fungsi umum untuk menyimpan perubahan
     async updatePeserta(noBadan, updateData) {
         if (!isAdmin()) {
-            console.warn('❌ Akses Ditolak: Hanya Admin boleh menyimpan perubahan data.');
+            console.warn('❌ Akses Ditolak.');
             return false;
         }
         
         const pesertaToUpdate = this.senaraiPeserta.find(p => p.noBadan.trim() === noBadan.trim());
         
         if (!pesertaToUpdate || !pesertaToUpdate.docId) {
-            console.error(`❌ Peserta No. Badan ${noBadan} tidak ditemui atau tiada Doc ID.`);
+            console.error(`❌ Peserta ${noBadan} tidak ditemui.`);
             return false;
         }
 
         try {
-            // Hasilkan data yang akan dihantar ke Firestore
             const firestoreUpdateData = {};
             for (const key in updateData) {
-                // Pastikan nilai null dihantar sebagai null, bukan 0 atau string kosong (kecuali untuk kedudukan)
                 firestoreUpdateData[key] = updateData[key] === '' ? null : updateData[key];
             }
             
             await db.collection('peserta').doc(pesertaToUpdate.docId).update(firestoreUpdateData);
             
-            // Kemas kini model tempatan (diperlukan untuk fungsi analisis segera)
+            // Kemas kini model tempatan
             Object.assign(pesertaToUpdate, updateData);
             
-            // Jika kedudukan atau masa berubah, kemas kini paparan semula
+            // Jika kedudukan/masa berubah, kemas kini analisis di latar belakang sahaja
             if (updateData.kedudukan !== undefined || updateData.masaLarian !== undefined) {
-                 analisisIndividu(); 
+                 // Kita tidak panggil analisisIndividu() di sini untuk elak re-render berat
+                 // Ia akan dikemaskini bila user klik tab Analisis
             }
             
-            console.log(`✅ Peserta ${noBadan} dikemas kini dalam Firestore:`, firestoreUpdateData);
             return true;
         } catch (error) {
-            console.error('❌ Ralat mengemas kini peserta dalam Firestore:', error);
+            console.error('❌ Ralat update Firestore:', error);
             return false;
         }
     }
 
-
-    // --- B. FUNGSI PENDAFTARAN & KEMASUKAN KEPUTUSAN (DILINDUNGI) ---
+    // --- B. PENDAFTARAN & DATA ---
 
     async daftarPeserta(p) {
-        if (!isAdmin()) {
-            alert('❌ Akses Ditolak: Hanya Admin boleh mendaftar peserta.');
-            return false;
-        }
+        if (!isAdmin()) return false;
         
         const noBadanTrimmed = p.noBadan.trim();
         const exists = this.senaraiPeserta.some(peserta => peserta.noBadan.trim() === noBadanTrimmed);
         
-        if (exists) {
-            // Kes duplikat dikendalikan oleh fungsi luaran
-            return false;
-        }
+        if (exists) return false;
         
         try {
-            // Gunakan noBadan sebagai ID dokumen untuk semakan duplikat yang mudah dalam Firestore
             await db.collection('peserta').doc(noBadanTrimmed).set({
                 noBadan: p.noBadan,
                 namaPenuh: p.namaPenuh,
@@ -141,144 +140,84 @@ class Kejohanan {
                 kategoriUmur: p.kategoriUmur,
                 sekolahKelas: p.sekolahKelas,
                 kedudukan: 0,
-                masaLarian: null // Set masa awal kepada null
+                masaLarian: null
             });
 
-            // Muat semula data dari Firestore untuk mendapatkan docId baru, tetapi untuk kes ini 
-            // kita boleh anggap noBadan = docId dan menambahkannya secara tempatan
             p.docId = noBadanTrimmed;
             this.senaraiPeserta.push(p);
             return true;
         } catch (error) {
-            console.error('❌ Ralat mendaftar peserta ke Firestore:', error);
-            alert(`Ralat: Gagal mendaftar peserta ${noBadanTrimmed}. Sila semak konsol.`);
+            console.error('❌ Ralat daftar peserta:', error);
             return false;
         }
     }
     
-    // Menggunakan fungsi updatePeserta yang baru
     async setKedudukan(noBadan, kedudukan) {
-        if (!isAdmin()) {
-            console.warn('❌ Akses Ditolak: Hanya Admin boleh merekod keputusan.');
-            return false;
-        }
-        
         const kedudukanInt = (kedudukan === '' || isNaN(kedudukan)) ? 0 : Math.max(0, parseInt(kedudukan));
-        
-        // Jika kedudukan di-reset (0), masa juga perlu di-reset
         const updateData = { kedudukan: kedudukanInt };
-        if (kedudukanInt === 0) {
-            updateData.masaLarian = null;
-        }
-        
+        if (kedudukanInt === 0) updateData.masaLarian = null;
         return this.updatePeserta(noBadan, updateData);
     }
     
-    // FUNGSI BARU: Set Masa Larian
     async setMasaLarian(noBadan, masaLarian) {
-        if (!isAdmin()) {
-            console.warn('❌ Akses Ditolak: Hanya Admin boleh merekod masa larian.');
-            return false;
-        }
-        
         const masaFloat = (masaLarian === '' || isNaN(masaLarian)) ? null : parseFloat(masaLarian);
-        
-        if (masaFloat !== null && masaFloat <= 0) {
-            console.error('❌ Masa Larian mesti positif.');
-            return false;
-        }
-
         return this.updatePeserta(noBadan, { masaLarian: masaFloat });
     }
     
     async padamPesertaIndividu(noBadan) {
-        // ... (Kekal sama)
-        if (!isAdmin()) {
-            alert('❌ Akses Ditolak: Hanya Admin boleh memadam peserta.');
-            return false;
-        }
+        if (!isAdmin()) return false;
         const noBadanTrimmed = noBadan.trim();
         const peserta = this.senaraiPeserta.find(p => p.noBadan.trim() === noBadanTrimmed);
         
-        if (!peserta || !peserta.docId) {
-            return false;
-        }
+        if (!peserta || !peserta.docId) return false;
         
         try {
             await db.collection('peserta').doc(peserta.docId).delete();
-            // Kemas kini model tempatan
             this.senaraiPeserta = this.senaraiPeserta.filter(p => p.noBadan.trim() !== noBadanTrimmed);
             return true;
         } catch (error) {
-            console.error('❌ Ralat memadam peserta dari Firestore:', error);
+            console.error('❌ Ralat padam peserta:', error);
             return false;
         }
     }
 
     async resetSemuaData() {
-        // ... (Kekal sama)
-        if (!isAdmin()) {
-            alert('❌ Akses Ditolak: Hanya Admin boleh reset data.');
-            return false;
-        }
-        
-        // Memadam koleksi dalam Firebase perlu dilakukan secara berkumpulan (batch)
+        if (!isAdmin()) return false;
         try {
             const batch = db.batch();
             const snapshot = await db.collection('peserta').get();
-            
-            snapshot.docs.forEach((doc) => {
-                batch.delete(doc.ref);
-            });
-            
+            snapshot.docs.forEach((doc) => batch.delete(doc.ref));
             await batch.commit();
-            
-            this.senaraiPeserta = []; // Kosongkan model tempatan
+            this.senaraiPeserta = [];
             return true;
         } catch (error) {
-            console.error('❌ Ralat memadam koleksi Firestore:', error);
-            alert('Ralat memadam data dari Firestore. Sila semak konsol.');
+            console.error('❌ Ralat reset data:', error);
             return false;
         }
     }
 
-    // ----------------------------------------------------------------
-    // --- C. LOGIK PEMARKAHAN & ANALISIS (Helper) --- 
-    // ----------------------------------------------------------------
-
-    // Dikekalkan untuk analisis individu 
-    kiraMarkahIndividuDariKedudukan(kedudukan) {
-        // Skema Pemarkahan: 1=10, 2=9, ..., 9=2, 10=1. 
-        if (kedudukan >= 1 && kedudukan <= 10) {
-            return Math.max(1, 11 - kedudukan);
-        }
-        return 0; 
-    }
+    // --- C. LOGIK PEMARKAHAN (Helper) --- 
 
     dapatkanPemenangTersusunMengikutKategori() {
         const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
-        
         const petaKategori = pesertaSelesai.reduce((acc, peserta) => {
             const kategori = peserta.kategoriUmur;
-            if (!acc[kategori]) { acc[kategori] = []; }
+            if (!acc[kategori]) acc[kategori] = [];
             acc[kategori].push(peserta);
             return acc;
         }, {});
         
         for (const kategori in petaKategori) {
-            // Susun berdasarkan Kedudukan Overall
             petaKategori[kategori].sort((a, b) => a.kedudukan - b.kedudukan);
         }
         return petaKategori;
     }
 
     dapatkanPemenangTersusunMengikutKumpulan() {
-        // ... (Kekal sama)
         const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
-        
         const petaKumpulan = pesertaSelesai.reduce((acc, peserta) => {
             const kunciKumpulan = `${peserta.kategoriUmur}|${peserta.sekolahKelas}`; 
-            if (!acc[kunciKumpulan]) { acc[kunciKumpulan] = []; }
+            if (!acc[kunciKumpulan]) acc[kunciKumpulan] = [];
             acc[kunciKumpulan].push(peserta);
             return acc;
         }, {});
@@ -289,17 +228,12 @@ class Kejohanan {
         return petaKumpulan;
     }
 
-    // ----------------------------------------------------------------
     // --- D. PAPARAN DAN ANALISIS KEPUTUSAN --- 
-    // ----------------------------------------------------------------
     
     paparSemuaPesertaDalamJadual() {
-        if (this.senaraiPeserta.length === 0) {
-            return '<p>Tiada peserta didaftarkan buat masa ini.</p>';
-        }
+        if (this.senaraiPeserta.length === 0) return '<p>Tiada peserta didaftarkan.</p>';
 
         let htmlOutput = '<table>';
-        // TAMBAH: Lajur MASA LARIAN
         htmlOutput += '<tr><th>NO. BADAN</th><th>NAMA PENUH</th><th>JANTINA</th><th>KATEGORI</th><th>PASUKAN</th><th>KEDUDUKAN</th><th>MASA LARIAN (minit)</th></tr>';
 
         const senaraiTersusun = [...this.senaraiPeserta].sort((a, b) => a.noBadan.localeCompare(b.noBadan)); 
@@ -308,101 +242,80 @@ class Kejohanan {
             const kedudukanDisplay = p.kedudukan > 0 ? p.kedudukan : '';
             const masaDisplay = p.masaLarian !== null ? p.masaLarian.toFixed(2) : '';
 
-            // KAWALAN AKSES berdasarkan isAdmin()
             const isEditable = isAdmin() ? `contenteditable="true"` : '';
             const kedudukanCellClass = isAdmin() ? `class="edit-cell kedudukan-cell"` : '';
-            // Sel Masa juga boleh diedit
             const masaCellClass = isAdmin() ? `class="edit-cell masa-cell"` : '';
 
+            // MENGGUNAKAN escapeHtml UNTUK KESELAMATAN
             htmlOutput += `<tr>
-                                <td data-nobadan="${p.noBadan}">${p.noBadan}</td>
-                                <td>${p.namaPenuh}</td>
-                                <td>${p.jantina}</td>
-                                <td>${p.kategoriUmur}</td>
-                                <td>${p.sekolahKelas}</td>
-                                <td ${isEditable} ${kedudukanCellClass} data-nobadan="${p.noBadan}" data-field="kedudukan">${kedudukanDisplay}</td>
-                                <td ${isEditable} ${masaCellClass} data-nobadan="${p.noBadan}" data-field="masaLarian">${masaDisplay}</td>
-                           </tr>`;
+                <td data-nobadan="${escapeHtml(p.noBadan)}">${escapeHtml(p.noBadan)}</td>
+                <td>${escapeHtml(p.namaPenuh)}</td>
+                <td>${escapeHtml(p.jantina)}</td>
+                <td>${escapeHtml(p.kategoriUmur)}</td>
+                <td>${escapeHtml(p.sekolahKelas)}</td>
+                <td ${isEditable} ${kedudukanCellClass} data-nobadan="${escapeHtml(p.noBadan)}" data-field="kedudukan">${kedudukanDisplay}</td>
+                <td ${isEditable} ${masaCellClass} data-nobadan="${escapeHtml(p.noBadan)}" data-field="masaLarian">${masaDisplay}</td>
+            </tr>`;
         });
         
         htmlOutput += '</table>';
-        htmlOutput += `<p>Jumlah Keseluruhan Peserta: <strong>${this.senaraiPeserta.length}</strong></p>`;
+        htmlOutput += `<p>Jumlah Keseluruhan: <strong>${this.senaraiPeserta.length}</strong></p>`;
         return htmlOutput;
     }
     
-analisisPemenangIndividuKategori() {
-    const pemenangKategori = this.dapatkanPemenangTersusunMengikutKategori();
-    let htmlOutput = '';
+    analisisPemenangIndividuKategori() {
+        const pemenangKategori = this.dapatkanPemenangTersusunMengikutKategori();
+        let htmlOutput = '';
 
-    if (Object.keys(pemenangKategori).length === 0) {
-         return '<p>Tiada keputusan larian yang direkodkan (kedudukan > 0) untuk analisis kategori.</p>';
-    }
+        if (Object.keys(pemenangKategori).length === 0) return '<p>Tiada keputusan direkodkan.</p>';
 
-    // FUNGSI UTAMA: Mengira dan Memaparkan Analisis Individu dengan Logik Masa
-    for (const kategori in pemenangKategori) {
-        const senarai = pemenangKategori[kategori];
-        
-        // Cari masa ranking ke-10 yang sah dalam kategori ini
-        let masaRank10 = null;
-        const rank10Peserta = senarai.find((p, index) => index === 9 && p.masaLarian !== null); // Index 9 = Rank 10
-        
-        if (rank10Peserta) {
-            masaRank10 = rank10Peserta.masaLarian;
-        } else if (senarai.length >= 10) {
-            console.warn(`[Analisis] Tiada Masa Larian direkodkan untuk Rank Kategori ke-10 dalam ${kategori}.`);
-        }
-
-        htmlOutput += `<h4>== KATEGORI: ${kategori} (${senarai.length} Peserta Selesai) ==</h4>`;
-        
-        // Mesej amaran jika ranking 10 tiada masa tetapi ada ranking 11+
-        if (masaRank10 === null && senarai.length >= 11) {
-            htmlOutput += `<p style="color:red; font-weight: bold;">⚠️ Sila masukkan MASA LARIAN secara manual untuk Rank Kategori ke-10 untuk membolehkan pengiraan masa automatik bagi ranking ke-11 dan ke atas.</p>`;
-        }
-        
-        htmlOutput += '<table>';
-        htmlOutput += '<tr><th>RANK KATEGORI</th><th>KEDUDUKAN (OVERALL RANK)</th><th>MASA LARIAN (minit)</th><th>NAMA</th><th>SEKOLAH/PASUKAN</th><th>NO. BADAN</th></tr>'; 
-        
-        for (let i = 0; i < senarai.length; i++) {
-            const p = senarai[i];
-            const rankKategori = i + 1;
+        for (const kategori in pemenangKategori) {
+            const senarai = pemenangKategori[kategori];
             
-            let masaDisplay = '';
-            let masaActual = p.masaLarian;
+            // Logik Masa
+            let masaRank10 = null;
+            const rank10Peserta = senarai.find((p, index) => index === 9 && p.masaLarian !== null);
+            if (rank10Peserta) masaRank10 = rank10Peserta.masaLarian;
 
-            // LOGIK PENGIRAAN MASA AUTOMATIK (Untuk Rank Kategori 11 dan ke atas)
-            if (rankKategori >= 11) {
-                if (masaRank10 !== null) {
-                    // Kira berdasarkan masa rank 10 + increment 0.03 untuk setiap ranking selepas 10
+            htmlOutput += `<h4>== KATEGORI: ${escapeHtml(kategori)} ==</h4>`;
+            
+            if (masaRank10 === null && senarai.length >= 11) {
+                htmlOutput += `<p style="color:red; font-size: 0.9em;">⚠️ Sila masukkan masa untuk Rank 10 bagi mengaktifkan pengiraan automatik Rank 11+.</p>`;
+            }
+            
+            htmlOutput += '<table>';
+            htmlOutput += '<tr><th>RANK</th><th>OVERALL</th><th>MASA</th><th>NAMA</th><th>SEKOLAH</th><th>NO. BADAN</th></tr>'; 
+            
+            for (let i = 0; i < senarai.length; i++) {
+                const p = senarai[i];
+                const rankKategori = i + 1;
+                
+                let masaDisplay = '';
+                let masaActual = p.masaLarian;
+
+                if (rankKategori >= 11 && masaRank10 !== null) {
                     masaActual = masaRank10 + ((rankKategori - 10) * 0.03);
                 }
-            }
-            
-            // Format paparan masa
-            if (masaActual !== null) {
-                masaDisplay = masaActual.toFixed(2); // Cuma nilai masa
-            } else if (p.kedudukan > 0) {
-                // Paparkan "BELUM DIREKOD" jika kedudukan ada tetapi masa tiada
-                masaDisplay = 'BELUM DIREKOD'; 
-            }
+                
+                if (masaActual !== null) masaDisplay = masaActual.toFixed(2);
+                else if (p.kedudukan > 0) masaDisplay = '-';
 
-            htmlOutput += `<tr>
-                                <td>${rankKategori}</td>
-                                <td>${p.kedudukan}</td>
-                                <td>${masaDisplay}</td>
-                                <td>${p.namaPenuh}</td>
-                                <td>${p.sekolahKelas}</td>
-                                <td>${p.noBadan}</td>
-                            </tr>`;
+                htmlOutput += `<tr>
+                    <td>${rankKategori}</td>
+                    <td>${p.kedudukan}</td>
+                    <td>${masaDisplay}</td>
+                    <td>${escapeHtml(p.namaPenuh)}</td>
+                    <td>${escapeHtml(p.sekolahKelas)}</td>
+                    <td>${escapeHtml(p.noBadan)}</td>
+                </tr>`;
+            }
+            htmlOutput += '</table>';
         }
-        htmlOutput += '</table>';
+        return htmlOutput;
     }
-    return htmlOutput;
-}
     
     analisisPemenangKumpulan() {
-        // ... (Kekal sama)
         const petaKumpulan = this.dapatkanPemenangTersusunMengikutKumpulan();
-        
         const keputusanMengikutKategori = {};
 
         for (const kunci in petaKumpulan) {
@@ -412,18 +325,12 @@ analisisPemenangIndividuKategori() {
             
             if (bilanganPesertaLayak >= 4) {
                 const peserta4Terbaik = senaraiKumpulan.slice(0, 4);
-                
-                const markahKumpulan = peserta4Terbaik
-                    .reduce((sum, p) => sum + p.kedudukan, 0); 
+                const markahKumpulan = peserta4Terbaik.reduce((sum, p) => sum + p.kedudukan, 0); 
                 
                 let tieBreaker = null;
-                if (bilanganPesertaLayak >= 5) {
-                    tieBreaker = senaraiKumpulan[4].kedudukan; 
-                }
+                if (bilanganPesertaLayak >= 5) tieBreaker = senaraiKumpulan[4].kedudukan; 
                 
-                if (!keputusanMengikutKategori[kategori]) {
-                    keputusanMengikutKategori[kategori] = [];
-                }
+                if (!keputusanMengikutKategori[kategori]) keputusanMengikutKategori[kategori] = [];
                 
                 keputusanMengikutKategori[kategori].push({
                     kategori: kategori,
@@ -435,32 +342,24 @@ analisisPemenangIndividuKategori() {
             }
         }
         
-        if (Object.keys(keputusanMengikutKategori).length === 0) {
-            return '<p>Tiada kumpulan yang layak untuk pemarkahan kumpulan (perlu ≥ 4 peserta dalam gabungan Kategori dan Sekolah/Kelas).</p>';
-        }
+        if (Object.keys(keputusanMengikutKategori).length === 0) return '<p>Tiada pasukan layak (Min. 4 peserta).</p>';
 
         let htmlOutput = '';
 
-        // Susun setiap kategori dan paparkan
         for (const kategori in keputusanMengikutKategori) {
             const senaraiKeputusan = keputusanMengikutKategori[kategori];
             
             senaraiKeputusan.sort((a, b) => {
-                if (a.markah !== b.markah) {
-                    return a.markah - b.markah; 
-                }
-                
-                if (a.tieBreaker !== null && b.tieBreaker !== null) {
-                    return a.tieBreaker - b.tieBreaker; 
-                }
+                if (a.markah !== b.markah) return a.markah - b.markah; 
+                if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker - b.tieBreaker; 
                 if (a.tieBreaker === null && b.tieBreaker !== null) return 1; 
                 if (a.tieBreaker !== null && b.tieBreaker === null) return -1; 
                 return 0; 
             });
 
-            htmlOutput += `<h4>== KATEGORI: ${kategori} ==</h4>`;
+            htmlOutput += `<h4>== KATEGORI: ${escapeHtml(kategori)} ==</h4>`;
             htmlOutput += '<table>';
-            htmlOutput += '<tr><th>RANK</th><th>SEKOLAH/PASUKAN</th><th>MARKAH KUMPULAN (SUM 4 OVERALL RANK TERBAIK)</th><th>PESERTA KE-5 (TIE-BREAKER OVERALL RANK)</th><th>JUMLAH PESERTA LAYAK (≥ 4)</th></tr>';
+            htmlOutput += '<tr><th>RANK</th><th>SEKOLAH</th><th>MARKAH</th><th>TIE-BREAKER (Peserta ke-5)</th><th>JUM. PESERTA</th></tr>';
             
             senaraiKeputusan.forEach((k, index) => {
                 const rank = index + 1;
@@ -469,17 +368,16 @@ analisisPemenangIndividuKategori() {
                 else if (rank === 2) rankClass = 'rank-2';
                 else if (rank === 3) rankClass = 'rank-3';
 
-                const tieBreakerDisplay = k.tieBreaker !== null ? k.tieBreaker : 'N/A (Tiada Peserta ke-5)';
+                const tieBreakerDisplay = k.tieBreaker !== null ? k.tieBreaker : '-';
 
                 htmlOutput += `<tr class="${rankClass}">
-                                    <td>${rank}</td>
-                                    <td>${k.sekolah}</td>
-                                    <td>${k.markah}</td>
-                                    <td>${tieBreakerDisplay}</td>
-                                    <td>${k.jumlahPeserta}</td>
-                                </tr>`;
+                    <td>${rank}</td>
+                    <td>${escapeHtml(k.sekolah)}</td>
+                    <td>${k.markah}</td>
+                    <td>${tieBreakerDisplay}</td>
+                    <td>${k.jumlahPeserta}</td>
+                </tr>`;
             });
-            
             htmlOutput += '</table>';
         }
         return htmlOutput;
@@ -487,15 +385,14 @@ analisisPemenangIndividuKategori() {
 }
 
 // ==========================================================
-// 2. INISIALISASI & PENGENDALI ACARA (Event Handlers)
+// 2. INISIALISASI & PENGENDALI ACARA
 // ==========================================================
 
 const kejohanan = new Kejohanan();
 
 async function handleMuatNaikCSV() {
-    // ... (Kekal sama)
     if (!isAdmin()) {
-        alert('❌ Akses Ditolak: Hanya Admin boleh muat naik data.');
+        alert('❌ Akses Ditolak.');
         return;
     }
     
@@ -517,44 +414,36 @@ async function handleMuatNaikCSV() {
 
         for (let i = 1; i < baris.length; i++) {
             const rawLine = baris[i].trim();
-            if (rawLine === '') continue;
+            if (!rawLine) continue;
 
-            const data = rawLine.split(',').map(d => d.trim());
+            // Pembersihan asas: buang quote jika CSV ada quote
+            const data = rawLine.split(',').map(d => d.trim().replace(/^"|"$/g, ''));
             
             if (data.length >= 5 && data[0] && data[1]) { 
                 try {
-                    // Tiada masa dalam CSV, ia akan diset kepada null secara default dalam constructor
                     const p = new Peserta(data[0], data[1], data[2], data[3], data[4]);
-                    
-                    // Semak duplikat tempatan sebelum cuba mendaftar
                     const exists = kejohanan.senaraiPeserta.some(peserta => peserta.noBadan.trim() === p.noBadan.trim());
                     
                     if (!exists) {
-                         if (await kejohanan.daftarPeserta(p)) { 
-                            berjaya++;
-                        } else {
-                            ralat++; 
-                        }
+                         if (await kejohanan.daftarPeserta(p)) berjaya++;
+                         else ralat++; 
                     } else {
-                        ralat++; // Duplikat tempatan
+                        ralat++; 
                     }
-
                 } catch (error) {
-                    console.error("Ralat memproses baris CSV:", rawLine, error);
                     ralat++;
                 }
             } else {
                  ralat++;
             }
         }
-        statusElement.innerHTML = `<span style="color: green;">Muat naik selesai. Berjaya: ${berjaya}, Ralat (Duplikat/Tidak Lengkap): ${ralat}.</span>`;
+        statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
         paparSemuaPeserta(); 
     };
-
     reader.readAsText(file);
 }
 
-// PENGENDALI KEMASUKAN KEDUDUKAN & MASA (DIUBAHSUAI)
+// PENGENDALI KEMASUKAN KEDUDUKAN & MASA (OPTIMIZED)
 function handleEditCell(e) {
     if (!isAdmin()) return;
 
@@ -566,72 +455,64 @@ function handleEditCell(e) {
             let nilaiBaru = e.target.textContent.trim();
             let updated = false;
             
+            // Simpan nilai lama untuk revert jika gagal
+            const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
+            
             if (field === 'kedudukan') {
-                if (nilaiBaru === '') {
-                    updated = await kejohanan.setKedudukan(noBadan, 0); // Set kedudukan kepada 0
-                } else {
-                    const kedudukanInt = parseInt(nilaiBaru);
-                    
-                    if (isNaN(kedudukanInt) || kedudukanInt < 0) {
-                        alert('❌ Ralat: Sila masukkan nombor kedudukan positif yang sah (atau kosongkan).');
-                        // Pulihkan nilai lama
-                        const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
-                        e.target.textContent = peserta && peserta.kedudukan > 0 ? peserta.kedudukan : '';
+                if (nilaiBaru === '') updated = await kejohanan.setKedudukan(noBadan, 0);
+                else {
+                    const val = parseInt(nilaiBaru);
+                    if (isNaN(val) || val < 0) {
+                        alert('❌ Nombor tidak sah.');
+                        e.target.textContent = peserta.kedudukan > 0 ? peserta.kedudukan : '';
                         return;
                     }
-                    updated = await kejohanan.setKedudukan(noBadan, kedudukanInt);
+                    updated = await kejohanan.setKedudukan(noBadan, val);
                 }
-                
             } else if (field === 'masaLarian') {
-                if (nilaiBaru === '') {
-                    updated = await kejohanan.setMasaLarian(noBadan, null); // Set masa kepada null
-                } else {
-                    const masaFloat = parseFloat(nilaiBaru);
-                    
-                    if (isNaN(masaFloat) || masaFloat <= 0) {
-                        alert('❌ Ralat: Sila masukkan nombor masa larian positif yang sah (cth: 25.45) atau kosongkan.');
-                        // Pulihkan nilai lama
-                        const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
-                        e.target.textContent = peserta && peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
+                if (nilaiBaru === '') updated = await kejohanan.setMasaLarian(noBadan, null);
+                else {
+                    const val = parseFloat(nilaiBaru);
+                    if (isNaN(val) || val <= 0) {
+                        alert('❌ Masa tidak sah.');
+                        e.target.textContent = peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
                         return;
                     }
-                    updated = await kejohanan.setMasaLarian(noBadan, masaFloat);
+                    updated = await kejohanan.setMasaLarian(noBadan, val);
                 }
             }
             
             if (updated) {
-                 console.log(`✅ ${field} No. Badan ${noBadan} dikemas kini kepada ${nilaiBaru || 'null'}`);
-                 // Muat semula paparan keseluruhan jadual untuk mengemaskini nilai (sekiranya ada perbezaan format)
-                 paparSemuaPeserta();
-            } else if (nilaiBaru !== '' && !updated) {
-                alert(`Gagal mengemas kini ${field} di Firestore. Sila semak konsol.`);
-                // Pulihkan nilai lama jika gagal
-                const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
-                if (field === 'kedudukan') {
-                     e.target.textContent = peserta && peserta.kedudukan > 0 ? peserta.kedudukan : '';
-                } else if (field === 'masaLarian') {
-                    e.target.textContent = peserta && peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
-                }
+                 // OPTIMASI: Jangan panggil paparSemuaPeserta(). 
+                 // Beri feedback visual (Flash Green)
+                 e.target.style.backgroundColor = "#d4edda"; // Hijau muda
+                 e.target.style.transition = "background-color 0.5s";
+                 setTimeout(() => {
+                     e.target.style.backgroundColor = ""; 
+                 }, 1000);
+            } else {
+                // Revert jika gagal update database
+                alert('Gagal simpan ke database.');
+                if (field === 'kedudukan') e.target.textContent = peserta.kedudukan > 0 ? peserta.kedudukan : '';
+                if (field === 'masaLarian') e.target.textContent = peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
             }
         };
         
-        // Memastikan hanya nombor dan titik boleh ditaip untuk masa, dan hanya nombor untuk kedudukan
         e.target.onkeydown = function(event) {
-            const allowedKeys = [8, 9, 37, 39, 46, 110, 190]; // Backspace, Tab, Arrows, Delete, Decimal/Period
+            const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
             const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
 
+            if (event.keyCode === 13) { // Enter key
+                event.preventDefault();
+                e.target.blur(); // Trigger onblur to save
+                return;
+            }
+
             if (field === 'kedudukan') {
-                // Hanya benarkan nombor
-                if (!(isNumber || allowedKeys.slice(0, 5).includes(event.keyCode))) {
-                    event.preventDefault();
-                }
+                if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
             } else if (field === 'masaLarian') {
-                 // Benarkan nombor dan titik (untuk nombor perpuluhan)
-                 if (!(isNumber || allowedKeys.includes(event.keyCode))) {
-                    event.preventDefault();
-                }
-                // Pastikan hanya satu titik dibenarkan
-                if ((event.keyCode === 110 || event.keyCode === 190) && e.target.textContent.includes('.')) {
+                 // Benarkan titik perpuluhan (190 atau 110)
+                 if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
                     event.preventDefault();
                 }
             }
@@ -641,48 +522,34 @@ function handleEditCell(e) {
 
 document.getElementById('result-senarai').addEventListener('click', handleEditCell);
 
-
-// --- FUNGSI PADAM DATA (DILINDUNG) ---
 async function handlePadamPeserta() {
-    // ... (Kekal sama)
-    if (!isAdmin()) {
-        alert('❌ Akses Ditolak: Hanya Admin boleh memadam data.');
-        return;
-    }
-    const noBadan = prompt("Sila masukkan No. Badan peserta yang ingin dipadam:");
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+    const noBadan = prompt("Masukkan No. Badan peserta:");
     if (noBadan) {
         if (await kejohanan.padamPesertaIndividu(noBadan.trim())) {
-            alert(`✅ Peserta dengan No. Badan ${noBadan.trim()} berjaya dipadam.`);
+            alert(`✅ Peserta ${noBadan.trim()} dipadam.`);
             paparSemuaPeserta(); 
         } else {
-            alert(`❌ Ralat: Peserta dengan No. Badan ${noBadan.trim()} tidak ditemui atau gagal dipadamkan di Firestore.`);
+            alert('❌ Ralat memadam peserta.');
         }
     }
 }
 
 async function resetSemuaData() {
-    // ... (Kekal sama)
-    if (!isAdmin()) {
-        alert('❌ Akses Ditolak: Hanya Admin boleh reset data.');
-        return;
-    }
-    const confirmReset = confirm("❗ AMARAN KERAS: Adakah anda pasti ingin memadam SEMUA rekod peserta dan keputusan? Tindakan ini TIDAK boleh dibatalkan.");
-
-    if (confirmReset) {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+    if (confirm("❗ AMARAN: Padam SEMUA data?")) {
         if (await kejohanan.resetSemuaData()) {
-            alert("✅ SEMUA data kejohanan telah dipadamkan. Aplikasi di-reset.");
+            alert("✅ Sistem di-reset.");
             paparSemuaPeserta();
-            
-            document.getElementById('result-individu').innerHTML = "<p>Keputusan analisis individu akan dipaparkan di sini.</p>";
-            document.getElementById('result-kumpulan').innerHTML = "<p>Keputusan analisis kumpulan akan dipaparkan di sini.</p>";
+            document.getElementById('result-individu').innerHTML = "";
+            document.getElementById('result-kumpulan').innerHTML = "";
         } else {
-            alert("❌ Gagal mereset semua data di Firestore.");
+            alert("❌ Gagal reset.");
         }
     }
 }
 
-
-// --- Paparan & Analisis (Boleh Diakses Semua) ---
+// --- FUNGSI PAPARAN ---
 
 function paparSemuaPeserta() {
     const html = kejohanan.paparSemuaPesertaDalamJadual();
@@ -692,7 +559,6 @@ function paparSemuaPeserta() {
 }
 
 function analisisIndividu() {
-    // Menggunakan fungsi analisis yang telah diubah suai
     const html = kejohanan.analisisPemenangIndividuKategori();
     document.getElementById('result-individu').innerHTML = html;
 }
@@ -703,23 +569,16 @@ function analisisKumpulan() {
 }
 
 function filterTable() {
-    // ... (Kekal sama)
     const filterValue = document.getElementById("filterInput").value.toUpperCase();
     const container = document.getElementById("result-senarai");
     const table = container.querySelector("table");
-
     if (!table) return; 
 
     const rows = table.getElementsByTagName("tr");
-    
-    // Mulakan dari i=1 untuk melangkau header
     for (let i = 1; i < rows.length; i++) {
         let row = rows[i];
         let displayRow = false; 
-
-        // cells[0] hingga cells[4] adalah NoBadan, Nama, Jantina, Kategori, Pasukan
         const cells = row.getElementsByTagName("td");
-        
         for (let j = 0; j < 5; j++) { 
             let cell = cells[j];
             if (cell && cell.textContent.toUpperCase().indexOf(filterValue) > -1) {
@@ -727,55 +586,36 @@ function filterTable() {
                 break; 
             }
         }
-
-        if (displayRow) {
-            row.style.display = ""; 
-        } else {
-            row.style.display = "none"; 
-        }
+        row.style.display = displayRow ? "" : "none";
     }
 }
 
-
 // ==========================================================
-// 3. FUNGSI LOG MASUK, LOG KELUAR & NAVIGASI TAB (KAWALAN AKSES FIREBASE)
+// 3. LOG MASUK & NAVIGASI
 // ==========================================================
 
 document.getElementById('login-form').addEventListener('submit', handleLogin);
 
 async function handleLogin(e) {
-    // ... (Kekal sama)
     e.preventDefault();
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value.trim();
     const statusElement = document.getElementById('login-status');
 
     statusElement.textContent = '⏳ Log masuk...';
-
     try {
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        // Semakan status pengguna akan dikendalikan oleh onAuthStateChanged
+        await auth.signInWithEmailAndPassword(email, password);
         statusElement.textContent = ''; 
     } catch (error) {
         statusElement.textContent = `❌ Ralat: ${error.message}`;
-        console.error('Login Error:', error);
-        document.getElementById('login-password').value = '';
     }
 }
 
 function handleLogout() {
-    // ... (Kekal sama)
-    auth.signOut().then(() => {
-        // onAuthStateChanged akan mengendalikan pembersihan UI
-        alert('✅ Anda telah log keluar.');
-    }).catch((error) => {
-        console.error('Logout Error:', error);
-        alert('Ralat semasa log keluar.');
-    });
+    auth.signOut().then(() => alert('✅ Log keluar berjaya.'));
 }
 
 function initializeApplicationView(user) {
-    // ... (Kekal sama)
     const dataTabButton = document.getElementById('data-tab-btn');
     const analisisTabButton = document.getElementById('analisis-tab-btn');
 
@@ -785,122 +625,78 @@ function initializeApplicationView(user) {
 
         document.getElementById('login-container').style.display = 'none';
         document.querySelector('main').style.display = 'block';
-        document.querySelector('footer').style.display = 'block';
-        document.getElementById('logout-btn').style.display = 'block'; 
+        document.getElementById('logout-btn').style.display = 'inline-block'; 
         
-        // Muatkan data dan sediakan paparan berdasarkan peranan
         kejohanan.loadDataFromFirestore().then(() => {
             if (currentUserRole === 'admin') {
-                dataTabButton.classList.remove('hidden-tab');
+                dataTabButton.style.display = 'inline-block';
                 openMainTab({currentTarget: dataTabButton}, 'data-tab'); 
-            } else { // user
-                dataTabButton.classList.add('hidden-tab');
+            } else { 
+                dataTabButton.style.display = 'none'; // Sembunyikan tab data drpd user biasa
                 openMainTab({currentTarget: analisisTabButton}, 'analisis-tab'); 
             }
         });
-
     } else {
-        // Log keluar/Tiada Pengguna
         currentUserID = null;
         currentUserRole = null;
-        
         document.querySelector('main').style.display = 'none';
-        const footer = document.querySelector('footer');
-        if (footer) footer.style.display = 'none';
         document.getElementById('logout-btn').style.display = 'none'; 
-        
         document.getElementById('login-container').style.display = 'block';
         document.getElementById('login-email').value = '';
         document.getElementById('login-password').value = '';
-        document.getElementById('login-status').textContent = '';
-        
-        // Bersihkan data tempatan (penting)
         kejohanan.senaraiPeserta = []; 
-        paparSemuaPeserta(); 
     }
 }
 
-
 function openMainTab(evt, tabName) {
-    // ... (Kekal sama)
     if (tabName === 'data-tab' && !isAdmin()) {
-        alert('❌ Akses Ditolak: Hanya Admin boleh mengakses tab Pendaftaran & Data.');
+        alert('❌ Akses Ditolak.');
         return;
     }
 
-    let i, tabcontent, tablinks;
-
-    tabcontent = document.getElementsByClassName("main-tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
+    const tabcontent = document.getElementsByClassName("main-tab-content");
+    for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
         tabcontent[i].classList.remove("active");
     }
 
-    tablinks = document.getElementsByClassName("main-tab-link");
-    for (i = 0; i < tablinks.length; i++) {
+    const tablinks = document.getElementsByClassName("main-tab-link");
+    for (let i = 0; i < tablinks.length; i++) {
         tablinks[i].classList.remove("active");
     }
 
     document.getElementById(tabName).style.display = "block";
     document.getElementById(tabName).classList.add("active");
-    evt.currentTarget.classList.add("active");
+    if(evt && evt.currentTarget) evt.currentTarget.classList.add("active");
     
     if (tabName === 'analisis-tab') {
-        const defaultSubTabButton = document.querySelector("#analisis-tab .sub-tab-link");
-        if (defaultSubTabButton) {
-            openSubTab({currentTarget: defaultSubTabButton}, 'individu-tab', analisisIndividu);
-        }
+        const defaultSub = document.querySelector("#analisis-tab .sub-tab-link");
+        if (defaultSub) openSubTab({currentTarget: defaultSub}, 'individu-tab', analisisIndividu);
     } else if (tabName === 'data-tab') {
         paparSemuaPeserta();
     }
 }
 
-
 function openSubTab(evt, tabName, analysisFunction = null) {
-    // ... (Kekal sama)
-    let i, tabcontent, tablinks;
-
-    tabcontent = document.getElementsByClassName("sub-tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
+    const tabcontent = document.getElementsByClassName("sub-tab-content");
+    for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
         tabcontent[i].classList.remove("active");
     }
 
-    tablinks = document.getElementsByClassName("sub-tab-link");
-    for (i = 0; i < tablinks.length; i++) {
+    const tablinks = document.getElementsByClassName("sub-tab-link");
+    for (let i = 0; i < tablinks.length; i++) {
         tablinks[i].classList.remove("active");
     }
 
     document.getElementById(tabName).style.display = "block";
     document.getElementById(tabName).classList.add("active");
+    if (evt && evt.currentTarget) evt.currentTarget.classList.add("active");
     
-    if (evt && evt.currentTarget) {
-        evt.currentTarget.classList.add("active");
-    }
-    
-    if (analysisFunction) {
-        analysisFunction();
-    }
+    if (analysisFunction) analysisFunction();
 }
 
-
-// 4. KAWALAN KEADAAN AUTENTIKASI FIREBASE (ON STARTUP)
+// 4. MULA APLIKASI
 document.addEventListener("DOMContentLoaded", () => {
-    // onAuthStateChanged akan dipanggil sebaik sahaja skrip ini dimuatkan
     auth.onAuthStateChanged(initializeApplicationView);
-
-    // Tetapkan rupa awal (sebelum onAuthStateChanged diselesaikan)
-    document.querySelector('main').style.display = 'none';
-    const footer = document.querySelector('footer');
-    if (footer) footer.style.display = 'none';
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) logoutBtn.style.display = 'none';
-    
-    document.getElementById('login-container').style.display = 'block';
 });
-
-
-
-
-
-
