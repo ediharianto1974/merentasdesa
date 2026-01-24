@@ -64,25 +64,43 @@
             </section>
 
             <section class="card admin-panel-container">
-                <h2>2. Penyelenggaraan Data (Admin)</h2>
+    <h2>2. Penyelenggaraan Data (Admin)</h2>
 
-                <h3>⚠️ Zon Bahaya & Pemulihan Data</h3>
-                <div class="alert-warning">
-                    <small><strong>Nota:</strong> Gunakan fungsi ini untuk membersihkan data atau memulihkan data jika berlaku kesilapan.</small>
-                </div>
-                
-                <div class="action-buttons-grid">
-                    <button onclick="handlePadamPeserta()" class="btn-warning">
-                        ❌ Padam Peserta (Individu)
-                    </button>
-                    <button onclick="handleBackupDanPadam()" class="btn-danger">
-                        🗑️ Padam SEMUA Data (Auto-Backup)
-                    </button>
-                    <button onclick="handleRestoreData()" class="btn-success">
-                        ♻️ Restore Data Terakhir
-                    </button>
-                </div>
-            </section>
+    <h3>💾 Simpanan & Backup Data</h3>
+    <p>Sila muat turun data ke komputer anda sebelum melakukan sebarang pemadaman.</p>
+    <div class="action-buttons-grid">
+        <button onclick="handleBackupDownload()" class="btn-info">
+            📥 Muat Turun Backup (Fail JSON)
+        </button>
+    </div>
+
+    <hr style="margin: 20px 0; border-top: 1px solid #dee2e6;">
+
+    <h3>♻️ Pemulihan Data (Restore)</h3>
+    <p>Pilih fail backup (.json) dari komputer anda untuk memulihkan data.</p>
+    <div class="file-upload-wrapper" style="border: 1px solid #ced4da; padding: 10px;">
+        <input type="file" id="backup-file-input" accept=".json">
+        <button onclick="handleRestoreDariFail()" class="btn-success" style="margin-top: 10px;">
+            Muat Naik & Restore Data
+        </button>
+    </div>
+
+    <hr style="margin: 20px 0; border-top: 1px solid #dee2e6;">
+
+    <h3>⚠️ Zon Bahaya (Padam Data)</h3>
+    <div class="alert-warning">
+        <small><strong>AMARAN:</strong> Tindakan ini kekal. Pastikan anda sudah memuat turun Backup sebelum memadam data.</small>
+    </div>
+    
+    <div class="action-buttons-grid">
+        <button onclick="handlePadamPeserta()" class="btn-warning">
+            ❌ Padam Peserta Terpilih
+        </button>
+        <button onclick="handlePadamSemua()" class="btn-danger">
+            🗑️ Padam SEMUA Data (Reset Sistem)
+        </button>
+    </div>
+</section>
 
             <section class="card">
                 <h2>3. Senarai Peserta (Kemasukan Pemenang)</h2>
@@ -147,3 +165,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
