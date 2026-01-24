@@ -63,44 +63,57 @@
                 </div>
             </section>
 
-            <section class="card admin-panel-container">
-    <h2>2. Penyelenggaraan Data (Admin)</h2>
+<section class="card">
+                <h2>2. Penyelenggaraan Data (Admin)</h2>
+                
+                <div class="admin-grid">
+                    
+                    <div class="admin-box box-safe">
+                        <h3 class="box-header">💾 Pengurusan Fail</h3>
+                        
+                        <p><strong>Langkah 1: Simpan Data</strong><br>
+                        <small>Muat turun data semasa ke komputer.</small></p>
+                        <button onclick="handleBackupDownload()" class="btn-info" style="width:100%">
+                            📥 Muat Turun Backup (.json)
+                        </button>
 
-    <h3>💾 Simpanan & Backup Data</h3>
-    <p>Sila muat turun data ke komputer anda sebelum melakukan sebarang pemadaman.</p>
-    <div class="action-buttons-grid">
-        <button onclick="handleBackupDownload()" class="btn-info">
-            📥 Muat Turun Backup (Fail JSON)
-        </button>
-    </div>
+                        <div class="divider"></div>
 
-    <hr style="margin: 20px 0; border-top: 1px solid #dee2e6;">
+                        <p><strong>Langkah 2: Pulihkan Data</strong><br>
+                        <small>Muat naik fail .json untuk restore.</small></p>
+                        
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="backup-file-input" accept=".json" style="width:100%; margin-bottom:5px;">
+                            <button onclick="handleRestoreDariFail()" class="btn-success" style="width:100%">
+                                ♻️ Upload & Restore
+                            </button>
+                        </div>
+                    </div>
 
-    <h3>♻️ Pemulihan Data (Restore)</h3>
-    <p>Pilih fail backup (.json) dari komputer anda untuk memulihkan data.</p>
-    <div class="file-upload-wrapper" style="border: 1px solid #ced4da; padding: 10px;">
-        <input type="file" id="backup-file-input" accept=".json">
-        <button onclick="handleRestoreDariFail()" class="btn-success" style="margin-top: 10px;">
-            Muat Naik & Restore Data
-        </button>
-    </div>
+                    <div class="admin-box box-danger">
+                        <h3 class="box-header">⚠️ Zon Bahaya</h3>
+                        
+                        <div class="alert-warning" style="margin-bottom: 15px;">
+                            <small><strong>AMARAN:</strong> Pastikan anda telah memuat turun <strong>Backup</strong> di sebelah kiri sebelum memadam apa-apa data di sini.</small>
+                        </div>
 
-    <hr style="margin: 20px 0; border-top: 1px solid #dee2e6;">
+                        <p><strong>Padam Individu</strong><br>
+                        <small>Padam peserta tertentu sahaja.</small></p>
+                        <button onclick="handlePadamPeserta()" class="btn-warning" style="width:100%">
+                            ❌ Padam Peserta (Individu)
+                        </button>
 
-    <h3>⚠️ Zon Bahaya (Padam Data)</h3>
-    <div class="alert-warning">
-        <small><strong>AMARAN:</strong> Tindakan ini kekal. Pastikan anda sudah memuat turun Backup sebelum memadam data.</small>
-    </div>
-    
-    <div class="action-buttons-grid">
-        <button onclick="handlePadamPeserta()" class="btn-warning">
-            ❌ Padam Peserta Terpilih
-        </button>
-        <button onclick="handlePadamSemua()" class="btn-danger">
-            🗑️ Padam SEMUA Data (Reset Sistem)
-        </button>
-    </div>
-</section>
+                        <div class="divider"></div>
+
+                        <p><strong>Reset Sistem</strong><br>
+                        <small style="color:red;">Memadam SEMUA data dalam sistem.</small></p>
+                        <button onclick="handlePadamSemua()" class="btn-danger" style="width:100%">
+                            🗑️ PADAM SEMUA DATA
+                        </button>
+                    </div>
+
+                </div>
+            </section>
 
             <section class="card">
                 <h2>3. Senarai Peserta (Kemasukan Pemenang)</h2>
@@ -165,4 +178,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
