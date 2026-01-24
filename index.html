@@ -42,7 +42,7 @@
         
         <div class="main-tab-buttons">
             <button id="data-tab-btn" class="main-tab-link active" onclick="openMainTab(event, 'data-tab')">📊 Pengurusan Data</button>
-            <button id="analisis-tab-btn" class="main-tab-link" onclick="openMainTab(event, 'analisis-tab')">📈 Analisis Keputusan</button>
+            <button id="analisis-tab-btn" class="main-tab-link" onclick="openMainTab(event, 'analisis-tab')">📈 Analisis & Cetakan</button>
         </div>
         
         <div id="data-tab" class="main-tab-content active">
@@ -64,23 +64,11 @@
             </section>
 
             <section class="card admin-panel-container">
-                <h2>2. Panel Kawalan Admin (Cetakan & Data)</h2>
-                
-                <h3>🖨️ Pusat Cetakan & Rekod</h3>
-                <div class="action-buttons-grid">
-                    <button onclick="handleCetakKeputusan()" class="btn-info">
-                        📄 Cetak Senarai Penuh
-                    </button>
-                    <button onclick="handleCetakAnalisis()" class="btn-info">
-                        📊 Cetak Analisis Pemenang
-                    </button>
-                </div>
-
-                <hr style="margin: 20px 0; border-top: 1px solid #dee2e6;">
+                <h2>2. Penyelenggaraan Data (Admin)</h2>
 
                 <h3>⚠️ Zon Bahaya & Pemulihan Data</h3>
                 <div class="alert-warning">
-                    <small><strong>Nota:</strong> 'Padam Semua' akan menyimpan satu salinan backup secara automatik sebelum memadam. Gunakan butang 'Restore' untuk mengembalikan data jika tersilap padam.</small>
+                    <small><strong>Nota:</strong> Gunakan fungsi ini untuk membersihkan data atau memulihkan data jika berlaku kesilapan.</small>
                 </div>
                 
                 <div class="action-buttons-grid">
@@ -110,6 +98,20 @@
         </div>
 
         <div id="analisis-tab" class="main-tab-content">
+            
+            <section class="card admin-panel-container" style="border-left: 5px solid #17a2b8;">
+                <h2>🖨️ Pusat Cetakan Laporan</h2>
+                <p>Jana laporan rasmi untuk edaran atau simpanan fail.</p>
+                <div class="action-buttons-grid">
+                    <button onclick="handleCetakKeputusan()" class="btn-info">
+                        📄 Cetak Senarai Penuh Peserta
+                    </button>
+                    <button onclick="handleCetakAnalisis()" class="btn-info">
+                        📊 Cetak Analisis Pemenang & Pasukan
+                    </button>
+                </div>
+            </section>
+
             <section class="card">
                 <h2>Keputusan Rasmi Kejohanan</h2>
                 
