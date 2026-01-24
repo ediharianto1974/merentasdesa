@@ -1,5 +1,5 @@
 /* =========================================
-   STYLE.CSS - MODERN DASHBOARD THEME (UPDATED)
+   STYLE.CSS - MODERN DASHBOARD THEME (FINAL FIXED)
    ========================================= */
 
 /* --- 1. RESET & GLOBAL VARIABLES --- */
@@ -8,7 +8,7 @@
     --primary-hover: #0b5ed7;
     --secondary-color: #6c757d;
     --success-color: #198754;
-    --bg-color: #f0f2f5;      /* Kelabu Lembut untuk latar belakang */
+    --bg-color: #f0f2f5;      /* Kelabu Lembut */
     --card-bg: #ffffff;
     --text-color: #343a40;
     --border-color: #dee2e6;
@@ -30,66 +30,74 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- 2. HEADER & NAVIGATION (DIKEMASKINI) --- */
+/* --- 2. HEADER & NAVIGATION (FIXED LAYOUT) --- */
 header {
-    background: linear-gradient(135deg, var(--primary-color), #0a58ca);
+    background: linear-gradient(to right, #0056b3, #007bff); /* Gradient Biru Moden */
     color: white;
-    padding: 1rem 2rem;
+    padding: 15px 30px;
     box-shadow: var(--shadow-md);
+    
+    /* FLEXBOX SETUP: Memisahkan Teks (Kiri) dan Butang (Kanan) */
     display: flex;
-    justify-content: space-between; /* Jarakkan Teks (Kiri) dan Butang (Kanan) */
+    justify-content: space-between; 
     align-items: center;
+    
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-/* Bekas Teks Tajuk */
-.header-content {
+/* KUMPULAN KIRI (TEKS) */
+.header-left {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    text-align: left;
 }
 
-.header-content h1 {
+.header-left h1 {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-size: 1.4rem;
+    font-weight: 800;
     line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.header-content p {
+.header-left p {
     margin: 0;
     font-size: 0.9rem;
     opacity: 0.9;
     font-weight: 400;
+    color: #e3f2fd;
 }
 
-/* Bekas Butang Kanan */
-.header-actions {
-    flex-shrink: 0;
-    margin-left: 20px;
+/* KUMPULAN KANAN (BUTANG) */
+.header-right {
+    padding-left: 20px;
+    flex-shrink: 0; /* Pastikan butang tidak mengecil */
 }
 
-/* Butang Logout */
+/* STYLE BUTANG LOGOUT */
 #logout-btn {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     color: white;
-    padding: 8px 20px;
+    padding: 8px 16px;
     font-size: 0.9rem;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;
-    display: inline-block; /* Pastikan ia sentiasa dipaparkan jika syarat JS dipenuhi */
+    display: inline-block;
 }
 
 #logout-btn:hover {
-    background-color: white;
-    color: var(--primary-color);
+    background-color: #dc3545; /* Merah bila hover */
+    border-color: #dc3545;
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
 /* --- 3. LAYOUT UTAMA --- */
@@ -100,7 +108,6 @@ main {
     min-height: 80vh;
 }
 
-/* Kad / Seksyen */
 section {
     background-color: var(--card-bg);
     padding: 2rem;
@@ -363,12 +370,25 @@ footer {
         flex-direction: column;
         text-align: center;
         gap: 15px;
-        padding: 1rem;
+        padding: 15px;
     }
 
-    .header-actions {
-        margin-left: 0;
-        width: 100%; /* Butang penuh lebar di mobile jika mahu, atau biarkan auto */
+    .header-left {
+        text-align: center;
+        align-items: center;
+    }
+
+    .header-left h1 {
+        font-size: 1.1rem;
+    }
+
+    .header-right {
+        padding-left: 0;
+        width: 100%;
+    }
+
+    #logout-btn {
+        width: 100%;
     }
 
     .main-tab-buttons {
@@ -395,6 +415,3 @@ footer {
         font-size: 0.85rem;
     }
 }
-
-
-
