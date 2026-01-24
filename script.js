@@ -112,7 +112,6 @@ class Kejohanan {
             // Jika kedudukan/masa berubah, kemas kini analisis di latar belakang sahaja
             if (updateData.kedudukan !== undefined || updateData.masaLarian !== undefined) {
                  // Kita tidak panggil analisisIndividu() di sini untuk elak re-render berat
-                 // Ia akan dikemaskini bila user klik tab Analisis
             }
             
             return true;
@@ -535,6 +534,7 @@ async function handlePadamPeserta() {
     }
 }
 
+// (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
 async function resetSemuaData() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
     if (confirm("❗ AMARAN: Padam SEMUA data?")) {
@@ -696,11 +696,146 @@ function openSubTab(evt, tabName, analysisFunction = null) {
     if (analysisFunction) analysisFunction();
 }
 
-// 4. MULA APLIKASI
+// ==========================================================
+// 4. FUNGSI ADMIN TAMBAHAN (CETAKAN & BACKUP)
+// ==========================================================
+
+// --- FUNGSI CETAKAN ---
+function handleCetakKeputusan() {
+    const kandungan = document.getElementById('result-senarai').innerHTML;
+    cetakTetingkap("KEPUTUSAN PENUH KEJOHANAN", kandungan);
+}
+
+function handleCetakAnalisis() {
+    // Gabungkan analisis individu dan kumpulan
+    const individu = document.getElementById('result-individu').innerHTML;
+    const kumpulan = document.getElementById('result-kumpulan').innerHTML;
+    
+    const kandungan = `
+        <h2>KEPUTUSAN INDIVIDU</h2>
+        ${individu}
+        <div style="page-break-before: always;"></div>
+        <h2>KEPUTUSAN PASUKAN</h2>
+        ${kumpulan}
+    `;
+    cetakTetingkap("ANALISIS RASMI KEJOHANAN", kandungan);
+}
+
+function cetakTetingkap(tajuk, isiKandungan) {
+    const tetingkapCetak = window.open('', '', 'height=800,width=1000');
+    
+    tetingkapCetak.document.write('<html><head><title>' + tajuk + '</title>');
+    // Gaya CSS khusus untuk cetakan supaya jadual cantik
+    tetingkapCetak.document.write(`
+        <style>
+            body { font-family: sans-serif; padding: 20px; }
+            h1, h2 { text-align: center; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+            th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            .rank-1 td { background-color: #ffffcc !important; -webkit-print-color-adjust: exact; }
+        </style>
+    `);
+    tetingkapCetak.document.write('</head><body>');
+    tetingkapCetak.document.write('<h1>' + tajuk + '</h1>');
+    tetingkapCetak.document.write('<p style="text-align:center">Dicetak pada: ' + new Date().toLocaleString() + '</p>');
+    tetingkapCetak.document.write(isiKandungan);
+    tetingkapCetak.document.write('</body></html>');
+    
+    tetingkapCetak.document.close();
+    tetingkapCetak.print();
+}
+
+// --- FUNGSI BACKUP & RESTORE ---
+
+async function handleBackupDanPadam() {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+    
+    const sahkan = confirm("⚠️ ADKAH ANDA PASTI?\n\nSemua data peserta semasa akan dipadam dari paparan utama.\nSatu salinan backup akan dibuat sebelum pemadaman.");
+    
+    if (!sahkan) return;
+
+    try {
+        // 1. Baca semua data semasa
+        const snapshot = await db.collection('peserta').get();
+        
+        if (snapshot.empty) {
+            alert("Tiada data untuk dipadam.");
+            return;
+        }
+
+        const batch = db.batch();
+
+        // 2. Pindahkan ke koleksi 'backup_peserta' (Overwrite backup lama)
+        // Mula-mula padam backup lama dulu (optional, tapi baik untuk kebersihan)
+        const oldBackup = await db.collection('backup_peserta').get();
+        oldBackup.forEach(doc => batch.delete(doc.ref));
+
+        // 3. Salin data ke backup dan Padam dari 'peserta'
+        snapshot.docs.forEach(doc => {
+            const data = doc.data();
+            const backupRef = db.collection('backup_peserta').doc(doc.id);
+            const originalRef = db.collection('peserta').doc(doc.id);
+
+            batch.set(backupRef, data); // Simpan ke backup
+            batch.delete(originalRef);  // Padam dari main
+        });
+
+        await batch.commit();
+        
+        // Reset local array
+        kejohanan.senaraiPeserta = [];
+        paparSemuaPeserta();
+        document.getElementById('result-individu').innerHTML = "";
+        document.getElementById('result-kumpulan').innerHTML = "";
+
+        alert("✅ Data berjaya dipadam. Backup telah disimpan.");
+
+    } catch (error) {
+        console.error(error);
+        alert("❌ Ralat semasa proses backup & padam: " + error.message);
+    }
+}
+
+async function handleRestoreData() {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+
+    if (!confirm("♻️ Anda mahu kembalikan data dari Backup terakhir? Data semasa (jika ada) akan digabungkan/ditimpa.")) return;
+
+    try {
+        const backupSnapshot = await db.collection('backup_peserta').get();
+
+        if (backupSnapshot.empty) {
+            alert("❌ Tiada data backup dijumpai.");
+            return;
+        }
+
+        const batch = db.batch();
+
+        backupSnapshot.docs.forEach(doc => {
+            const data = doc.data();
+            const mainRef = db.collection('peserta').doc(doc.id);
+            batch.set(mainRef, data);
+        });
+
+        await batch.commit();
+        
+        alert("✅ Data berjaya dipulihkan (Restore)!");
+        location.reload(); // Reload page untuk muat semula data
+
+    } catch (error) {
+        console.error(error);
+        alert("❌ Ralat Restore: " + error.message);
+    }
+}
+
+// ==========================================================
+// 5. MULA APLIKASI
+// ==========================================================
 document.addEventListener("DOMContentLoaded", () => {
     auth.onAuthStateChanged(initializeApplicationView);
 
-    // 2. SAMBUNGKAN BUTANG LOGOUT (Ini yang anda tertinggal)
+    // 2. SAMBUNGKAN BUTANG LOGOUT
     const btnLogout = document.getElementById('logout-btn');
     if (btnLogout) {
         btnLogout.addEventListener('click', handleLogout);
@@ -718,4 +853,3 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginContainer = document.getElementById('login-container');
     if (loginContainer) loginContainer.style.display = 'block';
 });
-
