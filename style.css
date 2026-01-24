@@ -1,321 +1,401 @@
-/* style.css */
+/* =========================================
+   STYLE.CSS - MODERN DASHBOARD THEME
+   ========================================= */
 
-/* --- Tatanan Asas & Reset --- */
+/* --- 1. RESET & GLOBAL VARIABLES --- */
+:root {
+    --primary-color: #0d6efd; /* Biru Profesional */
+    --primary-hover: #0b5ed7;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --bg-color: #f0f2f5;      /* Kelabu Lembut untuk latar belakang */
+    --card-bg: #ffffff;
+    --text-color: #343a40;
+    --border-color: #dee2e6;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+* {
+    box-sizing: border-box; /* Penting untuk layout kemas */
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f6;
-    color: #333;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* GAYA HEADER DENGAN GAMBAR bgheader.png */
+/* --- 2. HEADER & NAVIGATION --- */
 header {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('bgheader.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
+    background: linear-gradient(135deg, var(--primary-color), #0a58ca);
     color: white;
-    padding: 30px 20px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    
+    padding: 1.5rem 2rem;
+    box-shadow: var(--shadow-md);
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
-    min-height: 200px; /* Tinggi minimum untuk memastikan header kelihatan baik */
-}
-
-/* Overlay untuk memastikan teks boleh dibaca dengan baik */
-header::before {
-    content: '';
-    position: absolute;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3); /* Overlay lebih ringan untuk gambar asal kelihatan */
-    z-index: 1;
+    z-index: 1000;
 }
 
-/* Pastikan semua kandungan dalam header berada di atas overlay */
-header > * {
-    position: relative;
-    z-index: 2;
-}
-
-header h1 {
+.header-content h1 {
     margin: 0;
-    font-size: 2em;
-    width: 100%;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-header p {
-    margin-top: 5px;
-    font-style: italic;
-    opacity: 0.9;
-    width: 100%;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+.header-content p {
+    margin: 5px 0 0 0;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    font-weight: 300;
 }
 
-/* GAYA UTAMA UNTUK BUTANG LOG KELUAR */
+/* Butang Logout di Header */
 #logout-btn {
-    display: block !important;
-    margin: 10px 20px 0 auto;
-    align-self: flex-end;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    position: relative; /* Pastikan butang berada di atas overlay */
-    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
+#logout-btn:hover {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+/* --- 3. LAYOUT UTAMA --- */
 main {
     max-width: 1200px;
-    margin: 30px auto;
-    padding: 20px;
+    margin: 2rem auto;
+    padding: 0 20px;
+    min-height: 80vh;
 }
 
-/* --- Seksyen & Kad --- */
+/* Kad / Seksyen */
 section {
-    background-color: white;
-    padding: 25px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: var(--card-bg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 }
 
-/* --- Borang & Input --- */
+h2, h3, h4 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+/* --- 4. FORMS & INPUTS --- */
 form label {
-    display: inline-block;
-    margin-top: 10px;
-    font-weight: bold;
-    width: 150px;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.95rem;
 }
 
 form input[type="text"], 
-form input[type="number"], 
-form select {
-    width: calc(100% - 170px);
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-form button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-form button:hover {
-    background-color: #218838;
-}
-
-/* --- Jadual --- */
-.result-area table {
+form input[type="number"],
+form input[type="password"],
+form input[type="email"],
+form select,
+#filterInput {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.result-area th, .result-area td {
-    border: 1px solid #ddd;
-    padding: 12px 8px;
-    text-align: left;
+/* Efek Fokus Input */
+form input:focus, select:focus, #filterInput:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
 }
 
-.result-area th {
-    background-color: #e9ecef;
-    font-weight: bold;
-    color: #333;
-    text-transform: uppercase;
-    font-size: 0.85em;
+/* Butang Utama */
+button, .btn {
+    background-color: var(--success-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: transform 0.1s, background-color 0.2s;
+    display: inline-block;
 }
 
-.result-area tr:nth-child(even) {
-    background-color: #f8f8f8;
+button:hover {
+    background-color: #157347;
+    transform: translateY(-1px);
 }
 
-/* --- Gaya RANKING (Kumpulan Sahaja) --- */
-tr.rank-1 {
-    background-color: #ffdf00 !important; /* Emas */
-    font-weight: bold;
+button:active {
+    transform: translateY(1px);
 }
 
-tr.rank-2 {
-    background-color: #c0c0c0 !important; /* Perak */
-    font-weight: bold;
+/* Input File CSV Wrapper */
+.file-upload-wrapper {
+    background: #f8f9fa;
+    padding: 15px;
+    border: 2px dashed #ced4da;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-tr.rank-3 {
-    background-color: #cd7f32 !important; /* Gangsa */
-    font-weight: bold;
-}
+/* --- 5. TAB NAVIGASI (MODEN) --- */
 
-/* --- Butang Navigasi Tab Utama (main-tab) --- */
+/* Tab Utama (Atas) */
 .main-tab-buttons {
     display: flex;
-    border-bottom: 3px solid #007bff;
+    gap: 10px;
     margin-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
 }
 
 .main-tab-link {
-    background-color: #e9ecef;
-    color: #333;
+    background-color: transparent;
+    color: var(--secondary-color);
     border: none;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    padding: 12px 20px;
-    transition: background-color 0.3s;
-    font-size: 18px;
-    margin-top: 0;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
     border-radius: 6px 6px 0 0;
-    margin-right: 10px;
-    font-weight: bold;
+    margin: 0;
 }
 
 .main-tab-link:hover {
-    background-color: #ddd;
-}
-
-/* Kelas untuk menyembunyikan tab Pendaftaran bagi pengguna biasa */
-.hidden-tab {
-    display: none !important;
+    color: var(--primary-color);
+    background-color: rgba(13, 110, 253, 0.05);
 }
 
 .main-tab-link.active {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background-color: transparent;
 }
 
-.main-tab-content {
-    display: none;
-    padding: 15px 0;
-}
-
-.main-tab-content.active {
-    display: block;
-}
-
-/* --- Gaya NAVIGASI SUB-TAB (sub-tab) --- */
-.tab-container {
-    padding: 1px;
-}
-
+/* Sub Tabs (Kapsul/Pill Style) */
 .tab-buttons {
-    overflow: hidden;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .sub-tab-link {
-    background-color: #ffc107;
-    color: #333;
-    float: left;
+    background-color: #e9ecef;
+    color: #495057;
     border: none;
-    outline: none;
+    padding: 8px 16px;
+    border-radius: 50px; /* Bentuk Pill */
+    font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    padding: 10px 15px;
-    transition: background-color 0.3s;
-    margin-right: 5px;
-    border-radius: 4px 4px 0 0;
+    transition: all 0.2s;
+    margin: 0; /* Reset float margin */
 }
 
 .sub-tab-link:hover {
-    background-color: #ff9800;
+    background-color: #dee2e6;
 }
 
 .sub-tab-link.active {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
 }
 
-.sub-tab-content {
-    display: none;
-    padding: 15px 0 0 0;
-    border-top: none;
+.hidden-tab { display: none !important; }
+.main-tab-content, .sub-tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+.main-tab-content.active, .sub-tab-content.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Lain-lain --- */
+/* --- 6. JADUAL (TABLES) --- */
+.result-area {
+    overflow-x: auto; /* Scroll melintang untuk skrin kecil */
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px var(--border-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Sticky Header */
+th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Supaya header sentiasa di atas */
+}
+
+tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* Gaya Sel yang boleh diedit (Admin) */
+.edit-cell {
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.edit-cell:hover {
+    background-color: #e8f0fe; /* Biru sangat muda bila hover */
+    box-shadow: inset 0 0 0 1px var(--primary-color);
+}
+
+/* Masukkan icon pensil kecil secara CSS (opsyenal visual cue) */
+.edit-cell:hover::after {
+    content: '✎';
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    opacity: 0.7;
+}
+
+/* --- 7. RANKING COLORS (Pingat) --- */
+tr.rank-1 td {
+    background-color: #fff9c4 !important; /* Kuning Emas Lembut */
+    color: #856404;
+    font-weight: bold;
+    border-bottom: 1px solid #ffeeba;
+}
+tr.rank-1 td:first-child { border-left: 4px solid #ffc107; }
+
+tr.rank-2 td {
+    background-color: #f8f9fa !important; /* Perak/Kelabu Lembut */
+    color: #343a40;
+    font-weight: bold;
+    border-bottom: 1px solid #dee2e6;
+}
+tr.rank-2 td:first-child { border-left: 4px solid #adb5bd; }
+
+tr.rank-3 td {
+    background-color: #fff0e6 !important; /* Gangsa/Oren Lembut */
+    color: #a84a04;
+    font-weight: bold;
+    border-bottom: 1px solid #ffe0d1;
+}
+tr.rank-3 td:first-child { border-left: 4px solid #fd7e14; }
+
+/* --- 8. LOGIN PAGE --- */
 #login-container {
     max-width: 400px;
-    margin: 100px auto;
-    padding: 30px;
+    margin: 80px auto;
+    padding: 40px;
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
 #login-container h2 {
-    text-align: center;
-    color: #007bff;
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
-#login-form input[type="email"], 
-#login-form input[type="password"] {
+#login-container button {
     width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    box-sizing: border-box;
+    background-color: var(--primary-color);
+    margin-top: 10px;
+    padding: 12px;
 }
 
-#login-form button {
-    width: 100%;
-    background-color: #007bff;
+#login-container button:hover {
+    background-color: var(--primary-hover);
 }
 
+#login-status {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    min-height: 20px;
+}
+
+/* --- 9. FOOTER --- */
 footer {
     text-align: center;
-    padding: 15px;
-    background-color: #e9ecef;
-    color: #666;
-    margin-top: 20px;
-    border-top: 1px solid #ddd;
+    padding: 2rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: auto; /* Tolak ke bawah */
 }
 
-#filterInput {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Responsif untuk peranti mudah alih */
+/* --- RESPONSIVE MOBILE --- */
 @media (max-width: 768px) {
     header {
-        padding: 20px 15px;
-        min-height: 150px;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
     }
-    
-    header h1 {
-        font-size: 1.5em;
-    }
-    
+
     .main-tab-buttons {
         flex-direction: column;
+        border-bottom: none;
     }
     
     .main-tab-link {
-        margin-right: 0;
+        border-radius: 6px;
         margin-bottom: 5px;
-        border-radius: 4px;
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
+    
+    .main-tab-link.active {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+    
+    .result-area th, .result-area td {
+        padding: 8px 10px;
+        font-size: 0.85rem;
     }
 }
