@@ -64,7 +64,6 @@ header {
     font-size: 0.9rem;
     opacity: 0.9;
     font-weight: 400;
-    text-align: center;
 }
 
 /* Bekas Butang Kanan */
@@ -396,5 +395,6 @@ footer {
         font-size: 0.85rem;
     }
 }
+
 
 
