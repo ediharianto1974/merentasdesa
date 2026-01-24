@@ -95,6 +95,7 @@ header {
     transition: all 0.3s ease;
     white-space: nowrap;
     pointer-events: auto; /* Aktifkan semula klik */
+    display: inline-block;
 }
 
 #logout-btn:hover {
@@ -105,7 +106,7 @@ header {
 }
 
 /* --- RESPONSIVE (MOBILE) --- */
-/* Bila skrin kecil, kita batalkan 'absolute center' supaya tak bertindih */
+/* Bila skrin kecil (Tablet/Phone), kita batalkan 'absolute center' supaya tak bertindih */
 @media (max-width: 900px) {
     header {
         flex-direction: column; /* Susun atas bawah */
@@ -115,11 +116,13 @@ header {
         min-height: auto;
     }
 
+    /* PENTING: Gunakan class .header-center (bukan .header-left) */
     .header-center {
         position: static; /* Hilangkan absolute positioning */
         transform: none;
         width: 100%;
         margin-bottom: 10px;
+        pointer-events: auto;
     }
     
     .header-center h1 {
@@ -135,6 +138,26 @@ header {
     #logout-btn {
         width: 100%;
         max-width: 200px;
+    }
+
+    /* Tab juga perlu disesuaikan di mobile */
+    .main-tab-buttons {
+        flex-direction: column;
+        border-bottom: none;
+    }
+    
+    .main-tab-link {
+        border-radius: 6px;
+        margin-bottom: 5px;
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
+    
+    .main-tab-link.active {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
     }
 }
 
@@ -401,56 +424,3 @@ footer {
     font-size: 0.9rem;
     margin-top: auto;
 }
-
-/* --- RESPONSIVE MOBILE --- */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-        padding: 15px;
-    }
-
-    .header-left {
-        text-align: center;
-        align-items: center;
-    }
-
-    .header-left h1 {
-        font-size: 1.1rem;
-    }
-
-    .header-right {
-        padding-left: 0;
-        width: 100%;
-    }
-
-    #logout-btn {
-        width: 100%;
-    }
-
-    .main-tab-buttons {
-        flex-direction: column;
-        border-bottom: none;
-    }
-    
-    .main-tab-link {
-        border-radius: 6px;
-        margin-bottom: 5px;
-        text-align: center;
-        background-color: #fff;
-        border: 1px solid #dee2e6;
-    }
-    
-    .main-tab-link.active {
-        background-color: var(--primary-color);
-        color: white;
-        border-color: var(--primary-color);
-    }
-    
-    .result-area th, .result-area td {
-        padding: 8px 10px;
-        font-size: 0.85rem;
-    }
-}
-
