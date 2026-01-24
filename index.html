@@ -11,16 +11,16 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-<header>
-    <div class="header-center">
-        <h1>🏆 KEJOHANAN MERENTAS DESA PENDIDIKAN KHAS (KMDPK) 🏃‍♂️</h1>
-        <p>Sistem Keputusan & Statistik Rasmi | Peringkat Negeri Sarawak 2026</p>
-    </div>
 
-    <div class="header-right">
-        <button id="logout-btn" onclick="handleLogout()">Log Keluar</button>
-    </div>
-</header>
+    <header>
+        <div class="header-center">
+            <h1>🏆 KEJOHANAN MERENTAS DESA PENDIDIKAN KHAS (KMDPK) 🏃‍♂️</h1>
+            <p>Sistem Keputusan & Statistik Rasmi | Peringkat Negeri Sarawak 2026</p>
+        </div>
+        <div class="header-right">
+            <button id="logout-btn">Log Keluar</button>
+        </div>
+    </header>
 
     <div id="login-container" class="container">
         <h2>Akses Urus Setia</h2>
@@ -39,6 +39,7 @@
     </div>
 
     <main style="display: none;">
+        
         <div class="main-tab-buttons">
             <button id="data-tab-btn" class="main-tab-link active" onclick="openMainTab(event, 'data-tab')">📊 Pengurusan Data</button>
             <button id="analisis-tab-btn" class="main-tab-link" onclick="openMainTab(event, 'analisis-tab')">📈 Analisis Keputusan</button>
@@ -47,31 +48,56 @@
         <div id="data-tab" class="main-tab-content active">
             
             <section class="card">
-                <h2>1. Muat Naik & Urus Peserta</h2>
-                
+                <h2>1. Pendaftaran & Muat Naik Data</h2>
                 <div class="upload-section">
                     <h3>Import Fail CSV</h3>
                     <div class="alert-info">
                         <strong>Format CSV Diperlukan:</strong><br>
                         NoBadan, NamaPenuh, Jantina(L/P), Kategori(L17/P17), Pasukan/Sekolah
                     </div>
-                    <input type="file" id="csv-input" accept=".csv">
-                    <button onclick="handleMuatNaikCSV()" class="btn-success">Muat Naik & Daftar</button>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="csv-input" accept=".csv">
+                        <button onclick="handleMuatNaikCSV()" class="btn-success">Muat Naik & Daftar</button>
+                    </div>
                     <p id="csv-status" class="status-msg"></p>
                 </div>
+            </section>
+
+            <section class="card admin-panel-container">
+                <h2>2. Panel Kawalan Admin (Cetakan & Data)</h2>
                 
-                <hr>
+                <h3>🖨️ Pusat Cetakan & Rekod</h3>
+                <div class="action-buttons-grid">
+                    <button onclick="handleCetakKeputusan()" class="btn-info">
+                        📄 Cetak Senarai Penuh
+                    </button>
+                    <button onclick="handleCetakAnalisis()" class="btn-info">
+                        📊 Cetak Analisis Pemenang
+                    </button>
+                </div>
+
+                <hr style="margin: 20px 0; border-top: 1px solid #dee2e6;">
+
+                <h3>⚠️ Zon Bahaya & Pemulihan Data</h3>
+                <div class="alert-warning">
+                    <small><strong>Nota:</strong> 'Padam Semua' akan menyimpan satu salinan backup secara automatik sebelum memadam. Gunakan butang 'Restore' untuk mengembalikan data jika tersilap padam.</small>
+                </div>
                 
-                <div class="admin-danger-zone">
-                    <h3>Zon Bahaya (Admin Sahaja)</h3>
-                    <p class="text-muted">Fungsi ini akan memadam data kekal. Sila berhati-hati.</p>
-                    <button onclick="handlePadamPeserta()" class="btn-warning">Padam Peserta Terpilih</button>
-                    <button onclick="resetSemuaData()" class="btn-danger">RESET SEMUA DATA SISTEM</button>
+                <div class="action-buttons-grid">
+                    <button onclick="handlePadamPeserta()" class="btn-warning">
+                        ❌ Padam Peserta (Individu)
+                    </button>
+                    <button onclick="handleBackupDanPadam()" class="btn-danger">
+                        🗑️ Padam SEMUA Data (Auto-Backup)
+                    </button>
+                    <button onclick="handleRestoreData()" class="btn-success">
+                        ♻️ Restore Data Terakhir
+                    </button>
                 </div>
             </section>
 
             <section class="card">
-                <h2>2. Senarai Peserta (Kemasukan Pemenang)</h2>
+                <h2>3. Senarai Peserta (Kemasukan Pemenang)</h2>
                 <p>Cari peserta dan masukkan nombor <strong>KEDUDUKAN</strong> dalam kotak yang disediakan.</p>
                 <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="🔍 Cari Nama atau No Badan...">
                 
@@ -119,6 +145,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
