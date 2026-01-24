@@ -9,89 +9,100 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    
 </head>
 <body>
     <header>
-        <h1>🏆 KEJOHANAN MERENTAS DESA PENDIDIKAN KHAS (KMDPK)🏃‍♂️</h1>
-        <p> Keputusan dan Statistik</p>
+        <h1>🏆 KEJOHANAN MERENTAS DESA PENDIDIKAN KHAS (KMDPK) 🏃‍♂️</h1>
+        <p>Sistem Keputusan & Statistik Rasmi</p>
         <p>Peringkat Negeri Sarawak 2026</p>
-        <button id="logout-btn" onclick="handleLogout()" style="display: none; background-color: #ffc107; color: #333; padding: 5px 10px;">
+        <button id="logout-btn" style="display: none;" class="btn-warning">
             Log Keluar
         </button>
     </header>
 
-    <div id="login-container">
-        <h2>Access Login</h2>
+    <div id="login-container" class="container">
+        <h2>Akses Urus Setia</h2>
         <form id="login-form">
-            <label for="login-email">Email:</label>
-            <input type="email" id="login-email" required><br>
-            <label for="login-password">Password:</label>
-            <input type="password" id="login-password" required><br>
-            <button type="submit">Login</button>
-            <p id="login-status" style="color: red; margin-top: 10px;"></p>
+            <div class="form-group">
+                <label for="login-email">Emel:</label>
+                <input type="email" id="login-email" required placeholder="nama@sekolah.com">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Kata Laluan:</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn-primary">Log Masuk</button>
+            <p id="login-status" class="status-msg error"></p>
         </form>
     </div>
 
     <main style="display: none;">
         <div class="main-tab-buttons">
-            <button id="data-tab-btn" class="main-tab-link active" onclick="openMainTab(event, 'data-tab')">📊 Data Management</button>
-            <button id="analisis-tab-btn" class="main-tab-link" onclick="openMainTab(event, 'analisis-tab')">📈 Results Analysis</button>
+            <button id="data-tab-btn" class="main-tab-link active" onclick="openMainTab(event, 'data-tab')">📊 Pengurusan Data</button>
+            <button id="analisis-tab-btn" class="main-tab-link" onclick="openMainTab(event, 'analisis-tab')">📈 Analisis Keputusan</button>
         </div>
         
         <div id="data-tab" class="main-tab-content active">
             
             <section class="card">
-                <h2>1. Upload & Manage Participant Data</h2>
+                <h2>1. Muat Naik & Urus Peserta</h2>
                 
-                <h3>Upload File</h3>
-                <p><strong>Format CSV (Use the header provided):</strong> NoBadan, NamaPenuh, Jantina(L/P), Kategori(L17), Pasukan/Sekolah</p>
-                <input type="file" id="csv-input" accept=".csv">
-                <button onclick="handleMuatNaikCSV()">Upload and Register</button>
-                <p id="csv-status"></p>
+                <div class="upload-section">
+                    <h3>Import Fail CSV</h3>
+                    <div class="alert-info">
+                        <strong>Format CSV Diperlukan:</strong><br>
+                        NoBadan, NamaPenuh, Jantina(L/P), Kategori(L17/P17), Pasukan/Sekolah
+                    </div>
+                    <input type="file" id="csv-input" accept=".csv">
+                    <button onclick="handleMuatNaikCSV()" class="btn-success">Muat Naik & Daftar</button>
+                    <p id="csv-status" class="status-msg"></p>
+                </div>
                 
                 <hr>
                 
-                <h3>Delete / Reset (Admin)</h3>
-                <p style="color: #6c757d;">This function is only for clearing application data. Data must be re-uploaded if deleted.</p>
-                <button onclick="handlePadamPeserta()" style="background-color: #ff9800;">Delete Individual Participant</button>
-                <button onclick="resetSemuaData()" style="background-color: #f44336;">RESET ALL DATA</button>
+                <div class="admin-danger-zone">
+                    <h3>Zon Bahaya (Admin Sahaja)</h3>
+                    <p class="text-muted">Fungsi ini akan memadam data kekal. Sila berhati-hati.</p>
+                    <button onclick="handlePadamPeserta()" class="btn-warning">Padam Peserta Terpilih</button>
+                    <button onclick="resetSemuaData()" class="btn-danger">RESET SEMUA DATA SISTEM</button>
+                </div>
             </section>
 
             <section class="card">
-                <h2>2. Participants List (Ranking Entry)</h2>
-                <p>Click and edit directly in the KEDUDUKAN (RANK) field to record the Results (Overall Rank)..</p>
-                <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="FIND">
-                <div id="result-senarai" class="result-area">
-                    <p>Participants List will be display HERE.</p>
+                <h2>2. Senarai Peserta (Kemasukan Pemenang)</h2>
+                <p>Cari peserta dan masukkan nombor <strong>KEDUDUKAN</strong> dalam kotak yang disediakan.</p>
+                <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="🔍 Cari Nama atau No Badan...">
+                
+                <div class="table-responsive">
+                    <div id="result-senarai" class="result-area">
+                        <p class="text-center">Senarai peserta akan dipaparkan di sini...</p>
+                    </div>
                 </div>
             </section>
         </div>
 
         <div id="analisis-tab" class="main-tab-content">
             <section class="card">
-                <h2>Championship Result</h2>
+                <h2>Keputusan Rasmi Kejohanan</h2>
                 
                 <div class="tab-container">
                     <div class="tab-buttons">
-                        <button class="sub-tab-link active" onclick="openSubTab(event, 'individu-tab', analisisIndividu)">🏅 Individual Ranking</button>
-                        <button class="sub-tab-link" onclick="openSubTab(event, 'kumpulan-tab', analisisKumpulan)">🏛️ Group Winner</button>
+                        <button class="sub-tab-link active" onclick="openSubTab(event, 'individu-tab', analisisIndividu)">🏅 Individu</button>
+                        <button class="sub-tab-link" onclick="openSubTab(event, 'kumpulan-tab', analisisKumpulan)">🏛️ Pasukan Terbaik</button>
                     </div>
 
                     <div id="individu-tab" class="sub-tab-content active">
-                        <h3>Individual Ranking (Category Based)</h3>
-                        <p>Analysis show Ranking Placing Based on Category for each participant.</p>
-                        <div id="result-individu" class="result-area">
-                            <p>Individual Result Analysis will be shown HERE.</p>
-                        </div>
+                        <h3>Ranking Individu (Mengikut Kategori)</h3>
+                        <p>Paparan pemenang mengikut kategori umur dan jantina.</p>
+                        <div id="result-individu" class="result-area"></div>
                     </div>
 
                     <div id="kumpulan-tab" class="sub-tab-content">
-                        <h3>Group Winner (Accumulated Category Score)</h3>
-                        <p>Team scores are calculated based on the total of the individual Age Category Ranks for the top 4 participants. The lowest score is counted as the winner. The Rank of the 5th participant serves as the Tie-Breaker..</p>
-                        <div id="result-kumpulan" class="result-area">
-                            <p>Group Result Analysis will be shown HERE.</p>
+                        <h3>Johan Keseluruhan (Sistem Mata)</h3>
+                        <div class="alert-info">
+                            <small>Pengiraan: Jumlah mata kedudukan 4 peserta terbaik. Pemenang ke-5 sebagai penentu seri (Tie-Breaker).</small>
                         </div>
+                        <div id="result-kumpulan" class="result-area"></div>
                     </div>
                 </div>
             </section>
@@ -100,13 +111,9 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Aplikasi Kejohanan Merentas Desa / Copyright © BayuUtara. All rights reserved.</p>
+        <p>&copy; 2026 Aplikasi Kejohanan Merentas Desa | Hak Cipta Terpelihara BayuUtara.</p>
     </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
