@@ -699,4 +699,23 @@ function openSubTab(evt, tabName, analysisFunction = null) {
 // 4. MULA APLIKASI
 document.addEventListener("DOMContentLoaded", () => {
     auth.onAuthStateChanged(initializeApplicationView);
+
+    // 2. SAMBUNGKAN BUTANG LOGOUT (Ini yang anda tertinggal)
+    const btnLogout = document.getElementById('logout-btn');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', handleLogout);
+    }
+
+    // 3. Sembunyikan paparan sementara menunggu loading
+    const mainContent = document.querySelector('main');
+    const footer = document.querySelector('footer');
+    
+    if (mainContent) mainContent.style.display = 'none';
+    if (footer) footer.style.display = 'none';
+    if (btnLogout) btnLogout.style.display = 'none'; // Sembunyi butang logout jika belum login
+    
+    // Tunjuk form login
+    const loginContainer = document.getElementById('login-container');
+    if (loginContainer) loginContainer.style.display = 'block';
 });
+
