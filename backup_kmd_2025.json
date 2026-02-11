@@ -1,0 +1,3494 @@
+[
+  {
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "NG: SK NANGAR",
+    "namaPenuh": "WAFRI QHAUSAR BIN ABDUL LATIP",
+    "kedudukan": 10,
+    "noBadan": "AA 061",
+    "masaLarian": 18.39
+  },
+  {
+    "sekolahKelas": "NG: SK NANGAR",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "AA 062",
+    "namaPenuh": "MUHAMAD ADAM FAHMI BIN MOHAMAD BOKHRI",
+    "kedudukan": 94,
+    "jantina": "L"
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 92,
+    "kategoriUmur": "L11",
+    "noBadan": "AA 063",
+    "jantina": "L",
+    "namaPenuh": "MOHAMAD RAIHIL RAZZIE BIN MOHAMAD RIDZUAN",
+    "sekolahKelas": "NG: SK NANGAR"
+  },
+  {
+    "namaPenuh": "FARIS AMMAR BIN ABDUL GHAFAR",
+    "noBadan": "AA 064",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "jantina": "L",
+    "sekolahKelas": "NG: SK NANGAR",
+    "kedudukan": 134
+  },
+  {
+    "namaPenuh": "MOHAMAD ARFAN NAUFAL BIN ABDULLAH",
+    "masaLarian": null,
+    "noBadan": "AA 065",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "kedudukan": 133,
+    "sekolahKelas": "NG: SK NANGAR"
+  },
+  {
+    "kedudukan": 8,
+    "kategoriUmur": "P11",
+    "namaPenuh": "ALYAA MAISARAH BINTI SHAHRIZAN",
+    "jantina": "P",
+    "sekolahKelas": "NG: SK NANGAR",
+    "masaLarian": 23.04,
+    "noBadan": "AA 066"
+  },
+  {
+    "masaLarian": null,
+    "namaPenuh": "NUR QALISHA BINTI BOLHAN",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "noBadan": "AA 067",
+    "sekolahKelas": "NG: SK NANGAR",
+    "kedudukan": 96
+  },
+  {
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "namaPenuh": "NURUL DAYANA BINTI ROSLAN",
+    "kedudukan": 109,
+    "masaLarian": null,
+    "sekolahKelas": "NG: SK NANGAR",
+    "noBadan": "AA 068"
+  },
+  {
+    "noBadan": "AA 069",
+    "kedudukan": 63,
+    "jantina": "P",
+    "namaPenuh": "NUR ALESHA ZAHRA BINTI MOHAMAD",
+    "sekolahKelas": "NG: SK NANGAR",
+    "kategoriUmur": "P11",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "NG: SK NANGAR",
+    "jantina": "P",
+    "namaPenuh": "NUR ALYA QAISARA BINTI ABDUL HAFIZ",
+    "kedudukan": 86,
+    "noBadan": "AA 070",
+    "kategoriUmur": "P11",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "ABY: SK ABANG BUYUK",
+    "kedudukan": 111,
+    "noBadan": "B 011",
+    "masaLarian": null,
+    "namaPenuh": "RAZIN FAIQ ANAQI BIN HASSIM",
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kedudukan": 86,
+    "kategoriUmur": "L11",
+    "namaPenuh": "RAYYAZ FAYYADH ANAQI BIN HASSIM",
+    "noBadan": "B 012",
+    "masaLarian": null,
+    "jantina": "L",
+    "sekolahKelas": "ABY: SK ABANG BUYUK"
+  },
+  {
+    "noBadan": "B 013",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "ABY: SK ABANG BUYUK",
+    "kedudukan": 85,
+    "masaLarian": null,
+    "namaPenuh": "MUHAMAD AFFIQ HAKIMI BIN ABDUL MUTALIP"
+  },
+  {
+    "kedudukan": 112,
+    "noBadan": "B 014",
+    "masaLarian": null,
+    "namaPenuh": "IZRIQ FIZZO BIN MOHAMMAD AZNIF",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "ABY: SK ABANG BUYUK"
+  },
+  {
+    "kedudukan": 113,
+    "namaPenuh": "MUHAMMAD AZIZUL BIN FARID",
+    "masaLarian": null,
+    "noBadan": "B 015",
+    "sekolahKelas": "ABY: SK ABANG BUYUK",
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "sekolahKelas": "ABY: SK ABANG BUYUK",
+    "masaLarian": null,
+    "noBadan": "B 016",
+    "kategoriUmur": "P11",
+    "namaPenuh": "AYSHA AMRA BINTI MOHAMMAD AIZUL AFIZAN",
+    "kedudukan": 19,
+    "jantina": "P"
+  },
+  {
+    "namaPenuh": "NUR AINA NATASHA BINTI MOHAMAD SALIMI",
+    "sekolahKelas": "ABY: SK ABANG BUYUK",
+    "noBadan": "B 017",
+    "kedudukan": 129,
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "jantina": "P"
+  },
+  {
+    "jantina": "P",
+    "sekolahKelas": "ABY: SK ABANG BUYUK",
+    "kategoriUmur": "P11",
+    "kedudukan": 99,
+    "noBadan": "B 018",
+    "masaLarian": null,
+    "namaPenuh": "QALIDYA BADRISYA BINTI MOHAMAD SAPUAN"
+  },
+  {
+    "kategoriUmur": "P11",
+    "kedudukan": 126,
+    "jantina": "P",
+    "namaPenuh": "STEFENUS REMENAI ANAK MICHAEL",
+    "masaLarian": null,
+    "noBadan": "B 019",
+    "sekolahKelas": "ABY: SK ABANG BUYUK"
+  },
+  {
+    "noBadan": "B 020",
+    "jantina": "P",
+    "masaLarian": null,
+    "sekolahKelas": "ABY: SK ABANG BUYUK",
+    "namaPenuh": "NUR QAISARA INSYIRAH BINTI MULIADI",
+    "kategoriUmur": "P11",
+    "kedudukan": 17
+  },
+  {
+    "namaPenuh": "MUHAMMAD HARITH IQBAL BIN ABDULLAH",
+    "jantina": "L",
+    "kedudukan": 37,
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "noBadan": "BB071",
+    "sekolahKelas": "MP: SK O.K. MUDA PAKERI PALOH"
+  },
+  {
+    "noBadan": "BB072",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "MP: SK O.K. MUDA PAKERI PALOH",
+    "masaLarian": null,
+    "kedudukan": 61,
+    "namaPenuh": "AMIRUDDIN BIN ABDUL MANA"
+  },
+  {
+    "noBadan": "BB073",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "jantina": "L",
+    "kedudukan": 70,
+    "namaPenuh": "MOHAMMAD ALIF ASHRAF BIN BOLGANI",
+    "sekolahKelas": "MP: SK O.K. MUDA PAKERI PALOH"
+  },
+  {
+    "namaPenuh": "MUHAMMAD SYUKRI BIN HUSSAIN",
+    "sekolahKelas": "MP: SK O.K. MUDA PAKERI PALOH",
+    "noBadan": "BB074",
+    "kedudukan": 79,
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "MP: SK O.K. MUDA PAKERI PALOH",
+    "noBadan": "BB076",
+    "namaPenuh": "NUR NAYLA SAFIYYA BINTI ASRE",
+    "kedudukan": 49,
+    "masaLarian": null,
+    "jantina": "P",
+    "kategoriUmur": "P11"
+  },
+  {
+    "noBadan": "BB077",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "MP: SK O.K. MUDA PAKERI PALOH",
+    "masaLarian": null,
+    "namaPenuh": "SOFFIYA ARMANI BINTI MANTERANG",
+    "kedudukan": 135,
+    "jantina": "P"
+  },
+  {
+    "kedudukan": 141,
+    "sekolahKelas": "MP: SK O.K. MUDA PAKERI PALOH",
+    "masaLarian": null,
+    "noBadan": "BB078",
+    "namaPenuh": "NUR INARA NAZIYA BINTI ABDULLAH",
+    "kategoriUmur": "P11",
+    "jantina": "P"
+  },
+  {
+    "sekolahKelas": "SLR: SK ORANG KAYA SELAIR",
+    "masaLarian": null,
+    "noBadan": "CC 082",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "kedudukan": 78,
+    "namaPenuh": "IMAN ISYRAQ BIN ABU HAMZAH"
+  },
+  {
+    "namaPenuh": "MOHAMAD FARIQ ADAM BIN MOHD AZRI",
+    "jantina": "L",
+    "masaLarian": null,
+    "kedudukan": 47,
+    "sekolahKelas": "SLR: SK ORANG KAYA SELAIR",
+    "noBadan": "CC 083",
+    "kategoriUmur": "L11"
+  },
+  {
+    "sekolahKelas": "SLR: SK ORANG KAYA SELAIR",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "jantina": "L",
+    "noBadan": "CC 084",
+    "namaPenuh": "MUHAMAD NOOR FARRISH AIKAL FADZLULLAH BIN ABDULLAH",
+    "kedudukan": 77
+  },
+  {
+    "jantina": "L",
+    "kedudukan": 99,
+    "sekolahKelas": "SLR: SK ORANG KAYA SELAIR",
+    "namaPenuh": "HAFIEY RIZQI BIN MOHD JAYLALUDIN",
+    "noBadan": "CC 085",
+    "kategoriUmur": "L11",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "SLR: SK ORANG KAYA SELAIR",
+    "jantina": "P",
+    "namaPenuh": "KHAYLA AMMARA BINTI RAMZI",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "kedudukan": 125,
+    "noBadan": "CC 086"
+  },
+  {
+    "kategoriUmur": "P11",
+    "kedudukan": 30,
+    "sekolahKelas": "SLR: SK ORANG KAYA SELAIR",
+    "noBadan": "CC 087",
+    "namaPenuh": "NUR IZARA BINTI MOHAMMAD FADLI",
+    "jantina": "P",
+    "masaLarian": null
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 106,
+    "sekolahKelas": "SLR: SK ORANG KAYA SELAIR",
+    "noBadan": "CC081",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "namaPenuh": "EMIR BAZLI ERWANDY BIN ABDULLAH"
+  },
+  {
+    "kedudukan": 28,
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "noBadan": "D031",
+    "masaLarian": null,
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "namaPenuh": "DANISH DANIEL BIN BADRUL WAFI"
+  },
+  {
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "kedudukan": 4,
+    "namaPenuh": "MUHAMMAD IKHWAN BIN MOHAMAD IZWAN",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "noBadan": "D032",
+    "masaLarian": 18
+  },
+  {
+    "kategoriUmur": "L11",
+    "noBadan": "D033",
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "jantina": "L",
+    "kedudukan": 23,
+    "namaPenuh": "AMAR ZAKWAN BIN MALEK",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "D034",
+    "kedudukan": 45,
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "namaPenuh": "PALLIQ HAIKAL BIN ABDUL KARIM",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "kedudukan": 31,
+    "masaLarian": null,
+    "noBadan": "D035",
+    "namaPenuh": "MOHAMAD ASARRUDIN HAIKAL BIN NORDIN",
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "SYAAKIRAH ADAWIYYAH BINTI SUHAIMAN",
+    "masaLarian": null,
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "jantina": "P",
+    "kedudukan": 24,
+    "noBadan": "D036"
+  },
+  {
+    "kedudukan": 7,
+    "noBadan": "D037",
+    "kategoriUmur": "P11",
+    "namaPenuh": "NUR AMARA QALESYA BINTI RASHID",
+    "jantina": "P",
+    "masaLarian": 22.49,
+    "sekolahKelas": "AGS: SK ABANG GESA"
+  },
+  {
+    "noBadan": "D038",
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "masaLarian": null,
+    "kedudukan": 15,
+    "kategoriUmur": "P11",
+    "namaPenuh": "PUTERI NURBALQIS BINTI BADRUL",
+    "jantina": "P"
+  },
+  {
+    "kedudukan": 64,
+    "kategoriUmur": "P11",
+    "namaPenuh": "NURUL DAMIA QAISARA BINTI MOHAMAD SHAH ARAPAT",
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "jantina": "P",
+    "noBadan": "D039",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "NURAFISHA MYA BINTI MOHAMAD FAUZAN",
+    "sekolahKelas": "AGS: SK ABANG GESA",
+    "jantina": "P",
+    "masaLarian": null,
+    "kedudukan": 41,
+    "noBadan": "D040"
+  },
+  {
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "namaPenuh": "SALAHUDDIN AL AYYUBI BIN RAHMAD",
+    "masaLarian": null,
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "noBadan": "DD 091",
+    "kedudukan": 149
+  },
+  {
+    "kategoriUmur": "L11",
+    "namaPenuh": "ZAHIN HAYYAN BIN HASSAN",
+    "noBadan": "DD 092",
+    "jantina": "L",
+    "masaLarian": null,
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "kedudukan": 153
+  },
+  {
+    "noBadan": "DD 093",
+    "namaPenuh": "KHAIRUL AZAM BIN ARBIE",
+    "kedudukan": 89,
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "masaLarian": null
+  },
+  {
+    "jantina": "L",
+    "masaLarian": null,
+    "noBadan": "DD 094",
+    "namaPenuh": "MUHAMAD ADAM MIQAIL BIN ANTONIE ZAWIE",
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "kategoriUmur": "L11",
+    "kedudukan": 33
+  },
+  {
+    "namaPenuh": "MUHAMMAD FAHMI BIN ABDUL RAHMAN",
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "kedudukan": 14,
+    "noBadan": "DD 095",
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "jantina": "L"
+  },
+  {
+    "noBadan": "DD 096",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "namaPenuh": "ANNUR NAIAH ASLI BINTI JAMIL",
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "kedudukan": 105
+  },
+  {
+    "jantina": "P",
+    "masaLarian": null,
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "namaPenuh": "NUR NATASHA LIANA BINTI HASUWADI",
+    "kategoriUmur": "P11",
+    "noBadan": "DD 097",
+    "kedudukan": 107
+  },
+  {
+    "noBadan": "DD 098",
+    "kedudukan": 148,
+    "jantina": "P",
+    "namaPenuh": "DAYANG SHALIHATUNNISA BINTI AWANG DASUKI",
+    "masaLarian": null,
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "kategoriUmur": "P11"
+  },
+  {
+    "noBadan": "DD 099",
+    "kedudukan": 74,
+    "masaLarian": null,
+    "jantina": "P",
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "namaPenuh": "IRTIYAH ZUYYIN BINTI MOHAMMAD",
+    "kategoriUmur": "P11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "kedudukan": 149,
+    "noBadan": "DD 100",
+    "namaPenuh": "TANIA QALISYA BINTI AZMI",
+    "sekolahKelas": "SG: SK ORANG KAYA SERGUNIM",
+    "jantina": "P"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "noBadan": "E 041",
+    "kedudukan": 154,
+    "namaPenuh": "CAYDEN CHANGGAN ANAK STEPHEN",
+    "masaLarian": null,
+    "kategoriUmur": "L11"
+  },
+  {
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "kategoriUmur": "L11",
+    "noBadan": "E 042",
+    "namaPenuh": "KANEDDY RINO ANAK JAWA",
+    "masaLarian": null,
+    "jantina": "L",
+    "kedudukan": 65
+  },
+  {
+    "kategoriUmur": "L11",
+    "noBadan": "E 043",
+    "masaLarian": null,
+    "namaPenuh": "JUSTINE MATTHEW REPUN ANAK JOANNES DIAN",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "kedudukan": 148,
+    "jantina": "L"
+  },
+  {
+    "noBadan": "E 044",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "namaPenuh": "MOHAMAD ZAIQ SAFUAN BIN SAFRI",
+    "masaLarian": null,
+    "jantina": "L",
+    "kedudukan": 135,
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "L11",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "namaPenuh": "LUIS ERIKSEN CANDRA ANAK PERIA",
+    "kedudukan": 155,
+    "masaLarian": null,
+    "jantina": "L",
+    "noBadan": "E 045"
+  },
+  {
+    "noBadan": "E 046",
+    "kedudukan": 57,
+    "jantina": "P",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "namaPenuh": "EVELYNE CORINA ANAK GAYAN"
+  },
+  {
+    "kategoriUmur": "P11",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "namaPenuh": "GWYNETH ZIPORA ANAK KANA",
+    "jantina": "P",
+    "kedudukan": 89,
+    "noBadan": "E 047",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "DRIZELLA MUNAH ANAK SEVASTIAN",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "jantina": "P",
+    "kedudukan": 88,
+    "masaLarian": null,
+    "noBadan": "E 048"
+  },
+  {
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "namaPenuh": "KIMBERLLY PIERCE ANAK KANA",
+    "noBadan": "E 049",
+    "jantina": "P",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "kedudukan": 25
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "JENNIFER JULIE SEBU ANAK RIMBUN",
+    "sekolahKelas": "BKK: SK BAKERKONG",
+    "kedudukan": 35,
+    "jantina": "P",
+    "masaLarian": null,
+    "noBadan": "E 050"
+  },
+  {
+    "noBadan": "EE001",
+    "kedudukan": 84,
+    "namaPenuh": "MOHAMAD SAIFUL BIN MARDI",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "sekolahKelas": "SB: SK SABENA",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "EE006",
+    "kategoriUmur": "P11",
+    "namaPenuh": "NUR AMEERA SYAKILA BINTI AZMEER",
+    "kedudukan": 154,
+    "sekolahKelas": "SB: SK SABENA",
+    "jantina": "P",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "sekolahKelas": "SB: SK SABENA",
+    "jantina": "P",
+    "namaPenuh": "NUUR AN NAAS NASUHA BINTI ZULNIFA",
+    "noBadan": "EE007",
+    "kedudukan": 155
+  },
+  {
+    "jantina": "P",
+    "noBadan": "EE008",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "SB: SK SABENA",
+    "namaPenuh": "QURRATU AIN ABANG HALIDI ABDULLAH",
+    "masaLarian": null,
+    "kedudukan": 156
+  },
+  {
+    "kedudukan": 132,
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "noBadan": "F051",
+    "kategoriUmur": "L11",
+    "namaPenuh": "STEVFHAN STANDLY ANAK ANDRIANUS HENDRY",
+    "jantina": "L",
+    "masaLarian": null
+  },
+  {
+    "jantina": "L",
+    "noBadan": "F052",
+    "kedudukan": 150,
+    "namaPenuh": "AUGUSTINE SETIAN ANAK KENNEDY",
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "kategoriUmur": "L11",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "F053",
+    "kedudukan": 102,
+    "namaPenuh": "CARRY KENNERT ANAK BENIT",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "jantina": "L",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L11",
+    "namaPenuh": "FERNANDEZ ANAK JOHARI",
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "jantina": "L",
+    "kedudukan": 131,
+    "masaLarian": null,
+    "noBadan": "F054"
+  },
+  {
+    "masaLarian": null,
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "noBadan": "F055",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "kedudukan": 97,
+    "namaPenuh": "DOUGLAS AMBAU ANAK NGEREMBANG"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "FIERZIERJESNNY ANAK JEFFRY",
+    "jantina": "P",
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "masaLarian": null,
+    "kedudukan": 26,
+    "noBadan": "F056"
+  },
+  {
+    "noBadan": "F057",
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "kedudukan": 121,
+    "masaLarian": null,
+    "namaPenuh": "EMELSYA SYALINIE ANAK EDI"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "EMELDA ROSSINDA ANAK ROSMALIA",
+    "noBadan": "F058",
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "jantina": "P",
+    "masaLarian": null,
+    "kedudukan": 43
+  },
+  {
+    "kedudukan": 123,
+    "noBadan": "F059",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "AMELLIA NATASYA ANAK JULIA",
+    "sekolahKelas": "BL: SK BATANG LASSA"
+  },
+  {
+    "namaPenuh": "JESSMYCHA ANAK JAMRY",
+    "jantina": "P",
+    "sekolahKelas": "BL: SK BATANG LASSA",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "kedudukan": 45,
+    "noBadan": "F060"
+  },
+  {
+    "kategoriUmur": "L11",
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "kedudukan": 55,
+    "jantina": "L",
+    "namaPenuh": "MOHAMAD FAIZ ASHRAF BIN ABDUL SAHARI",
+    "noBadan": "FF011",
+    "masaLarian": null
+  },
+  {
+    "jantina": "L",
+    "namaPenuh": "MOHAMMAD AFIQ DAZRIEL BIN MUSI",
+    "masaLarian": null,
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "noBadan": "FF012",
+    "kategoriUmur": "L11",
+    "kedudukan": 11
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 152,
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "kategoriUmur": "L11",
+    "noBadan": "FF013",
+    "jantina": "L",
+    "namaPenuh": "IZATUL IQBAL AL AMIN BIN ROSLI"
+  },
+  {
+    "noBadan": "FF014",
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "kategoriUmur": "L11",
+    "namaPenuh": "AHMAD FAZREEN BIN BAHARUDDIN",
+    "kedudukan": 82,
+    "masaLarian": null,
+    "jantina": "L"
+  },
+  {
+    "masaLarian": null,
+    "noBadan": "FF015",
+    "kedudukan": 74,
+    "kategoriUmur": "L11",
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "jantina": "L",
+    "namaPenuh": "NUR ASRAF BIN GELABANG"
+  },
+  {
+    "jantina": "P",
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "namaPenuh": "NAZATUL SYAKIRA ROSMINA BINTI ROSLI",
+    "noBadan": "FF016",
+    "kedudukan": 61,
+    "masaLarian": null,
+    "kategoriUmur": "P11"
+  },
+  {
+    "masaLarian": null,
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "kedudukan": 52,
+    "namaPenuh": "SITI NUR AISA BINTI RIZAL",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "noBadan": "FF017"
+  },
+  {
+    "noBadan": "FF018",
+    "namaPenuh": "NEELOPA BINTI MOHAIN",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "kedudukan": 28,
+    "masaLarian": null
+  },
+  {
+    "kedudukan": 48,
+    "noBadan": "FF019",
+    "jantina": "P",
+    "masaLarian": null,
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "kategoriUmur": "P11",
+    "namaPenuh": "NEELURA BINTI MOHAIN"
+  },
+  {
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "NUR AIZATUL BALQIS BINTI ABDULLAH",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "SLK: SK SALAH KECHIL",
+    "noBadan": "FF020",
+    "kedudukan": 36
+  },
+  {
+    "noBadan": "G 061",
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "namaPenuh": "MOHAMMAD IQHWAN BIN MOHAMAD SYAHMIZAM AIMAN",
+    "kedudukan": 17,
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "kedudukan": 54,
+    "masaLarian": null,
+    "noBadan": "G 062",
+    "namaPenuh": "MUHADDITH ILYASA BIN TAUFIQ",
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "L11",
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "kedudukan": 44,
+    "namaPenuh": "MUHAMMAD NUR AL FITTRIEY BIN RAZIS",
+    "jantina": "L",
+    "masaLarian": null,
+    "noBadan": "G 063"
+  },
+  {
+    "jantina": "L",
+    "kedudukan": 81,
+    "namaPenuh": "MUHAMMAD IQBAL SYAZWAN BIN MOHD HERRY",
+    "noBadan": "G 064",
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "sekolahKelas": "BT: SK BAWANG TIAN"
+  },
+  {
+    "namaPenuh": "MUHAMMAD ZULFIQAR BIN ZAMJAMBI",
+    "kategoriUmur": "L11",
+    "noBadan": "G 065",
+    "jantina": "L",
+    "kedudukan": 15,
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "G 066",
+    "masaLarian": null,
+    "namaPenuh": "ARYQHA NASUHA BINTI GLADI",
+    "jantina": "P",
+    "kedudukan": 101,
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "kategoriUmur": "P11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "kedudukan": 103,
+    "namaPenuh": "NUR AZRIENNI SYAQIRA BINTI MOHAMAD AZRI",
+    "noBadan": "G 067",
+    "jantina": "P",
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "masaLarian": null
+  },
+  {
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "namaPenuh": "NURUL FIRSHAMSIDA BINTI MOHD FIRDAUS",
+    "noBadan": "G 068",
+    "jantina": "P",
+    "kedudukan": 104
+  },
+  {
+    "kategoriUmur": "P11",
+    "kedudukan": 106,
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "jantina": "P",
+    "noBadan": "G 069",
+    "masaLarian": null,
+    "namaPenuh": "AULIEYA NURQURRATUL AINI BINTI HALMI"
+  },
+  {
+    "namaPenuh": "SASHA LIYANA BINTI ZULAINI",
+    "kedudukan": 20,
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "jantina": "P",
+    "sekolahKelas": "BT: SK BAWANG TIAN",
+    "noBadan": "G 070"
+  },
+  {
+    "jantina": "L",
+    "kedudukan": 104,
+    "namaPenuh": "MOHAMAD ASHRAF BIN RUBIE",
+    "masaLarian": null,
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "noBadan": "HH031",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "L11",
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "masaLarian": null,
+    "kedudukan": 108,
+    "noBadan": "HH032",
+    "namaPenuh": "ABDULLAH AZZAM BIN ABU SAMAH",
+    "jantina": "L"
+  },
+  {
+    "namaPenuh": "HARITH MUIZZ BIN SALLEH",
+    "noBadan": "HH033",
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "kedudukan": 66,
+    "jantina": "L"
+  },
+  {
+    "noBadan": "HH034",
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD QAYYIM ZAHIRUL BIN HAFIZ",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "kedudukan": 107,
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL"
+  },
+  {
+    "masaLarian": null,
+    "namaPenuh": "KHAIRY AIDAN HARIZ BIN RIDHWAN FIRDAUS",
+    "noBadan": "HH035",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "kedudukan": 64
+  },
+  {
+    "jantina": "P",
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "kedudukan": 34,
+    "noBadan": "HH036",
+    "masaLarian": null,
+    "namaPenuh": "TASYA BINTI YASSIR",
+    "kategoriUmur": "P11"
+  },
+  {
+    "noBadan": "HH037",
+    "kedudukan": 32,
+    "kategoriUmur": "P11",
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "namaPenuh": "SITI NURQHAIREEN ARIANA BINTI MOHAMAD",
+    "masaLarian": null,
+    "jantina": "P"
+  },
+  {
+    "noBadan": "HH038",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "kedudukan": 50,
+    "masaLarian": null,
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "namaPenuh": "NUR HUSNA AZZAHRA BINTI SUFYAN"
+  },
+  {
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "kedudukan": 76,
+    "namaPenuh": "NUR FATIHAH MAWARDAH BINTI CANDA KUSWARA",
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "jantina": "P",
+    "noBadan": "HH039"
+  },
+  {
+    "namaPenuh": "ARFA NURZAWIAH BINTI ARFAN",
+    "masaLarian": null,
+    "sekolahKelas": "SKK: SK SEKAAN KECHIL",
+    "kategoriUmur": "P11",
+    "kedudukan": 93,
+    "jantina": "P",
+    "noBadan": "HH040"
+  },
+  {
+    "jantina": "L",
+    "noBadan": "I081",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "BM: SK BRUAN MAPAL",
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD FAZZUAN BIN MOHAMMAD REDZUAN",
+    "kedudukan": 29
+  },
+  {
+    "noBadan": "I085",
+    "masaLarian": null,
+    "jantina": "P",
+    "namaPenuh": "NUR ANISS ADIRA BINTI FARRIZUAN",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "BM: SK BRUAN MAPAL",
+    "kedudukan": 72
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 92,
+    "noBadan": "I086",
+    "namaPenuh": "NURRASZEMIN BINTI MOHAMAD SAIDIN",
+    "sekolahKelas": "BM: SK BRUAN MAPAL",
+    "kategoriUmur": "P11",
+    "jantina": "P"
+  },
+  {
+    "jantina": "L",
+    "kedudukan": 29,
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD RAFIQ SAZZIRIN BIN MAHMUD",
+    "noBadan": "IO82",
+    "sekolahKelas": "BM: SK BRUAN MAPAL"
+  },
+  {
+    "namaPenuh": "MOHAMMAD DANIAL MIKHAIL BIN ABDULLAH",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "noBadan": "J091",
+    "kedudukan": 62,
+    "jantina": "L",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 103,
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "masaLarian": null,
+    "jantina": "L",
+    "noBadan": "J092",
+    "namaPenuh": "WAN MUHAMMAD ZARIF ZIQRI BIN WAN MOHD KHAIRUL IZUAN"
+  },
+  {
+    "noBadan": "J093",
+    "masaLarian": null,
+    "jantina": "L",
+    "kedudukan": 101,
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "kategoriUmur": "L11",
+    "namaPenuh": "MUHAMMAD ADAM MIKAIL BIN ABDULLAH"
+  },
+  {
+    "jantina": "L",
+    "kedudukan": 143,
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "noBadan": "J094",
+    "namaPenuh": "AIDIL PUTRA RAYYAN BIN ISMAWI"
+  },
+  {
+    "noBadan": "J095",
+    "jantina": "L",
+    "kedudukan": 110,
+    "kategoriUmur": "L11",
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "namaPenuh": "MOHAMMAD AIDIL RAMADHANI BIN MOHAMMAD FAIZAN",
+    "masaLarian": null
+  },
+  {
+    "masaLarian": null,
+    "noBadan": "J096",
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "namaPenuh": "QURRATUL NAQEEYAH BINTI ABDUL RAHMAN",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "kedudukan": 132
+  },
+  {
+    "namaPenuh": "DAYANG NUR ASMAUL HUSNA BINTI ABDULLAH",
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "masaLarian": null,
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "kedudukan": 70,
+    "noBadan": "J097"
+  },
+  {
+    "jantina": "P",
+    "masaLarian": null,
+    "noBadan": "J098",
+    "namaPenuh": "AZZALEA ERICA AILANI BINTI ADAM",
+    "kategoriUmur": "P11",
+    "kedudukan": 131,
+    "sekolahKelas": "CPR: SK CAMPORAN"
+  },
+  {
+    "jantina": "P",
+    "noBadan": "J099",
+    "namaPenuh": "NURUL AFIFAHERTIYA BINTI ZAWAWI",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "masaLarian": null,
+    "kedudukan": 150
+  },
+  {
+    "masaLarian": null,
+    "sekolahKelas": "CPR: SK CAMPORAN",
+    "namaPenuh": "NURSYAFFA ROSSALINE BINTI ABDULLAH",
+    "kedudukan": 130,
+    "noBadan": "J100",
+    "jantina": "P",
+    "kategoriUmur": "P11"
+  },
+  {
+    "namaPenuh": "MOHAMMAD AZREE ASHRAFF BIN HUSSAIMI",
+    "noBadan": "JJ 041",
+    "kedudukan": 124,
+    "sekolahKelas": "SM: SK SEMOP",
+    "jantina": "L",
+    "masaLarian": null,
+    "kategoriUmur": "L11"
+  },
+  {
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "noBadan": "JJ 042",
+    "jantina": "L",
+    "sekolahKelas": "SM: SK SEMOP",
+    "namaPenuh": "DYLAN UNDING ANAK UGAS",
+    "kedudukan": 27
+  },
+  {
+    "noBadan": "JJ 043",
+    "sekolahKelas": "SM: SK SEMOP",
+    "jantina": "L",
+    "kedudukan": 48,
+    "namaPenuh": "ABDUL HAFIDZ BIN GHAZALI",
+    "kategoriUmur": "L11",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 19,
+    "namaPenuh": "MUHAMAD LUTFIR RAHMAN BIN MOHD LUQMAN ALHAKIM",
+    "jantina": "L",
+    "sekolahKelas": "SM: SK SEMOP",
+    "noBadan": "JJ 044",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "JJ 045",
+    "jantina": "L",
+    "sekolahKelas": "SM: SK SEMOP",
+    "masaLarian": null,
+    "kedudukan": 58,
+    "namaPenuh": "MOHAMMAD HASAQIRIN BIN HAFIZ",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "ANABELLA ANAK LANGUP",
+    "jantina": "P",
+    "kedudukan": 0,
+    "sekolahKelas": "SM: SK SEMOP",
+    "masaLarian": null,
+    "noBadan": "JJ 046"
+  },
+  {
+    "kategoriUmur": "P11",
+    "sekolahKelas": "SM: SK SEMOP",
+    "kedudukan": 79,
+    "jantina": "P",
+    "noBadan": "JJ 047",
+    "masaLarian": null,
+    "namaPenuh": "AN NUR BINTI DARUS"
+  },
+  {
+    "kedudukan": 153,
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "masaLarian": null,
+    "sekolahKelas": "SM: SK SEMOP",
+    "noBadan": "JJ 048",
+    "namaPenuh": "NUR AIN FATHIHA BINTI REDUAN"
+  },
+  {
+    "jantina": "P",
+    "sekolahKelas": "SM: SK SEMOP",
+    "kedudukan": 152,
+    "kategoriUmur": "P11",
+    "namaPenuh": "NUR SAIDATUL NAFISA BINTI SALMI",
+    "noBadan": "JJ 049",
+    "masaLarian": null
+  },
+  {
+    "kedudukan": 113,
+    "noBadan": "JJ 050",
+    "sekolahKelas": "SM: SK SEMOP",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "namaPenuh": "NURUL DAMIA HUDA BINTI SABARUDIN",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "noBadan": "K001",
+    "masaLarian": 18.25,
+    "kedudukan": 7,
+    "namaPenuh": "MOHAMMAD SAFUAN BIN ABDUL GHANI",
+    "kategoriUmur": "L11",
+    "jantina": "L"
+  },
+  {
+    "noBadan": "K002",
+    "kedudukan": 38,
+    "namaPenuh": "HENDRAYYAN MIRZAQIL BIN HENDRA CARLOS",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "masaLarian": null
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 40,
+    "jantina": "L",
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "kategoriUmur": "L11",
+    "noBadan": "K003",
+    "namaPenuh": "AIRIL PUTRA BIN JAHARI"
+  },
+  {
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "kedudukan": 63,
+    "namaPenuh": "SHAHFIQ BIN ZAINUDDIN",
+    "masaLarian": null,
+    "noBadan": "K004"
+  },
+  {
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "kedudukan": 30,
+    "namaPenuh": "SYAHRUL AIMAN BIN MOHAMMAD ALI BAKAR",
+    "noBadan": "K005",
+    "masaLarian": null
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 38,
+    "kategoriUmur": "P11",
+    "namaPenuh": "ELICIA NGU BINTI ABDULLAH",
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "jantina": "P",
+    "noBadan": "K006"
+  },
+  {
+    "kedudukan": 68,
+    "jantina": "P",
+    "masaLarian": null,
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "namaPenuh": "DAYANG FATHIA KAISARA BINTI AWG SHAHRIL",
+    "noBadan": "K007",
+    "kategoriUmur": "P11"
+  },
+  {
+    "namaPenuh": "NUR AMANI MALAIKHA BINTI MOHAMAD KAHEROL",
+    "jantina": "P",
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "kedudukan": 95,
+    "kategoriUmur": "P11",
+    "noBadan": "K008",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "noBadan": "K009",
+    "namaPenuh": "QASEH QASRINA BINTI RAIMI",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "kedudukan": 90
+  },
+  {
+    "jantina": "P",
+    "sekolahKelas": "HB: SK HIJRAH BADONG",
+    "kategoriUmur": "P11",
+    "kedudukan": 40,
+    "noBadan": "K010",
+    "namaPenuh": "IZZ NURFAHIRA ZAHIRA BINTI YUSUF",
+    "masaLarian": null
+  },
+  {
+    "namaPenuh": "MUHAMMAD ZAIMAN ZHAFRAN BIN ZAINUDDIN",
+    "noBadan": "KK 051",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "kedudukan": 142,
+    "sekolahKelas": "SOK: SK SOK"
+  },
+  {
+    "noBadan": "KK 056",
+    "masaLarian": null,
+    "sekolahKelas": "SOK: SK SOK",
+    "namaPenuh": "NURANIA BATRISYA BINTI JASNI",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "kedudukan": 18
+  },
+  {
+    "kedudukan": 2,
+    "masaLarian": 17.25,
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "namaPenuh": "ABDUL MUKHRIZ BIN MOHD FARIZ",
+    "noBadan": "L011"
+  },
+  {
+    "kedudukan": 3,
+    "jantina": "L",
+    "namaPenuh": "MOHAMAD HANIF BIN RAZMI",
+    "noBadan": "L012",
+    "masaLarian": 17.48,
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "kategoriUmur": "L11"
+  },
+  {
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "jantina": "L",
+    "noBadan": "L013",
+    "masaLarian": 18.09,
+    "namaPenuh": "MUHAMMAD IMAN RIDZUAN BIN ABDUL RAHMAN",
+    "kategoriUmur": "L11",
+    "kedudukan": 5
+  },
+  {
+    "namaPenuh": "MOHAMMAD FAIZUL BIN ABDUL WAHAB",
+    "kedudukan": 46,
+    "masaLarian": null,
+    "jantina": "L",
+    "noBadan": "L014",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "BTN: SK KG BETANAK"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "L015",
+    "namaPenuh": "MOHAMAD FIRASH SYAHMI MOHAMAD FITRI BIN ABDULLAH",
+    "kedudukan": 119
+  },
+  {
+    "kedudukan": 5,
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "masaLarian": 21.59,
+    "namaPenuh": "NURUL DAMIA BINTI MOHAMMAD",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "noBadan": "L016"
+  },
+  {
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "noBadan": "L017",
+    "masaLarian": 23.07,
+    "kategoriUmur": "P11",
+    "namaPenuh": "ZULIANA BINTI KEMEDANJAYA",
+    "jantina": "P",
+    "kedudukan": 10
+  },
+  {
+    "namaPenuh": "NUR RIYANA QAMISHA BINTI BUSTAMI",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "masaLarian": 23.06,
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "kedudukan": 9,
+    "noBadan": "L018"
+  },
+  {
+    "namaPenuh": "AINA BINTI JAMALAWI",
+    "kategoriUmur": "P11",
+    "noBadan": "L019",
+    "jantina": "P",
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "kedudukan": 39,
+    "masaLarian": null
+  },
+  {
+    "kedudukan": 14,
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "BTN: SK KG BETANAK",
+    "namaPenuh": "NUR JANNAH ANISYA BINTI ABDULLAH",
+    "masaLarian": null,
+    "noBadan": "L020"
+  },
+  {
+    "jantina": "L",
+    "kategoriUmur": "L19 KHAS",
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "kedudukan": 4,
+    "noBadan": "LA501",
+    "namaPenuh": "MOHAMAD KHAIRUL NIZAM BIN AMIN@AMIL",
+    "masaLarian": 46.58
+  },
+  {
+    "kategoriUmur": "L19 KHAS",
+    "noBadan": "LA502",
+    "masaLarian": 32.51,
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "jantina": "L",
+    "namaPenuh": "ALIF IZUDDIN BIN ISMAIL",
+    "kedudukan": 1
+  },
+  {
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "namaPenuh": "MOHAMMAD FIQRI BIN ABDULLAH",
+    "kedudukan": 3,
+    "masaLarian": 40.4,
+    "kategoriUmur": "L19 KHAS",
+    "noBadan": "LA503",
+    "jantina": "L"
+  },
+  {
+    "jantina": "L",
+    "namaPenuh": "JOSUA ANAK JEMAT",
+    "kedudukan": 9,
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "masaLarian": 52.28,
+    "kategoriUmur": "L19 KHAS",
+    "noBadan": "LA504"
+  },
+  {
+    "namaPenuh": "MOHAMAD SYAIPUDIN BIN MASI",
+    "noBadan": "LA505",
+    "kategoriUmur": "L19 KHAS",
+    "kedudukan": 12,
+    "sekolahKelas": "2PKST: SMK TPDPH NORMAH (PENDIDIKAN KHAS)",
+    "jantina": "L",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L19 KHAS",
+    "masaLarian": null,
+    "kedudukan": 14,
+    "jantina": "L",
+    "noBadan": "LA506",
+    "namaPenuh": "MOHAMMAD ILHAM BIN MOHAMMAD HAMDAN",
+    "sekolahKelas": "2PKST: SMK TPDPH NORMAH (PENDIDIKAN KHAS)"
+  },
+  {
+    "kedudukan": 7,
+    "masaLarian": 50.34,
+    "jantina": "L",
+    "kategoriUmur": "L19 KHAS",
+    "noBadan": "LA507",
+    "namaPenuh": "MUHAMMAD MAULID BIN SERAH INAH",
+    "sekolahKelas": "2PKSB: SMK BELAWAI (PENDIDIKAN KHAS)"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "2PKSB: SMK BELAWAI (PENDIDIKAN KHAS)",
+    "namaPenuh": "FREDERICK HATTRICK ANAK BELILI",
+    "kedudukan": 6,
+    "masaLarian": 47.59,
+    "noBadan": "LA508",
+    "kategoriUmur": "L19 KHAS"
+  },
+  {
+    "noBadan": "LA509",
+    "jantina": "L",
+    "sekolahKelas": "2PKSB: SMK BELAWAI (PENDIDIKAN KHAS)",
+    "kedudukan": 15,
+    "kategoriUmur": "L19 KHAS",
+    "namaPenuh": "MUHAMMAD HAFIZ BIN KAMARULZAMAN",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "LA510",
+    "jantina": "L",
+    "namaPenuh": "ALIF DANISH BIN ABDULLAH",
+    "kedudukan": 8,
+    "masaLarian": 52.17,
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)",
+    "kategoriUmur": "L19 KHAS"
+  },
+  {
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)",
+    "jantina": "L",
+    "noBadan": "LA511",
+    "namaPenuh": "FAKHRUL IZHAR BIN MOHAMMAD IDRIS",
+    "kategoriUmur": "L19 KHAS",
+    "masaLarian": null,
+    "kedudukan": 14
+  },
+  {
+    "namaPenuh": "MOHAMMAD HAIKAL BIN MUDAWARI",
+    "jantina": "L",
+    "noBadan": "LA512",
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "kedudukan": 2,
+    "kategoriUmur": "L19 KHAS",
+    "masaLarian": 38.51
+  },
+  {
+    "noBadan": "LA513",
+    "kedudukan": 10,
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "jantina": "L",
+    "masaLarian": 54.18,
+    "kategoriUmur": "L19 KHAS",
+    "namaPenuh": "MOHAMMAD FAIZUL BIN JANARI"
+  },
+  {
+    "jantina": "L",
+    "namaPenuh": "JUSTIN MARCELLO ANAK RICKY",
+    "kedudukan": 5,
+    "kategoriUmur": "L19 KHAS",
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "noBadan": "LA514",
+    "masaLarian": 46.59
+  },
+  {
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "masaLarian": null,
+    "kedudukan": 11,
+    "jantina": "L",
+    "namaPenuh": "EDMUND LANGGU ANAK JILAP",
+    "kategoriUmur": "L19 KHAS",
+    "noBadan": "LA515"
+  },
+  {
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "kedudukan": 4,
+    "namaPenuh": "IQMAL HAZRIL BIN FAIZAL",
+    "masaLarian": 31.18,
+    "noBadan": "LB301",
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L"
+  },
+  {
+    "jantina": "L",
+    "namaPenuh": "MOHAMAD DASRIL BIN MOHD ZAINI",
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "masaLarian": 29.43,
+    "kedudukan": 3,
+    "kategoriUmur": "L15 KHAS",
+    "noBadan": "LB302"
+  },
+  {
+    "jantina": "L",
+    "kategoriUmur": "L15 KHAS",
+    "kedudukan": 12,
+    "namaPenuh": "ZUHL ZUELZAIMIEY BIN MOHD KAMIL",
+    "noBadan": "LB304",
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "LB305",
+    "masaLarian": null,
+    "kategoriUmur": "L15 KHAS",
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "kedudukan": 14,
+    "namaPenuh": "MUHAMMAD ADAM HAIKAL BIN MOHD AIDIL FITRI",
+    "jantina": "L"
+  },
+  {
+    "kedudukan": 0,
+    "noBadan": "LB306",
+    "namaPenuh": "DARELL MELVIN LUKAS ANAK UPU",
+    "kategoriUmur": "L15 KHAS",
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "masaLarian": null,
+    "jantina": "L"
+  },
+  {
+    "kategoriUmur": "L15 KHAS",
+    "kedudukan": 6,
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "noBadan": "LB307",
+    "jantina": "L",
+    "masaLarian": 33.02,
+    "namaPenuh": "MUHAMMAD NAZIRRULMUBIN BIN ABDULLAH"
+  },
+  {
+    "kedudukan": 16,
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L",
+    "noBadan": "LB308",
+    "masaLarian": null,
+    "sekolahKelas": "1PKBT: SK BAWANG TIAN (PENDIDIKAN KHAS)",
+    "namaPenuh": "ABDUL RAHIM BIN ABDUL RAHMAN"
+  },
+  {
+    "kategoriUmur": "L15 KHAS",
+    "sekolahKelas": "1PKBT: SK BAWANG TIAN (PENDIDIKAN KHAS)",
+    "jantina": "L",
+    "noBadan": "LB309",
+    "kedudukan": 8,
+    "masaLarian": 34.1,
+    "namaPenuh": "SHAH DHANES BIN SALLEHAN"
+  },
+  {
+    "kategoriUmur": "L15 KHAS",
+    "namaPenuh": "MOHAMAD AFIQ BIN MADIHI",
+    "masaLarian": 36.3,
+    "noBadan": "LB310",
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "kedudukan": 10,
+    "jantina": "L"
+  },
+  {
+    "kedudukan": 2,
+    "kategoriUmur": "L15 KHAS",
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "namaPenuh": "MOHAMAD SHAFUDIN BIN MOHAMAD HAMDDIN",
+    "jantina": "L",
+    "noBadan": "LB311",
+    "masaLarian": 29.42
+  },
+  {
+    "kategoriUmur": "L15 KHAS",
+    "masaLarian": null,
+    "kedudukan": 21,
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "noBadan": "LB312",
+    "namaPenuh": "AWANGKU ZIQRI TAJJUDDIN BIN AWANG HAMKA",
+    "jantina": "L"
+  },
+  {
+    "noBadan": "LB313",
+    "namaPenuh": "MUHAMMAD IQBAL BIN ADI",
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L",
+    "kedudukan": 15,
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "masaLarian": null
+  },
+  {
+    "kedudukan": 17,
+    "masaLarian": null,
+    "noBadan": "LB314",
+    "jantina": "L",
+    "namaPenuh": "MARWAN NUR IMAN BIN HAMIZAN",
+    "kategoriUmur": "L15 KHAS",
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)"
+  },
+  {
+    "jantina": "L",
+    "namaPenuh": "AMMAR RIZQI BIN MOHAMAD NAZELAN",
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)",
+    "noBadan": "LB315",
+    "kategoriUmur": "L15 KHAS",
+    "masaLarian": null,
+    "kedudukan": 24
+  },
+  {
+    "namaPenuh": "MOHAMAD ALHAM BIN MOHAMMAD IDRIS",
+    "noBadan": "LB316",
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)",
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L",
+    "kedudukan": 9,
+    "masaLarian": 36.28
+  },
+  {
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)",
+    "kategoriUmur": "L15 KHAS",
+    "namaPenuh": "MOHAMAD AQIL AZHA BIN JUL OMAR",
+    "jantina": "L",
+    "kedudukan": 25,
+    "noBadan": "LB317",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "LB319",
+    "namaPenuh": "MOHAMMAD AMIRUL HAZIQ BIN ORKIT",
+    "kategoriUmur": "L15 KHAS",
+    "kedudukan": 7,
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)",
+    "jantina": "L",
+    "masaLarian": 34.04
+  },
+  {
+    "noBadan": "LB320",
+    "kedudukan": 1,
+    "kategoriUmur": "L15 KHAS",
+    "masaLarian": 28.1,
+    "jantina": "L",
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)",
+    "namaPenuh": "MOHAMMAD FAHRIN HAIZIEL BIN ABDULLAH"
+  },
+  {
+    "jantina": "L",
+    "masaLarian": 32.18,
+    "noBadan": "LB321",
+    "kategoriUmur": "L15 KHAS",
+    "sekolahKelas": "2PKST: SMK TPDPH NORMAH (PENDIDIKAN KHAS)",
+    "kedudukan": 5,
+    "namaPenuh": "NASHRIEN BIN ISMAWI"
+  },
+  {
+    "kedudukan": 22,
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD IDKQUAN BIN MOHD IDHAM",
+    "sekolahKelas": "2PKST: SMK TPDPH NORMAH (PENDIDIKAN KHAS)",
+    "kategoriUmur": "L15 KHAS",
+    "masaLarian": null,
+    "noBadan": "LB322"
+  },
+  {
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L",
+    "noBadan": "LB323",
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)",
+    "masaLarian": null,
+    "namaPenuh": "MOHAMAD AZROL BIN ZAINUDDIN",
+    "kedudukan": 11
+  },
+  {
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L",
+    "masaLarian": null,
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)",
+    "namaPenuh": "FAIRUZ HUZAIMI BIN MUSA HITAM",
+    "noBadan": "LB324",
+    "kedudukan": 23
+  },
+  {
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)",
+    "kedudukan": 18,
+    "jantina": "L",
+    "namaPenuh": "MOHAMAD IQBAL BIN JUIE",
+    "noBadan": "LB325",
+    "masaLarian": null,
+    "kategoriUmur": "L15 KHAS"
+  },
+  {
+    "sekolahKelas": "1PKAB: SK ABANG GESA (PENDIDIKAN KHAS)",
+    "kedudukan": 13,
+    "masaLarian": null,
+    "namaPenuh": "MOHAMMAD HAZIQUE SHAZRIL BIN ABDULLAH",
+    "noBadan": "LB326",
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L"
+  },
+  {
+    "sekolahKelas": "1PKAB: SK ABANG GESA (PENDIDIKAN KHAS)",
+    "kategoriUmur": "L15 KHAS",
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD IQRAM BIN RAMJI",
+    "kedudukan": 19,
+    "noBadan": "LB327",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L15 KHAS",
+    "sekolahKelas": "1PKAB: SK ABANG GESA (PENDIDIKAN KHAS)",
+    "namaPenuh": "AEDAM KHUZAIRY BIN OSMAN",
+    "masaLarian": null,
+    "noBadan": "LB328",
+    "jantina": "L",
+    "kedudukan": 20
+  },
+  {
+    "sekolahKelas": "1PKPB: SK KG PENIBONG (PENDIDIKAN KHAS)",
+    "noBadan": "LC 113",
+    "namaPenuh": "MOHAMAD SYAMIL BIN MOHD.SAHRIL",
+    "jantina": "L",
+    "kategoriUmur": "L12KHAS",
+    "masaLarian": null,
+    "kedudukan": 11
+  },
+  {
+    "masaLarian": 28.36,
+    "jantina": "L",
+    "noBadan": "LC103",
+    "kedudukan": 4,
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "namaPenuh": "MUHAMMAD FIRRASH NAWFAL BIN MOHAMAD FAIRRUS",
+    "kategoriUmur": "L12KHAS"
+  },
+  {
+    "sekolahKelas": "1PKBT: SK BAWANG TIAN (PENDIDIKAN KHAS)",
+    "kategoriUmur": "L12KHAS",
+    "masaLarian": 53.06,
+    "namaPenuh": "MOHAMAD MUKHRIZ BIN MOHAMAD",
+    "noBadan": "LC104",
+    "kedudukan": 10,
+    "jantina": "L"
+  },
+  {
+    "noBadan": "LC105",
+    "kategoriUmur": "L12KHAS",
+    "sekolahKelas": "1PKBT: SK BAWANG TIAN (PENDIDIKAN KHAS)",
+    "namaPenuh": "MOHAMMAD NUR AIDIEL BIN ABDUL RAZAK",
+    "jantina": "L",
+    "kedudukan": 3,
+    "masaLarian": 27.56
+  },
+  {
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)",
+    "masaLarian": 21.23,
+    "kategoriUmur": "L12KHAS",
+    "noBadan": "LC106",
+    "kedudukan": 1,
+    "namaPenuh": "MOHAMAD HAMIZUL BIN MOHAMAD NOOR",
+    "jantina": "L"
+  },
+  {
+    "masaLarian": 33.16,
+    "jantina": "L",
+    "namaPenuh": "MOHAMAD AMIRUL HAZIQ BIN ABDULLAH",
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)",
+    "noBadan": "LC107",
+    "kategoriUmur": "L12KHAS",
+    "kedudukan": 6
+  },
+  {
+    "kedudukan": 0,
+    "kategoriUmur": "L12KHAS",
+    "jantina": "L",
+    "masaLarian": null,
+    "noBadan": "LC108",
+    "namaPenuh": "FERDI BIN JAMADI",
+    "sekolahKelas": "1PKKPH: SK KG PENIPAH (PENDIDIKAN KHAS)"
+  },
+  {
+    "namaPenuh": "HAFIZUL BIN HIRMAN",
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "noBadan": "LC110",
+    "kedudukan": 9,
+    "jantina": "L",
+    "kategoriUmur": "L12KHAS",
+    "masaLarian": 52.58
+  },
+  {
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "namaPenuh": "MOHAMAD SYAM ZARIL BIN ABDULLAH",
+    "kedudukan": 5,
+    "noBadan": "LC111",
+    "kategoriUmur": "L12KHAS",
+    "jantina": "L",
+    "masaLarian": 32.26
+  },
+  {
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "kategoriUmur": "L12KHAS",
+    "noBadan": "LC112",
+    "namaPenuh": "MOHAMMAD SHAHRULNIZAM BIN MOHAMMAD KAHROY",
+    "jantina": "L",
+    "kedudukan": 8,
+    "masaLarian": 39.51
+  },
+  {
+    "jantina": "L",
+    "masaLarian": 39.08,
+    "namaPenuh": "ROBERTHINO BRYAN ANAK RUDY",
+    "noBadan": "LC114",
+    "kedudukan": 7,
+    "kategoriUmur": "L12KHAS",
+    "sekolahKelas": "1PKNS: SK NANGA SEMAH (PENDIDIKAN"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "1PKKM: SK KUALA MATU (PENDIDIKAN KHAS)",
+    "masaLarian": 24.46,
+    "noBadan": "LC115",
+    "kedudukan": 2,
+    "namaPenuh": "MUHAMMAD RAMIZAN BIN SULAIMAN",
+    "kategoriUmur": "L12KHAS"
+  },
+  {
+    "jantina": "L",
+    "noBadan": "LC120",
+    "masaLarian": null,
+    "sekolahKelas": "1PKSD: SK SERDENG (PENDIDIKAN KHAS)",
+    "namaPenuh": "MOHAMMAD FARHAN AZAHRI BIN MOHAMMAD SADDHAM HUSSIEN",
+    "kedudukan": 0,
+    "kategoriUmur": "L12KHAS"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "ROMMYDIA ANAK JANTING",
+    "noBadan": "LL066",
+    "jantina": "P",
+    "sekolahKelas": "SL: SK STALON",
+    "masaLarian": null,
+    "kedudukan": 83
+  },
+  {
+    "jantina": "P",
+    "masaLarian": null,
+    "kedudukan": 124,
+    "kategoriUmur": "P11",
+    "noBadan": "LL067",
+    "sekolahKelas": "SL: SK STALON",
+    "namaPenuh": "VICTORYA ANAK KEESHENN MARKS DONALD BUJANG"
+  },
+  {
+    "sekolahKelas": "SL: SK STALON",
+    "kategoriUmur": "P11",
+    "kedudukan": 138,
+    "jantina": "P",
+    "namaPenuh": "SASA HADEWIG LANGING",
+    "noBadan": "LL068",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "M021",
+    "kedudukan": 16,
+    "jantina": "L",
+    "namaPenuh": "MOHAMMAD MUAZZAM SHAH BIN MOHAMMAD HAFIZ",
+    "sekolahKelas": "KB: SK KG BRUIT"
+  },
+  {
+    "jantina": "L",
+    "masaLarian": null,
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "kedudukan": 69,
+    "noBadan": "M022",
+    "namaPenuh": "AMZZAR RAZEEQ BIN ABDUL RAHMAN",
+    "kategoriUmur": "L11"
+  },
+  {
+    "masaLarian": null,
+    "jantina": "L",
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "noBadan": "M023",
+    "kedudukan": 127,
+    "kategoriUmur": "L11",
+    "namaPenuh": "HARIZ YAZID BIN HASHIM"
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 53,
+    "jantina": "L",
+    "namaPenuh": "AIDIL RAZIEN MUSTAQIM BIN MOHAMAD ZUBIR",
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "kategoriUmur": "L11",
+    "noBadan": "M024"
+  },
+  {
+    "kedudukan": 126,
+    "noBadan": "M025",
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD RAFIF BIN RAZIF",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "P11",
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "masaLarian": 20.17,
+    "jantina": "P",
+    "namaPenuh": "NURHAZIQAH ZAHRA BINTI MAHDINI",
+    "noBadan": "M026",
+    "kedudukan": 1
+  },
+  {
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "kategoriUmur": "P11",
+    "noBadan": "M027",
+    "namaPenuh": "NUR NUHA AULIA BINTI ABDULLAH",
+    "masaLarian": 21.44,
+    "jantina": "P",
+    "kedudukan": 3
+  },
+  {
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "kategoriUmur": "P11",
+    "kedudukan": 55,
+    "masaLarian": null,
+    "jantina": "P",
+    "noBadan": "M028",
+    "namaPenuh": "NURUL HAYATUN SYAMILA BINTI MOHAMMAD HAFIZ"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "NUR FATHIYYA HILMIYA BINTI MOHAMAD FAZLI",
+    "kedudukan": 56,
+    "jantina": "P",
+    "noBadan": "M029",
+    "masaLarian": null,
+    "sekolahKelas": "KB: SK KG BRUIT"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "NUR KHAIRINA BINTI TINO",
+    "sekolahKelas": "KB: SK KG BRUIT",
+    "masaLarian": null,
+    "kedudukan": 142,
+    "jantina": "P",
+    "noBadan": "M030"
+  },
+  {
+    "masaLarian": 17.24,
+    "namaPenuh": "ADAM QHUZAIRI BIN ABDUL AZIS",
+    "sekolahKelas": "KK: SK KG KUT",
+    "kategoriUmur": "L11",
+    "kedudukan": 1,
+    "jantina": "L",
+    "noBadan": "N031"
+  },
+  {
+    "noBadan": "N032",
+    "jantina": "L",
+    "kedudukan": 12,
+    "namaPenuh": "MUHAMMAD FADHLULL ADZMIN BIN SAIDIN",
+    "masaLarian": null,
+    "sekolahKelas": "KK: SK KG KUT",
+    "kategoriUmur": "L11"
+  },
+  {
+    "sekolahKelas": "KK: SK KG KUT",
+    "kategoriUmur": "L11",
+    "kedudukan": 121,
+    "namaPenuh": "MOHAMMAD AIDAN FAKRUZY BIN NORAZRIN",
+    "masaLarian": null,
+    "noBadan": "N033",
+    "jantina": "L"
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 83,
+    "noBadan": "N034",
+    "masaLarian": null,
+    "jantina": "L",
+    "sekolahKelas": "KK: SK KG KUT",
+    "namaPenuh": "MUHAMMAD ZAQWAN BIN JAMESMERY"
+  },
+  {
+    "sekolahKelas": "KK: SK KG KUT",
+    "kedudukan": 120,
+    "noBadan": "N035",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD ARYASH QAYYIM BIN MEDZRI"
+  },
+  {
+    "jantina": "P",
+    "kedudukan": 6,
+    "noBadan": "N036",
+    "sekolahKelas": "KK: SK KG KUT",
+    "masaLarian": 22.16,
+    "kategoriUmur": "P11",
+    "namaPenuh": "AINUL SYIFA ASYURA BINTI ZULKIPLI"
+  },
+  {
+    "kedudukan": 73,
+    "sekolahKelas": "KK: SK KG KUT",
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "NUR KAYRA KHALEEDA BINTI ZULKIPLI",
+    "noBadan": "N037",
+    "kategoriUmur": "P11"
+  },
+  {
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "JAMEELA RAFIF LUTHFIA BINTI MEDZRI",
+    "kedudukan": 84,
+    "sekolahKelas": "KK: SK KG KUT",
+    "noBadan": "N038",
+    "kategoriUmur": "P11"
+  },
+  {
+    "kedudukan": 145,
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "INTAN FARHANA NASHWA BINTI SABU",
+    "noBadan": "N039",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "KK: SK KG KUT"
+  },
+  {
+    "jantina": "P",
+    "noBadan": "N040",
+    "kedudukan": 146,
+    "sekolahKelas": "KK: SK KG KUT",
+    "masaLarian": null,
+    "namaPenuh": "NUR ADEEBA ADIRA BINTI ABDULLAH",
+    "kategoriUmur": "P11"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "kedudukan": 52,
+    "namaPenuh": "IZZ MIRZA BIN KASWADI",
+    "noBadan": "NN 081",
+    "masaLarian": null,
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 123,
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "noBadan": "NN 082",
+    "masaLarian": null,
+    "jantina": "L",
+    "namaPenuh": "IRFAN NAZRIN BIN MASRIZAN"
+  },
+  {
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "kategoriUmur": "L11",
+    "namaPenuh": "NOOR HAZIQ ZAQWAN BIN NOORHISYAM",
+    "masaLarian": null,
+    "noBadan": "NN 083",
+    "kedudukan": 90,
+    "jantina": "L"
+  },
+  {
+    "namaPenuh": "MUHAMMAD IHSAN ADIB BIN NASZERI",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "NN 084",
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "kedudukan": 125,
+    "jantina": "L"
+  },
+  {
+    "noBadan": "NN 085",
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "masaLarian": null,
+    "kedudukan": 75,
+    "kategoriUmur": "L11",
+    "namaPenuh": "MUHAMMAS AMMAR ARFAN BIN MUHAMMAD ADZAN",
+    "jantina": "L"
+  },
+  {
+    "kedudukan": 117,
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "NUR QISYA QAIREEN BINTI MOHAMMAD AFFENDI",
+    "noBadan": "NN 086",
+    "sekolahKelas": "TM: SK TANJONG MANIS"
+  },
+  {
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "namaPenuh": "ANNISA NISRINA BINTI MOHAMMAD KHAIRUL",
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "kedudukan": 102,
+    "noBadan": "NN 087",
+    "jantina": "P"
+  },
+  {
+    "masaLarian": null,
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "kategoriUmur": "P11",
+    "kedudukan": 91,
+    "namaPenuh": "LANA NUR QAMARYNA BINTI LANA AZMIR",
+    "jantina": "P",
+    "noBadan": "NN 088"
+  },
+  {
+    "noBadan": "NN 089",
+    "kedudukan": 29,
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "namaPenuh": "GUENEVERE TRIXY EDOT ANAK NORMAN",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "jantina": "P"
+  },
+  {
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "kedudukan": 116,
+    "masaLarian": null,
+    "noBadan": "NN 090",
+    "sekolahKelas": "TM: SK TANJONG MANIS",
+    "namaPenuh": "ESTHER OLYVIA PURI ANAK CALISTUS EMREM"
+  },
+  {
+    "kedudukan": 18,
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "namaPenuh": "HANIQ RIDZQIE BIN ABDUL RAHMAN",
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "noBadan": "O 041"
+  },
+  {
+    "noBadan": "O 042",
+    "jantina": "L",
+    "masaLarian": null,
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "kedudukan": 115,
+    "namaPenuh": "MUHAMMAD AZREEN BIN AHMAD",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kedudukan": 136,
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "namaPenuh": "MUHAMMAD DANISH IQBAL BIN ABDULLAH",
+    "noBadan": "O 043",
+    "jantina": "L"
+  },
+  {
+    "namaPenuh": "MUHAMMAD ADIL BIN SUDIRMAN ONG",
+    "kategoriUmur": "L11",
+    "noBadan": "O 044",
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "masaLarian": null,
+    "jantina": "L",
+    "kedudukan": 137
+  },
+  {
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "kedudukan": 116,
+    "masaLarian": null,
+    "noBadan": "O 045",
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "namaPenuh": "AISY FAREEQ MIFZAL BIN ABDULLAH"
+  },
+  {
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "jantina": "P",
+    "noBadan": "O 046",
+    "kedudukan": 75,
+    "namaPenuh": "NUR RAHADATUL'AISH QUDWAH BINTI SATAR",
+    "masaLarian": null,
+    "kategoriUmur": "P11"
+  },
+  {
+    "kedudukan": 44,
+    "noBadan": "O 047",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "masaLarian": null,
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "namaPenuh": "NUERRIEN QKHASINA BINTI ABDULLAH"
+  },
+  {
+    "noBadan": "O 048",
+    "masaLarian": null,
+    "kedudukan": 157,
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "namaPenuh": "DYA ARVANIEY BINTI HERMAN",
+    "sekolahKelas": "KP: SK KG PANGTRAY"
+  },
+  {
+    "kategoriUmur": "P11",
+    "kedudukan": 137,
+    "masaLarian": null,
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "jantina": "P",
+    "noBadan": "O 049",
+    "namaPenuh": "NURADDRIANA BATRISYA BINTI ABDUL RAHIM"
+  },
+  {
+    "namaPenuh": "NURFITRI BINTI BOHARI",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "noBadan": "O 050",
+    "kedudukan": 136,
+    "sekolahKelas": "KP: SK KG PANGTRAY",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 0,
+    "noBadan": "P051",
+    "masaLarian": null,
+    "namaPenuh": "JUSTIN BALONG ANAK STEVEN NINGKAN",
+    "sekolahKelas": "PNS: SK KG PENASU DARO",
+    "jantina": "L"
+  },
+  {
+    "namaPenuh": "MUHAMAD HAZIQ ADAMI BIN DEN",
+    "jantina": "L",
+    "kedudukan": 0,
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "P052",
+    "sekolahKelas": "PNS: SK KG PENASU DARO"
+  },
+  {
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "kedudukan": 3,
+    "jantina": "P",
+    "masaLarian": 40.57,
+    "noBadan": "PA601",
+    "namaPenuh": "ALVIANA CHACHA ANAK MAJAR",
+    "kategoriUmur": "P19KHAS"
+  },
+  {
+    "kategoriUmur": "P19KHAS",
+    "noBadan": "PA602",
+    "sekolahKelas": "2PKSB: SMK BELAWAI (PENDIDIKAN KHAS)",
+    "namaPenuh": "SABRINA ANAK LADING",
+    "masaLarian": 52.13,
+    "kedudukan": 5,
+    "jantina": "P"
+  },
+  {
+    "kedudukan": 6,
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "jantina": "P",
+    "kategoriUmur": "P19KHAS",
+    "masaLarian": 52.36,
+    "namaPenuh": "MUNIRAH BINTI MOHAMAD RAHMAN",
+    "noBadan": "PA603"
+  },
+  {
+    "namaPenuh": "NORLISA BINTI OSMAN",
+    "sekolahKelas": "2PKSM: SMK MATU (PENDIDIKAN KHAS)",
+    "jantina": "P",
+    "noBadan": "PA604",
+    "kategoriUmur": "P19KHAS",
+    "kedudukan": 7,
+    "masaLarian": 53.12
+  },
+  {
+    "kedudukan": 4,
+    "sekolahKelas": "2PKST: SMK TPDPH NORMAH (PENDIDIKAN KHAS)",
+    "kategoriUmur": "P19KHAS",
+    "jantina": "P",
+    "namaPenuh": "PETRISYA ANAK ANTHONY",
+    "noBadan": "PA605",
+    "masaLarian": 51.31
+  },
+  {
+    "masaLarian": 38.59,
+    "namaPenuh": "AZIMA ALHUSNA BINTI MOHAMMAD",
+    "jantina": "P",
+    "noBadan": "PA606",
+    "kedudukan": 2,
+    "kategoriUmur": "P19KHAS",
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)"
+  },
+  {
+    "jantina": "P",
+    "noBadan": "PA607",
+    "masaLarian": 57.16,
+    "kedudukan": 8,
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)",
+    "namaPenuh": "NUR JULIANA BINTI JULAIHI",
+    "kategoriUmur": "P19KHAS"
+  },
+  {
+    "kategoriUmur": "P19KHAS",
+    "noBadan": "PA608",
+    "namaPenuh": "QASIH AMANI ANISA BINTI MAHSIN",
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "jantina": "P",
+    "kedudukan": 1,
+    "masaLarian": 36.02
+  },
+  {
+    "jantina": "P",
+    "masaLarian": 36.06,
+    "sekolahKelas": "1PKBT: SK BAWANG TIAN (PENDIDIKAN KHAS)",
+    "kedudukan": 1,
+    "namaPenuh": "HELMA KASTINA BINTI ARMAN",
+    "kategoriUmur": "P15KHAS",
+    "noBadan": "PB401"
+  },
+  {
+    "noBadan": "PB402",
+    "kategoriUmur": "P15KHAS",
+    "masaLarian": 40.59,
+    "namaPenuh": "NURYATI BINTI LIHIE",
+    "jantina": "P",
+    "kedudukan": 3,
+    "sekolahKelas": "1PKBT: SK BAWANG TIAN (PENDIDIKAN KHAS)"
+  },
+  {
+    "kedudukan": 2,
+    "jantina": "P",
+    "masaLarian": 38.06,
+    "sekolahKelas": "1PKBM: SK BRUAN MAPAL (PENDIDIKAN KHAS)",
+    "kategoriUmur": "P15KHAS",
+    "noBadan": "PB403",
+    "namaPenuh": "ALYIANA ANAK AWIE"
+  },
+  {
+    "namaPenuh": "FATIN SAJEEDA BINTI ZAMAWI",
+    "noBadan": "PB404",
+    "kedudukan": 4,
+    "kategoriUmur": "P15KHAS",
+    "sekolahKelas": "2PKSS: SMK SEMOP (PENDIDIKAN KHAS)",
+    "jantina": "P",
+    "masaLarian": 59.3
+  },
+  {
+    "kategoriUmur": "P12KHAS",
+    "kedudukan": 2,
+    "jantina": "P",
+    "masaLarian": 39.13,
+    "noBadan": "PC 205",
+    "namaPenuh": "PUTRI NOR HIDAYAH BINTI ABDULLAH",
+    "sekolahKelas": "1PKPB: SK KG PENIBONG (PENDIDIKAN KHAS)"
+  },
+  {
+    "noBadan": "PC201",
+    "jantina": "P",
+    "sekolahKelas": "1PKBT: SK BAWANG TIAN (PENDIDIKAN KHAS)",
+    "masaLarian": 22.03,
+    "kategoriUmur": "P12KHAS",
+    "kedudukan": 1,
+    "namaPenuh": "AINAUSNA BINTI OSMAN"
+  },
+  {
+    "namaPenuh": "NUR SYAFIRA AZIEMA BINTI MAJENUN",
+    "jantina": "P",
+    "kategoriUmur": "P12KHAS",
+    "sekolahKelas": "1PKAB: SK ABANG GESA (PENDIDIKAN KHAS)",
+    "noBadan": "PC202",
+    "kedudukan": 6,
+    "masaLarian": 44.56
+  },
+  {
+    "kategoriUmur": "P12KHAS",
+    "namaPenuh": "ARIANA NIA FARIESHA BINTI MAWEI",
+    "jantina": "P",
+    "masaLarian": 40.47,
+    "kedudukan": 3,
+    "noBadan": "PC203",
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)"
+  },
+  {
+    "namaPenuh": "NUR AINA SYARFIQA BINTI AHMAD IDRIS",
+    "kedudukan": 4,
+    "masaLarian": 40.48,
+    "kategoriUmur": "P12KHAS",
+    "jantina": "P",
+    "sekolahKelas": "1PKHB: SK HIJRAH BADONG (PENDIDIKAN KHAS)",
+    "noBadan": "PC204"
+  },
+  {
+    "jantina": "P",
+    "kategoriUmur": "P12KHAS",
+    "kedudukan": 5,
+    "sekolahKelas": "1PKSP: SK SEMOP (PENDIDIKAN KHAS)",
+    "masaLarian": 40.52,
+    "noBadan": "PC211",
+    "namaPenuh": "QASHARMEL FARISYHA BINTI SABKI"
+  },
+  {
+    "noBadan": "PP091",
+    "masaLarian": null,
+    "kedudukan": 98,
+    "namaPenuh": "KELVIN ANAK JULEXTA",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "jantina": "L"
+  },
+  {
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "kedudukan": 145,
+    "masaLarian": null,
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD NASARUDIN ANAS LASSUM BIN ABDULLAH",
+    "kategoriUmur": "L11",
+    "noBadan": "PP092"
+  },
+  {
+    "kategoriUmur": "L11",
+    "noBadan": "PP093",
+    "masaLarian": null,
+    "jantina": "L",
+    "namaPenuh": "VANNISTER ALVYNOCK IMAN ANAK MUGANG",
+    "kedudukan": 144,
+    "sekolahKelas": "TG: SK TELOK GELAM"
+  },
+  {
+    "kedudukan": 151,
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "namaPenuh": "BONIFACE ROLAND ANAK JACKLINE",
+    "masaLarian": null,
+    "noBadan": "PP094",
+    "sekolahKelas": "TG: SK TELOK GELAM"
+  },
+  {
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "kedudukan": 109,
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "PP095",
+    "jantina": "L",
+    "namaPenuh": "NICHOLAS FERNANDEZ ANAK TONY"
+  },
+  {
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "kedudukan": 151,
+    "jantina": "P",
+    "noBadan": "PP096",
+    "namaPenuh": "AISAH ANAK ROZETA",
+    "masaLarian": null,
+    "kategoriUmur": "P11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "noBadan": "PP097",
+    "kedudukan": 147,
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "jantina": "P",
+    "namaPenuh": "CLARA CALISSA ANAK SELI"
+  },
+  {
+    "namaPenuh": "JACQYIALISHA JIM ANAK JULEXTA",
+    "jantina": "P",
+    "masaLarian": null,
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "noBadan": "PP098",
+    "kategoriUmur": "P11",
+    "kedudukan": 51
+  },
+  {
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "namaPenuh": "QAMAR AQILLA ANAS LASSUM BINTI ABDULLAH",
+    "noBadan": "PP099",
+    "kedudukan": 127,
+    "jantina": "P"
+  },
+  {
+    "noBadan": "PP100",
+    "kedudukan": 81,
+    "masaLarian": null,
+    "namaPenuh": "SHARMILLIZA JAMPU ANAK STERIA",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "TG: SK TELOK GELAM",
+    "jantina": "P"
+  },
+  {
+    "kedudukan": 9,
+    "masaLarian": 18.35,
+    "namaPenuh": "ADIF NAUFAL BIN MAHSYAR",
+    "jantina": "L",
+    "noBadan": "Q 061",
+    "sekolahKelas": "PNB: SK KG PENIBONG",
+    "kategoriUmur": "L11"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "PNB: SK KG PENIBONG",
+    "namaPenuh": "IZZ FAHMI AMMAR BIN MOHAMMAD FAIZAL",
+    "masaLarian": null,
+    "kedudukan": 34,
+    "kategoriUmur": "L11",
+    "noBadan": "Q 062"
+  },
+  {
+    "kedudukan": 6,
+    "jantina": "L",
+    "noBadan": "Q 063",
+    "masaLarian": 18.22,
+    "namaPenuh": "MOHAMMAD FARHAN ARFAN BIN ABDULLAH",
+    "sekolahKelas": "PNB: SK KG PENIBONG",
+    "kategoriUmur": "L11"
+  },
+  {
+    "sekolahKelas": "PNB: SK KG PENIBONG",
+    "masaLarian": 18.3,
+    "kedudukan": 8,
+    "noBadan": "Q 064",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "namaPenuh": "MOHAMMAD FARHAN IRFAN BIN ABDULLAH"
+  },
+  {
+    "kedudukan": 50,
+    "namaPenuh": "MOHAMAD RAIMI BIN RAILI",
+    "masaLarian": null,
+    "jantina": "L",
+    "noBadan": "Q 065",
+    "kategoriUmur": "L11",
+    "sekolahKelas": "PNB: SK KG PENIBONG"
+  },
+  {
+    "namaPenuh": "ALEESHA HANA BINTI ROSLI",
+    "kedudukan": 82,
+    "jantina": "P",
+    "sekolahKelas": "PNB: SK KG PENIBONG",
+    "kategoriUmur": "P11",
+    "noBadan": "Q 066",
+    "masaLarian": null
+  },
+  {
+    "kedudukan": 94,
+    "noBadan": "Q 067",
+    "kategoriUmur": "P11",
+    "namaPenuh": "ANEESA HANA BINTI ROSLI",
+    "masaLarian": null,
+    "sekolahKelas": "PNB: SK KG PENIBONG",
+    "jantina": "P"
+  },
+  {
+    "jantina": "P",
+    "noBadan": "Q 068",
+    "kedudukan": 112,
+    "sekolahKelas": "PNB: SK KG PENIBONG",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "namaPenuh": "NURSHAHFIKA BINTI NAJOR"
+  },
+  {
+    "namaPenuh": "PUTRI SHAZWANA BINTI RAFIE",
+    "noBadan": "Q 069",
+    "jantina": "P",
+    "kedudukan": 110,
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "sekolahKelas": "PNB: SK KG PENIBONG"
+  },
+  {
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "namaPenuh": "SITI NURFAHANI BINTI SAHRAN",
+    "masaLarian": null,
+    "kedudukan": 0,
+    "noBadan": "Q 070",
+    "sekolahKelas": "PNB: SK KG PENIBONG"
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 25,
+    "noBadan": "QQ 001",
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD AZFAR BIN ARIFFIN",
+    "sekolahKelas": "UD: SK ULU DARO",
+    "masaLarian": null
+  },
+  {
+    "namaPenuh": "MOHAMAD AKIM BIN ABDUL TAIB",
+    "kedudukan": 76,
+    "noBadan": "QQ 002",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "masaLarian": null,
+    "sekolahKelas": "UD: SK ULU DARO"
+  },
+  {
+    "kedudukan": 57,
+    "noBadan": "QQ 003",
+    "sekolahKelas": "UD: SK ULU DARO",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD NUR HAIZUL BIN MOHAMAD WALID"
+  },
+  {
+    "noBadan": "QQ 004",
+    "jantina": "L",
+    "masaLarian": null,
+    "namaPenuh": "MOHAMAD FARRIES FAZRIL BIN SALLEH",
+    "sekolahKelas": "UD: SK ULU DARO",
+    "kategoriUmur": "L11",
+    "kedudukan": 49
+  },
+  {
+    "sekolahKelas": "UD: SK ULU DARO",
+    "namaPenuh": "MUHAMMAD ZIYYAD BIN RAZIF",
+    "kedudukan": 32,
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "jantina": "L",
+    "noBadan": "QQ 005"
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 12,
+    "sekolahKelas": "UD: SK ULU DARO",
+    "noBadan": "QQ 006",
+    "namaPenuh": "NURFATIHAH NAZIHA BINTI NAZRUL",
+    "jantina": "P",
+    "kategoriUmur": "P11"
+  },
+  {
+    "jantina": "P",
+    "noBadan": "QQ 007",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "UD: SK ULU DARO",
+    "namaPenuh": "NUR NAAILA AIN BINTI WANN NAIM NABIHAN",
+    "masaLarian": null,
+    "kedudukan": 114
+  },
+  {
+    "noBadan": "QQ 008",
+    "kedudukan": 13,
+    "namaPenuh": "ANISYA BINTI HAMZAH",
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "sekolahKelas": "UD: SK ULU DARO",
+    "jantina": "P"
+  },
+  {
+    "kedudukan": 58,
+    "kategoriUmur": "P11",
+    "sekolahKelas": "UD: SK ULU DARO",
+    "masaLarian": null,
+    "jantina": "P",
+    "noBadan": "QQ 009",
+    "namaPenuh": "QRISTINA ARISSYA BINTI AMIRUL MU'MININ"
+  },
+  {
+    "namaPenuh": "NUR AZZIANTI BINTI HARDY",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "kedudukan": 59,
+    "noBadan": "QQ 010",
+    "masaLarian": null,
+    "sekolahKelas": "UD: SK ULU DARO"
+  },
+  {
+    "kedudukan": 26,
+    "kategoriUmur": "L11",
+    "noBadan": "R 071",
+    "masaLarian": null,
+    "jantina": "L",
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "namaPenuh": "MUHAMMAD AZRUL NIZAM BIN MOHD HASBULLAH"
+  },
+  {
+    "kedudukan": 42,
+    "noBadan": "R 072",
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "masaLarian": null,
+    "namaPenuh": "AMIRUL ASYRAF BIN FELANI"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "kedudukan": 100,
+    "kategoriUmur": "L11",
+    "namaPenuh": "NUR IMAN HAKIM BIN MUHAMMAD AIMAN HADI",
+    "noBadan": "R 073",
+    "masaLarian": null
+  },
+  {
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "jantina": "L",
+    "masaLarian": null,
+    "kedudukan": 72,
+    "noBadan": "R 074",
+    "namaPenuh": "MOHAMMAD FAQWAN BIN FELANI",
+    "kategoriUmur": "L11"
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 87,
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "noBadan": "R 075",
+    "namaPenuh": "FARISH HAKIMI BIN AHMAD ZAIDI",
+    "kategoriUmur": "L11",
+    "jantina": "L"
+  },
+  {
+    "masaLarian": null,
+    "jantina": "P",
+    "noBadan": "R 076",
+    "namaPenuh": "NOR ATIRA ZAHRA BINTI LOKMAN",
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "kedudukan": 16,
+    "kategoriUmur": "P11"
+  },
+  {
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "noBadan": "R 077",
+    "jantina": "P",
+    "namaPenuh": "NUR AFIQAH HARIYANI BINTI MOHAMAD KIMILEE",
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "kedudukan": 37
+  },
+  {
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "noBadan": "R 078",
+    "kedudukan": 47,
+    "namaPenuh": "NURZARA BATRISYA BINTI SAZALI",
+    "masaLarian": null
+  },
+  {
+    "masaLarian": null,
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "namaPenuh": "NUR ALIYA NASUHA BINTI JOHARI",
+    "jantina": "P",
+    "noBadan": "R 079",
+    "kedudukan": 66,
+    "kategoriUmur": "P11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "AZWA ARRIANA BINTI RAZIS",
+    "masaLarian": null,
+    "sekolahKelas": "PNP: SK KG PENIPAH",
+    "kedudukan": 122,
+    "jantina": "P",
+    "noBadan": "R 080"
+  },
+  {
+    "noBadan": "S081",
+    "kedudukan": 41,
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD HAKIMI BIN RAIMI",
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "L11",
+    "noBadan": "S082",
+    "jantina": "L",
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD PUTRA AQIL ASYRAAF BIN DERUN",
+    "kedudukan": 105
+  },
+  {
+    "kategoriUmur": "L11",
+    "noBadan": "S083",
+    "masaLarian": null,
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "kedudukan": 146,
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD ANIQ WAFIY BIN ABDULLAH"
+  },
+  {
+    "kategoriUmur": "L11",
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "namaPenuh": "MOHAMAD RIZWAN BIN OSMAN",
+    "kedudukan": 141,
+    "jantina": "L",
+    "noBadan": "S084",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "namaPenuh": "MOHAMMAD FAIQQAL BIN MOHD. FAUZI",
+    "noBadan": "S085",
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "masaLarian": null,
+    "kedudukan": 147
+  },
+  {
+    "namaPenuh": "NURFACHIKA DAMIA BINTI ZAIDIN",
+    "noBadan": "S086",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "jantina": "P",
+    "masaLarian": null,
+    "kedudukan": 71
+  },
+  {
+    "kedudukan": 80,
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "namaPenuh": "SITI AISYAH AMYSCHA BINTI MOHAMAD FARDILLAH",
+    "noBadan": "S087"
+  },
+  {
+    "noBadan": "S088",
+    "kedudukan": 87,
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "namaPenuh": "NUR BALQIS BATRISYA BINTI HAMAMIN",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "jantina": "P"
+  },
+  {
+    "masaLarian": null,
+    "noBadan": "S089",
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "kategoriUmur": "P11",
+    "namaPenuh": "MIRA FILZAH BINTI IBRAHIM",
+    "kedudukan": 85,
+    "jantina": "P"
+  },
+  {
+    "kedudukan": 54,
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "noBadan": "S090",
+    "sekolahKelas": "PG: SK KG PERGAU",
+    "masaLarian": null,
+    "namaPenuh": "IZZATI SYAZWANI BINTI MOHAMAD AZWAN"
+  },
+  {
+    "kedudukan": 130,
+    "kategoriUmur": "L11",
+    "sekolahKelas": "KSW: SK KG SAWAI",
+    "noBadan": "T091",
+    "masaLarian": null,
+    "jantina": "L",
+    "namaPenuh": "FERDINAND ETHAN BIN FERNADES"
+  },
+  {
+    "noBadan": "T092",
+    "namaPenuh": "CHRISTY ELVIS BIN ENO",
+    "kedudukan": 88,
+    "masaLarian": null,
+    "sekolahKelas": "KSW: SK KG SAWAI",
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "noBadan": "T096",
+    "sekolahKelas": "KSW: SK KG SAWAI",
+    "kedudukan": 11,
+    "namaPenuh": "EZUNIZYA MAQELLA BINTI SHUKRI",
+    "jantina": "P"
+  },
+  {
+    "jantina": "P",
+    "noBadan": "T097",
+    "kedudukan": 134,
+    "namaPenuh": "AMANDA AFFINA BINTI ZAVITA",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "sekolahKelas": "KSW: SK KG SAWAI"
+  },
+  {
+    "masaLarian": null,
+    "noBadan": "T098",
+    "namaPenuh": "FATRICIA FINA LAWRA BINTI HALAW",
+    "sekolahKelas": "KSW: SK KG SAWAI",
+    "kategoriUmur": "P11",
+    "kedudukan": 65,
+    "jantina": "P"
+  },
+  {
+    "noBadan": "T099",
+    "masaLarian": null,
+    "sekolahKelas": "KSW: SK KG SAWAI",
+    "namaPenuh": "NUR ALIYAH SYAIYA BINTI ABDULLAH",
+    "jantina": "P",
+    "kedudukan": 133,
+    "kategoriUmur": "P11"
+  },
+  {
+    "kedudukan": 62,
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "sekolahKelas": "KSW: SK KG SAWAI",
+    "jantina": "P",
+    "noBadan": "T100",
+    "namaPenuh": "LOVELIA RYDAMIA ANAK ROBEN"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "namaPenuh": "AMMAR ZIYAD BIN HAZARAL",
+    "kedudukan": 68,
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "U001"
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 140,
+    "noBadan": "U002",
+    "namaPenuh": "GILBERT NATHANNIEL ANAK PHOLOMEN",
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "jantina": "L",
+    "masaLarian": null
+  },
+  {
+    "namaPenuh": "MOHAMMAD NOR SHALLZUAN BIN ABDUL WAHAB",
+    "kedudukan": 67,
+    "jantina": "L",
+    "masaLarian": null,
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "noBadan": "U003",
+    "kategoriUmur": "L11"
+  },
+  {
+    "namaPenuh": "MOHAMAD WAFIQ NAJMI BIN KARIM",
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "noBadan": "U004",
+    "kedudukan": 56,
+    "masaLarian": null,
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "namaPenuh": "MUHAMMAD RIYADH WAFIQ BIN SOFFRILA",
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "noBadan": "U005",
+    "jantina": "L",
+    "kedudukan": 93
+  },
+  {
+    "namaPenuh": "ANGELINA LAURA ANAK JUAN",
+    "noBadan": "U006",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "kedudukan": 100,
+    "masaLarian": null,
+    "sekolahKelas": "KSD: SK KG SERDENG"
+  },
+  {
+    "noBadan": "U007",
+    "namaPenuh": "ANIS NUR NAFIA BINTI ABDULLAH",
+    "jantina": "P",
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "kategoriUmur": "P11",
+    "kedudukan": 139,
+    "masaLarian": null
+  },
+  {
+    "namaPenuh": "ARAORA CHRISTY ANAK MARTIN",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "noBadan": "U008",
+    "kedudukan": 115,
+    "masaLarian": null
+  },
+  {
+    "noBadan": "U009",
+    "namaPenuh": "DANIA NUR BATRISYA BINTI MOHD FARAZUANA",
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "kedudukan": 98,
+    "jantina": "P"
+  },
+  {
+    "kedudukan": 128,
+    "kategoriUmur": "P11",
+    "sekolahKelas": "KSD: SK KG SERDENG",
+    "noBadan": "U010",
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "NUR ALYA MAISARA BINTI MOHD. FIRDAUS"
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 20,
+    "noBadan": "V011",
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "masaLarian": null,
+    "namaPenuh": "MOHAMAD HAKIMI BIN AZMIL",
+    "jantina": "L"
+  },
+  {
+    "masaLarian": null,
+    "kedudukan": 80,
+    "jantina": "L",
+    "namaPenuh": "MOHAMMAD MIRZA RAFIQI BIN ABDULLAH",
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "noBadan": "V012",
+    "kategoriUmur": "L11"
+  },
+  {
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "kedudukan": 39,
+    "jantina": "L",
+    "noBadan": "V013",
+    "masaLarian": null,
+    "namaPenuh": "MUHAMAD HAZIQ DANIAL BIN ABDULLAH",
+    "kategoriUmur": "L11"
+  },
+  {
+    "kedudukan": 129,
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD ZILL ZAFRAN KADUM BIN MOHD RAYYAN ANIQ",
+    "noBadan": "V014",
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "jantina": "L",
+    "kategoriUmur": "L11"
+  },
+  {
+    "jantina": "L",
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "noBadan": "V015",
+    "kedudukan": 43,
+    "namaPenuh": "SYHAFIQ SYHAFWAN BIN SUFYAN",
+    "masaLarian": null,
+    "kategoriUmur": "L11"
+  },
+  {
+    "kedudukan": 78,
+    "masaLarian": null,
+    "jantina": "P",
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "namaPenuh": "AINUHA NUR SYIFA BINTI AZROL YII",
+    "noBadan": "V016",
+    "kategoriUmur": "P11"
+  },
+  {
+    "masaLarian": null,
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "namaPenuh": "NUR FATIEN NASUHA BINTI MUHAMAD SAIFUL AZMA",
+    "noBadan": "V017",
+    "jantina": "P",
+    "kedudukan": 71,
+    "kategoriUmur": "P11"
+  },
+  {
+    "kedudukan": 46,
+    "noBadan": "V018",
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "namaPenuh": "ZARA ADELIA BINTI NAMAZI",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "masaLarian": null
+  },
+  {
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "namaPenuh": "NUR INSYIRAH IMAN BINTI MUHAMMAD AZIZAN",
+    "noBadan": "V019",
+    "jantina": "P",
+    "kedudukan": 119
+  },
+  {
+    "sekolahKelas": "KT: SK KG TEBAANG",
+    "kedudukan": 120,
+    "jantina": "P",
+    "masaLarian": null,
+    "namaPenuh": "DANIA AISYA AULIA BINTI RAHMAT",
+    "kategoriUmur": "P11",
+    "noBadan": "V020"
+  },
+  {
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "namaPenuh": "FATTAH AL IMAN BIN ABDUL ALIF",
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "kedudukan": 91,
+    "noBadan": "W021",
+    "masaLarian": null
+  },
+  {
+    "namaPenuh": "MOHAMAD AIRIEL NAZWAN BIN ABDUL ALIF",
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "noBadan": "W022",
+    "jantina": "L",
+    "kedudukan": 73
+  },
+  {
+    "namaPenuh": "ADLIE FAIRUS BIN ABDUL KADIR",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "noBadan": "W023",
+    "jantina": "L",
+    "kedudukan": 117
+  },
+  {
+    "kategoriUmur": "L11",
+    "namaPenuh": "AQISH IZZ RAYYAN BIN IRWAN",
+    "noBadan": "W024",
+    "masaLarian": null,
+    "kedudukan": 71,
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "jantina": "L"
+  },
+  {
+    "kedudukan": 118,
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "noBadan": "W025",
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD ADAM FIRDAUS BIN ADZWAN"
+  },
+  {
+    "noBadan": "W026",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "namaPenuh": "NUR JANNAH BINTI ADZROL",
+    "kedudukan": 60,
+    "masaLarian": null,
+    "sekolahKelas": "TKJ: SK KG TEKAJONG"
+  },
+  {
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "jantina": "P",
+    "noBadan": "W027",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "kedudukan": 69,
+    "namaPenuh": "NUR ALISHA ZULFIKHA BINTI ABDULLAH"
+  },
+  {
+    "jantina": "P",
+    "namaPenuh": "NURRAISYAH NAJIHA BINTI ISMAIL",
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "masaLarian": null,
+    "noBadan": "W028",
+    "kategoriUmur": "P11",
+    "kedudukan": 33
+  },
+  {
+    "namaPenuh": "ERIKA SOFIA BINTI ISSYAM",
+    "noBadan": "W029",
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "kedudukan": 53,
+    "masaLarian": null
+  },
+  {
+    "jantina": "P",
+    "namaPenuh": "NURDANIA AFFINA BINTI KIPRAN",
+    "kedudukan": 97,
+    "sekolahKelas": "TKJ: SK KG TEKAJONG",
+    "masaLarian": null,
+    "kategoriUmur": "P11",
+    "noBadan": "W030"
+  },
+  {
+    "jantina": "L",
+    "namaPenuh": "MUHAMMAD ARIF BIN MUHAMMAD ARIFIN",
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "kategoriUmur": "L11",
+    "masaLarian": null,
+    "kedudukan": 13,
+    "noBadan": "X031"
+  },
+  {
+    "jantina": "L",
+    "masaLarian": null,
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "noBadan": "X032",
+    "kategoriUmur": "L11",
+    "kedudukan": 22,
+    "namaPenuh": "MUHAMAD RAFIQ BIN FAIZAL"
+  },
+  {
+    "kategoriUmur": "L11",
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "kedudukan": 24,
+    "jantina": "L",
+    "masaLarian": null,
+    "namaPenuh": "MOHAMAD NAZALI BIN MOHAMAD BALI",
+    "noBadan": "X033"
+  },
+  {
+    "masaLarian": null,
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "namaPenuh": "ZULKARNAIN BIN RIDZUWAN",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "kedudukan": 138,
+    "noBadan": "X034"
+  },
+  {
+    "kedudukan": 36,
+    "masaLarian": null,
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "jantina": "L",
+    "kategoriUmur": "L11",
+    "noBadan": "X035",
+    "namaPenuh": "ALIF HAIQAL BIN AZAIMIE"
+  },
+  {
+    "jantina": "P",
+    "noBadan": "X036",
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "namaPenuh": "NOR MAZIYANITA BINTI ABDULLAH",
+    "kedudukan": 23,
+    "masaLarian": null,
+    "kategoriUmur": "P11"
+  },
+  {
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "noBadan": "X037",
+    "kedudukan": 21,
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "namaPenuh": "NOR RAZIA KAYYSIA BINTI RAZILI",
+    "jantina": "P"
+  },
+  {
+    "masaLarian": 20.53,
+    "namaPenuh": "NURATIRAH ASSYIKIN BINTI MOHD NURISYAM",
+    "jantina": "P",
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "kategoriUmur": "P11",
+    "kedudukan": 2,
+    "noBadan": "X038"
+  },
+  {
+    "jantina": "P",
+    "kedudukan": 22,
+    "namaPenuh": "NUR ALESYA MAISARAH BINTI MOHAMAD JAMBRI",
+    "kategoriUmur": "P11",
+    "masaLarian": null,
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "noBadan": "X039"
+  },
+  {
+    "sekolahKelas": "KM: SK KUALA MATU",
+    "kedudukan": 4,
+    "masaLarian": 21.49,
+    "namaPenuh": "MIEYA AQIESYA BINTI OSMAN KUEH",
+    "noBadan": "X040",
+    "jantina": "P",
+    "kategoriUmur": "P11"
+  },
+  {
+    "kedudukan": 139,
+    "noBadan": "Y041",
+    "masaLarian": null,
+    "namaPenuh": "MUHAMMAD SAIFULLAH BIN MADZALI",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI"
+  },
+  {
+    "kedudukan": 51,
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "noBadan": "Y042",
+    "namaPenuh": "MOHAMAD SAUFI ZAQWAN BIN ABDULLAH",
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "masaLarian": null
+  },
+  {
+    "jantina": "L",
+    "kedudukan": 21,
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "kategoriUmur": "L11",
+    "noBadan": "Y043",
+    "namaPenuh": "MUHAMMAD AFIQ IQWAN BIN MOHD.KIPLI",
+    "masaLarian": null
+  },
+  {
+    "namaPenuh": "JAZIEMIN AJMAIN BIN ZULHAIRI",
+    "masaLarian": null,
+    "jantina": "L",
+    "kedudukan": 59,
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "kategoriUmur": "L11",
+    "noBadan": "Y044"
+  },
+  {
+    "jantina": "L",
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "namaPenuh": "HARIZ HAIKAL BIN AMIR MIRZAN",
+    "noBadan": "Y045",
+    "kedudukan": 128
+  },
+  {
+    "namaPenuh": "DAMIA BATRISYIA BINTI MOHAMAD ARMAN",
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "noBadan": "Y046",
+    "masaLarian": null,
+    "kedudukan": 118
+  },
+  {
+    "masaLarian": null,
+    "jantina": "P",
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "kategoriUmur": "P11",
+    "kedudukan": 140,
+    "namaPenuh": "NUR NIEYLDYA HANNAH BINTI ADLAN",
+    "noBadan": "Y047"
+  },
+  {
+    "namaPenuh": "QALISSA MAYSARAH BINTI MAHIDZAM",
+    "masaLarian": null,
+    "noBadan": "Y048",
+    "jantina": "P",
+    "kedudukan": 67,
+    "kategoriUmur": "P11",
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI"
+  },
+  {
+    "noBadan": "Y049",
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "kedudukan": 144,
+    "jantina": "P",
+    "kategoriUmur": "P11",
+    "namaPenuh": "TIARA NURAINA BINTI MOHAMAD NORAZAM",
+    "masaLarian": null
+  },
+  {
+    "noBadan": "Y050",
+    "kedudukan": 143,
+    "masaLarian": null,
+    "jantina": "P",
+    "sekolahKelas": "MR: SK MOHAMAD REDEH SAAI",
+    "kategoriUmur": "P11",
+    "namaPenuh": "NUR WAFIYYAH BINTI ABDULLAH"
+  },
+  {
+    "kedudukan": 114,
+    "kategoriUmur": "L11",
+    "jantina": "L",
+    "masaLarian": null,
+    "namaPenuh": "ALDRICH DAFFIN ANAK ANDREW",
+    "noBadan": "Z051",
+    "sekolahKelas": "NS: SK NANGA SEMAH"
+  },
+  {
+    "sekolahKelas": "NS: SK NANGA SEMAH",
+    "kedudukan": 122,
+    "masaLarian": null,
+    "kategoriUmur": "L11",
+    "noBadan": "Z052",
+    "namaPenuh": "NIXMICKSON SUNANG ANAK ROSEMIATI",
+    "jantina": "L"
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 95,
+    "jantina": "L",
+    "sekolahKelas": "NS: SK NANGA SEMAH",
+    "masaLarian": null,
+    "namaPenuh": "MATHIUS LANGI ANAK LEMINA KIAH",
+    "noBadan": "Z053"
+  },
+  {
+    "namaPenuh": "NELRENCE DIEYAZ ANAK NANANG",
+    "kedudukan": 96,
+    "kategoriUmur": "L11",
+    "sekolahKelas": "NS: SK NANGA SEMAH",
+    "noBadan": "Z054",
+    "jantina": "L",
+    "masaLarian": null
+  },
+  {
+    "kategoriUmur": "L11",
+    "kedudukan": 35,
+    "namaPenuh": "CHRISTHOPER RAGAN ANAK LEMINA KIAH",
+    "masaLarian": null,
+    "jantina": "L",
+    "noBadan": "Z055",
+    "sekolahKelas": "NS: SK NANGA SEMAH"
+  },
+  {
+    "kedudukan": 42,
+    "namaPenuh": "ALESSIA LUCIANA ANAK MALIA",
+    "jantina": "P",
+    "masaLarian": null,
+    "noBadan": "Z056",
+    "sekolahKelas": "NS: SK NANGA SEMAH",
+    "kategoriUmur": "P11"
+  },
+  {
+    "namaPenuh": "ALINAALISA SAPAH ANAK ROSEETA",
+    "jantina": "P",
+    "masaLarian": null,
+    "kedudukan": 108,
+    "kategoriUmur": "P11",
+    "noBadan": "Z057",
+    "sekolahKelas": "NS: SK NANGA SEMAH"
+  },
+  {
+    "kedudukan": 111,
+    "sekolahKelas": "NS: SK NANGA SEMAH",
+    "masaLarian": null,
+    "namaPenuh": "BATRISYA NATASHA BINTI ABDULLAH",
+    "kategoriUmur": "P11",
+    "jantina": "P",
+    "noBadan": "Z058"
+  },
+  {
+    "kategoriUmur": "P11",
+    "namaPenuh": "NATASHA BINTI ABDULLAH",
+    "jantina": "P",
+    "kedudukan": 31,
+    "noBadan": "Z059",
+    "masaLarian": null,
+    "sekolahKelas": "NS: SK NANGA SEMAH"
+  },
+  {
+    "sekolahKelas": "NS: SK NANGA SEMAH",
+    "kedudukan": 27,
+    "masaLarian": null,
+    "namaPenuh": "ROSELLA MARIA ANAK ROSEMIATI",
+    "jantina": "P",
+    "noBadan": "Z060",
+    "kategoriUmur": "P11"
+  }
+]
