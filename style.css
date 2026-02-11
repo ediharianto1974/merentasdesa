@@ -92,7 +92,7 @@ header p {
 /* --- LOGOUT BUTTON --- */
 #logout-btn {
     position: absolute;
-    top: 50%;
+    top: 20%;
     right: 2rem;
     transform: translateY(-50%);
     background: rgba(255,255,255,0.15);
@@ -689,3 +689,4 @@ footer p {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-light);
 }
+
