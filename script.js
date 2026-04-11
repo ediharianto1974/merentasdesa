@@ -229,7 +229,7 @@ class Kejohanan {
 
     // --- D. PAPARAN DAN ANALISIS KEPUTUSAN --- 
     
-    paparSemuaPesertaDalamJadual() {
+paparSemuaPesertaDalamJadual() {
         if (this.senaraiPeserta.length === 0) return '<p>Tiada peserta didaftarkan.</p>';
 
         let htmlOutput = '<table>';
@@ -259,6 +259,24 @@ class Kejohanan {
         
         htmlOutput += '</table>';
         htmlOutput += `<p>Jumlah Keseluruhan: <strong>${this.senaraiPeserta.length}</strong></p>`;
+
+        // ==========================================
+        // MULA TAMBAH BUTANG SIMPAN DI SINI
+        // ==========================================
+        if (isAdmin()) {
+            htmlOutput += `
+            <div style="text-align: center; margin: 20px 0;">
+                <button id="btn-simpan" onclick="simpanSemuaKeputusan()" style="padding: 12px 24px; font-size: 16px; font-weight: bold; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    💾 Simpan Semua Keputusan
+                </button>
+                <p style="font-size: 0.8em; color: #666; margin-top: 5px;">*Ingat: Tekan butang ini selepas selesai memasukkan markah.</p>
+            </div>
+            `;
+        }
+        // ==========================================
+        // TAMAT TAMBAHAN BUTANG
+        // ==========================================
+
         return htmlOutput;
     }
     
@@ -447,70 +465,24 @@ function handleEditCell(e) {
     if (!isAdmin()) return;
 
     if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
-        const noBadan = e.target.getAttribute('data-nobadan');
         const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
         
-        e.target.onblur = async function() {
-            let nilaiBaru = e.target.textContent.trim();
-            let updated = false;
-            
-            // Simpan nilai lama untuk revert jika gagal
-            const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
-            
-            if (field === 'kedudukan') {
-                if (nilaiBaru === '') updated = await kejohanan.setKedudukan(noBadan, 0);
-                else {
-                    const val = parseInt(nilaiBaru);
-                    if (isNaN(val) || val < 0) {
-                        alert('❌ Nombor tidak sah.');
-                        e.target.textContent = peserta.kedudukan > 0 ? peserta.kedudukan : '';
-                        return;
-                    }
-                    updated = await kejohanan.setKedudukan(noBadan, val);
-                }
-            } else if (field === 'masaLarian') {
-                if (nilaiBaru === '') updated = await kejohanan.setMasaLarian(noBadan, null);
-                else {
-                    const val = parseFloat(nilaiBaru);
-                    if (isNaN(val) || val <= 0) {
-                        alert('❌ Masa tidak sah.');
-                        e.target.textContent = peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
-                        return;
-                    }
-                    updated = await kejohanan.setMasaLarian(noBadan, val);
-                }
-            }
-            
-            if (updated) {
-                 // OPTIMASI: Jangan panggil paparSemuaPeserta(). 
-                 // Beri feedback visual (Flash Green)
-                 e.target.style.backgroundColor = "#d4edda"; // Hijau muda
-                 e.target.style.transition = "background-color 0.5s";
-                 setTimeout(() => {
-                     e.target.style.backgroundColor = ""; 
-                 }, 1000);
-            } else {
-                // Revert jika gagal update database
-                alert('Gagal simpan ke database.');
-                if (field === 'kedudukan') e.target.textContent = peserta.kedudukan > 0 ? peserta.kedudukan : '';
-                if (field === 'masaLarian') e.target.textContent = peserta.masaLarian !== null ? peserta.masaLarian.toFixed(2) : '';
-            }
-        };
+        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
         
         e.target.onkeydown = function(event) {
             const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
             const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
 
-            if (event.keyCode === 13) { // Enter key
-                event.preventDefault();
-                e.target.blur(); // Trigger onblur to save
+            if (event.keyCode === 13) { // Tombol Enter
+                event.preventDefault(); // Mencegah tombol enter membuat baris baru di dalam kotak
                 return;
             }
 
+            // Validasi agar hanya angka yang bisa diketik
             if (field === 'kedudukan') {
                 if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
             } else if (field === 'masaLarian') {
-                 // Benarkan titik perpuluhan (190 atau 110)
+                 // Izinkan angka dan titik desimal (key code 190 atau 110)
                  if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
                     event.preventDefault();
                 }
@@ -990,4 +962,64 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginContainer = document.getElementById('login-container');
     if (loginContainer) loginContainer.style.display = 'block';
 });
+
+// ==========================================================
+// FUNGSI SIMPAN MANUAL
+// ==========================================================
+async function simpanSemuaKeputusan() {
+    if (!isAdmin()) return;
+    
+    const btn = document.getElementById('btn-simpan');
+    if (btn) {
+        btn.innerHTML = "Menyimpan... ⏳";
+        btn.disabled = true;
+    }
+
+    // Ambil semua kotak kedudukan dan masa dari jadual
+    const tdsKedudukan = document.querySelectorAll('.kedudukan-cell');
+    const tdsMasa = document.querySelectorAll('.masa-cell');
+
+    let ralat = 0;
+    let berjaya = 0;
+
+    for (let i = 0; i < tdsKedudukan.length; i++) {
+        const noBadan = tdsKedudukan[i].getAttribute('data-nobadan');
+        const nilaiKedudukan = tdsKedudukan[i].textContent.trim();
+        const nilaiMasa = tdsMasa[i].textContent.trim();
+
+        let kedudukanInt = (nilaiKedudukan === '' || isNaN(nilaiKedudukan)) ? 0 : Math.max(0, parseInt(nilaiKedudukan));
+        let masaFloat = (nilaiMasa === '' || isNaN(nilaiMasa)) ? null : parseFloat(nilaiMasa);
+
+        // Semak jika ada perubahan data untuk jimatkan kuota Firebase
+        const peserta = kejohanan.senaraiPeserta.find(p => p.noBadan.trim() === noBadan);
+        if (peserta) {
+            let perluUpdate = false;
+            let updateData = {};
+            
+            if (peserta.kedudukan !== kedudukanInt) { 
+                updateData.kedudukan = kedudukanInt; 
+                perluUpdate = true; 
+            }
+            if (peserta.masaLarian !== masaFloat) { 
+                updateData.masaLarian = masaFloat; 
+                perluUpdate = true; 
+            }
+
+            // Jika ada perubahan, baru kita hantar ke pangkalan data
+            if (perluUpdate) {
+                const status = await kejohanan.updatePeserta(noBadan, updateData);
+                if (status) berjaya++; 
+                else ralat++;
+            }
+        }
+    }
+
+    if (btn) {
+        btn.innerHTML = "💾 Simpan Semua Keputusan";
+        btn.disabled = false;
+    }
+    
+    alert(`✅ Proses selesai! Data dikemaskini: ${berjaya} | Ralat: ${ralat}`);
+    paparSemuaPeserta(); // Segarkan semula jadual
+}
 
