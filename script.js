@@ -701,6 +701,7 @@ function openSubTab(evt, tabName, analysisFunction = null) {
 // ==========================================================
 
 // --- FUNGSI CETAKAN ---
+
 function handleCetakKeputusan() {
     if (kejohanan.senaraiPeserta.length === 0) {
         alert("Tiada data peserta untuk dicetak.");
@@ -776,6 +777,46 @@ function handleCetakKeputusan() {
     });
 
     cetakTetingkap("SENARAI PENUH PESERTA MENGIKUT PASUKAN", kandungan);
+}
+
+function handleCetakAnalisis() {
+    // Gabungkan analisis individu dan kumpulan
+    const individu = document.getElementById('result-individu').innerHTML;
+    const kumpulan = document.getElementById('result-kumpulan').innerHTML;
+    
+    const kandungan = `
+        <h2>KEPUTUSAN INDIVIDU</h2>
+        ${individu}
+        <div style="page-break-before: always;"></div>
+        <h2>KEPUTUSAN PASUKAN</h2>
+        ${kumpulan}
+    `;
+    cetakTetingkap("ANALISIS RASMI KEJOHANAN", kandungan);
+}
+
+function cetakTetingkap(tajuk, isiKandungan) {
+    const tetingkapCetak = window.open('', '', 'height=800,width=1000');
+    
+    tetingkapCetak.document.write('<html><head><title>' + tajuk + '</title>');
+    // Gaya CSS khusus untuk cetakan supaya jadual cantik
+    tetingkapCetak.document.write(`
+        <style>
+            body { font-family: sans-serif; padding: 20px; }
+            h1, h2 { text-align: center; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+            th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            .rank-1 td { background-color: #ffffcc !important; -webkit-print-color-adjust: exact; }
+        </style>
+    `);
+    tetingkapCetak.document.write('</head><body>');
+    tetingkapCetak.document.write('<h1>' + tajuk + '</h1>');
+    tetingkapCetak.document.write('<p style="text-align:center">Dicetak pada: ' + new Date().toLocaleString() + '</p>');
+    tetingkapCetak.document.write(isiKandungan);
+    tetingkapCetak.document.write('</body></html>');
+    
+    tetingkapCetak.document.close();
+    tetingkapCetak.print();
 }
 
 // 1. FUNGSI PADAM SEMUA (Tanpa Auto Backup)
