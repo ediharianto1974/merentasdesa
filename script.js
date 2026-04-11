@@ -549,13 +549,96 @@ async function resetSemuaData() {
     }
 }
 
+// ==========================================================
 // --- FUNGSI PAPARAN ---
+// ==========================================================
+
+// 1. Wujudkan pembolehubah memori untuk simpan keadaan tapisan
+let filterKategoriSemasa = "";
+let filterPasukanSemasa = "";
+let filterCarianSemasa = "";
 
 function paparSemuaPeserta() {
-    const html = kejohanan.paparSemuaPesertaDalamJadual();
-    document.getElementById('result-senarai').innerHTML = html;
-    document.getElementById('filterInput').value = ""; 
-    filterTable(); 
+    // Bina senarai unik Kategori dan Pasukan dari data sedia ada
+    const kategoriUnik = [...new Set(kejohanan.senaraiPeserta.map(p => p.kategoriUmur))].sort();
+    const pasukanUnik = [...new Set(kejohanan.senaraiPeserta.map(p => p.sekolahKelas))].sort();
+
+    // Bina kotak tapisan (Dropdown) secara automatik menggunakan HTML
+    let dropdownHTML = `
+        <div style="margin-bottom: 15px; padding: 10px; background-color: #f1f5f9; border-radius: 5px; border: 1px solid #cbd5e1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <strong>Tapis Paparan: </strong>
+            
+            <select id="filterKategori" onchange="kemaskiniFilter()" style="padding: 5px; border-radius: 3px;">
+                <option value="">-- SEMUA KATEGORI --</option>
+                ${kategoriUnik.map(k => `<option value="${escapeHtml(k)}" ${filterKategoriSemasa === k ? 'selected' : ''}>${escapeHtml(k)}</option>`).join('')}
+            </select>
+            
+            <select id="filterPasukan" onchange="kemaskiniFilter()" style="padding: 5px; border-radius: 3px;">
+                <option value="">-- SEMUA PASUKAN --</option>
+                ${pasukanUnik.map(p => `<option value="${escapeHtml(p)}" ${filterPasukanSemasa === p ? 'selected' : ''}>${escapeHtml(p)}</option>`).join('')}
+            </select>
+
+            <input type="text" id="filterInput" placeholder="Cari No Badan / Nama..." onkeyup="kemaskiniFilter()" value="${filterCarianSemasa}" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc; flex-grow: 1; max-width: 300px;">
+        </div>
+    `;
+
+    // Ambil jadual asal
+    const htmlJadual = kejohanan.paparSemuaPesertaDalamJadual();
+    
+    // Cantumkan dropdown dan jadual ke dalam skrin
+    document.getElementById('result-senarai').innerHTML = dropdownHTML + htmlJadual;
+    
+    // Wajib panggil fungsi filter untuk pastikan jadual ditapis mengikut dropdown yang dipilih
+    kemaskiniFilter(); 
+}
+
+function kemaskiniFilter() {
+    // Simpan pilihan terkini ke dalam memori
+    const dropdownKategori = document.getElementById('filterKategori');
+    const dropdownPasukan = document.getElementById('filterPasukan');
+    const inputCarian = document.getElementById('filterInput');
+
+    if (dropdownKategori) filterKategoriSemasa = dropdownKategori.value;
+    if (dropdownPasukan) filterPasukanSemasa = dropdownPasukan.value;
+    if (inputCarian) filterCarianSemasa = inputCarian.value.toUpperCase();
+
+    const container = document.getElementById("result-senarai");
+    const table = container.querySelector("table");
+    if (!table) return; 
+
+    const rows = table.getElementsByTagName("tr");
+    
+    // Mula tapis baris (skip baris 0 sebab ia adalah tajuk table)
+    for (let i = 1; i < rows.length; i++) {
+        let row = rows[i];
+        const cells = row.getElementsByTagName("td");
+        
+        if (cells.length < 5) continue;
+
+        // Dalam jadual kita: Kategori di lajur ke-4 (index 3), Pasukan di lajur ke-5 (index 4)
+        const rowKategori = cells[3].textContent; 
+        const rowPasukan = cells[4].textContent; 
+        
+        // Semak syarat tapisan dropdown
+        const lepasKategori = (filterKategoriSemasa === "" || rowKategori === filterKategoriSemasa);
+        const lepasPasukan = (filterPasukanSemasa === "" || rowPasukan === filterPasukanSemasa);
+        
+        // Semak syarat carian teks bebas
+        let lepasCarian = false;
+        if (filterCarianSemasa === "") {
+            lepasCarian = true;
+        } else {
+            for (let j = 0; j < 5; j++) { 
+                if (cells[j].textContent.toUpperCase().indexOf(filterCarianSemasa) > -1) {
+                    lepasCarian = true;
+                    break; 
+                }
+            }
+        }
+
+        // Paparkan hanya jika lepasi ketiga-tiga syarat
+        row.style.display = (lepasKategori && lepasPasukan && lepasCarian) ? "" : "none";
+    }
 }
 
 function analisisIndividu() {
