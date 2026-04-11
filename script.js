@@ -702,48 +702,80 @@ function openSubTab(evt, tabName, analysisFunction = null) {
 
 // --- FUNGSI CETAKAN ---
 function handleCetakKeputusan() {
-    const kandungan = document.getElementById('result-senarai').innerHTML;
-    cetakTetingkap("KEPUTUSAN PENUH KEJOHANAN", kandungan);
-}
+    if (kejohanan.senaraiPeserta.length === 0) {
+        alert("Tiada data peserta untuk dicetak.");
+        return;
+    }
 
-function handleCetakAnalisis() {
-    // Gabungkan analisis individu dan kumpulan
-    const individu = document.getElementById('result-individu').innerHTML;
-    const kumpulan = document.getElementById('result-kumpulan').innerHTML;
-    
-    const kandungan = `
-        <h2>KEPUTUSAN INDIVIDU</h2>
-        ${individu}
-        <div style="page-break-before: always;"></div>
-        <h2>KEPUTUSAN PASUKAN</h2>
-        ${kumpulan}
-    `;
-    cetakTetingkap("ANALISIS RASMI KEJOHANAN", kandungan);
-}
+    let kandungan = "";
 
-function cetakTetingkap(tajuk, isiKandungan) {
-    const tetingkapCetak = window.open('', '', 'height=800,width=1000');
-    
-    tetingkapCetak.document.write('<html><head><title>' + tajuk + '</title>');
-    // Gaya CSS khusus untuk cetakan supaya jadual cantik
-    tetingkapCetak.document.write(`
-        <style>
-            body { font-family: sans-serif; padding: 20px; }
-            h1, h2 { text-align: center; }
-            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
-            th, td { border: 1px solid #000; padding: 5px; text-align: left; }
-            th { background-color: #f2f2f2; }
-            .rank-1 td { background-color: #ffffcc !important; -webkit-print-color-adjust: exact; }
-        </style>
-    `);
-    tetingkapCetak.document.write('</head><body>');
-    tetingkapCetak.document.write('<h1>' + tajuk + '</h1>');
-    tetingkapCetak.document.write('<p style="text-align:center">Dicetak pada: ' + new Date().toLocaleString() + '</p>');
-    tetingkapCetak.document.write(isiKandungan);
-    tetingkapCetak.document.write('</body></html>');
-    
-    tetingkapCetak.document.close();
-    tetingkapCetak.print();
+    // 1. Kumpulkan data mengikut Kategori -> Pasukan
+    const pesertaBerkumpulan = {};
+
+    kejohanan.senaraiPeserta.forEach(p => {
+        const kategori = p.kategoriUmur || "TIADA KATEGORI";
+        const pasukan = p.sekolahKelas || "TIADA PASUKAN";
+
+        if (!pesertaBerkumpulan[kategori]) {
+            pesertaBerkumpulan[kategori] = {};
+        }
+        if (!pesertaBerkumpulan[kategori][pasukan]) {
+            pesertaBerkumpulan[kategori][pasukan] = [];
+        }
+        pesertaBerkumpulan[kategori][pasukan].push(p);
+    });
+
+    // 2. Susun Kategori (A-Z) dan bina jadual HTML
+    const senaraiKategori = Object.keys(pesertaBerkumpulan).sort();
+
+    senaraiKategori.forEach((kategori, index) => {
+        kandungan += `<h2>KATEGORI: ${escapeHtml(kategori)}</h2>`;
+
+        // Susun Pasukan dalam kategori ini (A-Z)
+        const senaraiPasukan = Object.keys(pesertaBerkumpulan[kategori]).sort();
+
+        senaraiPasukan.forEach(pasukan => {
+            // Gaya sebaris (inline CSS) untuk serlahkan nama pasukan
+            kandungan += `<h3 style="text-align: left; background-color: #e2e8f0; padding: 5px 10px; margin-bottom: 0;">PASUKAN: ${escapeHtml(pasukan)}</h3>`;
+            kandungan += `
+                <table>
+                    <tr>
+                        <th style="width: 15%;">NO. BADAN</th>
+                        <th style="width: 45%;">NAMA PENUH</th>
+                        <th style="width: 10%;">JANTINA</th>
+                        <th style="width: 15%;">KEDUDUKAN</th>
+                        <th style="width: 15%;">MASA (minit)</th>
+                    </tr>
+            `;
+
+            // Susun peserta mengikut No. Badan
+            const peserta = pesertaBerkumpulan[kategori][pasukan].sort((a, b) => a.noBadan.localeCompare(b.noBadan));
+
+            peserta.forEach(p => {
+                const kedudukanDisplay = p.kedudukan > 0 ? p.kedudukan : '-';
+                const masaDisplay = p.masaLarian !== null ? p.masaLarian.toFixed(2) : '-';
+
+                kandungan += `
+                    <tr>
+                        <td>${escapeHtml(p.noBadan)}</td>
+                        <td>${escapeHtml(p.namaPenuh)}</td>
+                        <td>${escapeHtml(p.jantina)}</td>
+                        <td>${kedudukanDisplay}</td>
+                        <td>${masaDisplay}</td>
+                    </tr>
+                `;
+            });
+
+            kandungan += `</table>`;
+        });
+
+        // Letak pemisah halaman (page break) selepas setiap kategori, KECUALI kategori terakhir
+        if (index < senaraiKategori.length - 1) {
+            kandungan += `<div style="page-break-after: always;"></div>`;
+        }
+    });
+
+    cetakTetingkap("SENARAI PENUH PESERTA MENGIKUT PASUKAN", kandungan);
 }
 
 // 1. FUNGSI PADAM SEMUA (Tanpa Auto Backup)
