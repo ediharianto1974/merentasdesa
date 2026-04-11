@@ -550,8 +550,7 @@ function paparSemuaPeserta() {
                 ${pasukanUnik.map(p => `<option value="${escapeHtml(p)}" ${filterPasukanSemasa === p ? 'selected' : ''}>${escapeHtml(p)}</option>`).join('')}
             </select>
 
-            <input type="text" id="filterInput" placeholder="Cari No Badan / Nama..." onkeyup="kemaskiniFilter()" value="${filterCarianSemasa}" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc; flex-grow: 1; max-width: 300px;">
-        </div>
+           </div>
     `;
 
     // Ambil jadual asal
