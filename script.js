@@ -450,6 +450,8 @@ analisisPemenangKumpulan() {
 
         return htmlOutput;
     }
+}
+
 // ==========================================================
 // 2. INISIALISASI & PENGENDALI ACARA
 // ==========================================================
