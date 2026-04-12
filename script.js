@@ -280,7 +280,7 @@ paparSemuaPesertaDalamJadual() {
         return htmlOutput;
     }
     
-    analisisPemenangIndividuKategori() {
+analisisPemenangIndividuKategori() {
         const pemenangKategori = this.dapatkanPemenangTersusunMengikutKategori();
         let htmlOutput = '';
 
@@ -289,15 +289,16 @@ paparSemuaPesertaDalamJadual() {
         for (const kategori in pemenangKategori) {
             const senarai = pemenangKategori[kategori];
             
-            // Logik Masa
-            let masaRank10 = null;
-            const rank10Peserta = senarai.find((p, index) => index === 9 && p.masaLarian !== null);
-            if (rank10Peserta) masaRank10 = rank10Peserta.masaLarian;
+            // --- PERUBAHAN DI SINI: RUJUK RANK 15 (Index 14) ---
+            let masaRank15 = null;
+            const rank15Peserta = senarai.find((p, index) => index === 14 && p.masaLarian !== null);
+            if (rank15Peserta) masaRank15 = rank15Peserta.masaLarian;
 
             htmlOutput += `<h4>== KATEGORI: ${escapeHtml(kategori)} ==</h4>`;
             
-            if (masaRank10 === null && senarai.length >= 11) {
-                htmlOutput += `<p style="color:red; font-size: 0.9em;">⚠️ Sila masukkan masa untuk Rank 10 bagi mengaktifkan pengiraan automatik Rank 11+.</p>`;
+            // Amaran jika Rank 15 tiada masa tapi ada peserta Rank 16+
+            if (masaRank15 === null && senarai.length >= 16) {
+                htmlOutput += `<p style="color:red; font-size: 0.9em;">⚠️ Sila masukkan masa untuk Rank 15 bagi mengaktifkan pengiraan automatik Rank 16+.</p>`;
             }
             
             htmlOutput += '<table>';
@@ -310,8 +311,9 @@ paparSemuaPesertaDalamJadual() {
                 let masaDisplay = '';
                 let masaActual = p.masaLarian;
 
-                if (rankKategori >= 11 && masaRank10 !== null) {
-                    masaActual = masaRank10 + ((rankKategori - 10) * 0.03);
+                // --- PERUBAHAN DI SINI: MULA AUTO DARI RANK 16 MENGGUNAKAN MASA RANK 15 ---
+                if (rankKategori >= 16 && masaRank15 !== null) {
+                    masaActual = masaRank15 + ((rankKategori - 15) * 0.03);
                 }
                 
                 if (masaActual !== null) masaDisplay = masaActual.toFixed(2);
