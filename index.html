@@ -146,9 +146,12 @@
             <section class="card">
                 <h2>Keputusan Rasmi Kejohanan</h2>
                 
-                <div class="tab-container">
+<div class="tab-container">
                     <div class="tab-buttons">
                         <button class="sub-tab-link active" onclick="openSubTab(event, 'individu-tab', analisisIndividu)">🏅 Individu</button>
+                        
+                        <button class="sub-tab-link" onclick="openSubTab(event, 'pasukan-kategori-tab', analisisPasukanKategori)">🏆 Pasukan (Kategori)</button>
+                        
                         <button class="sub-tab-link" onclick="openSubTab(event, 'kumpulan-tab', analisisKumpulan)">🏛️ Pasukan Terbaik</button>
                     </div>
 
@@ -156,6 +159,14 @@
                         <h3>Ranking Individu (Mengikut Kategori)</h3>
                         <p>Paparan pemenang mengikut kategori umur dan jantina.</p>
                         <div id="result-individu" class="result-area"></div>
+                    </div>
+
+                    <div id="pasukan-kategori-tab" class="sub-tab-content">
+                        <h3>Keputusan Pasukan (Mengikut Kategori)</h3>
+                        <div class="alert-info">
+                            <small>Pengiraan: Jumlah mata kedudukan 3 peserta terbaik. Peserta ke-4 sebagai penentu seri (Tie-Breaker).</small>
+                        </div>
+                        <div id="result-pasukan-kategori" class="result-area"></div>
                     </div>
 
                     <div id="kumpulan-tab" class="sub-tab-content">
