@@ -479,7 +479,6 @@ analisisPemenangKumpulan() {
 
         return htmlOutput;
     }
-}
 
 analisisPemenangPasukanKategoriUmur() {
         const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
