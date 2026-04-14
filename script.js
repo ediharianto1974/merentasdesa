@@ -569,8 +569,6 @@ async function resetSemuaData() {
         } else {
             alert("❌ Gagal reset.");
         }
-    }
-  }
 
 // --- ANALISIS 3: PASUKAN MENGIKUT KATEGORI UMUR (BAHARU) ---
     analisisPemenangPasukanKategoriUmur() {
