@@ -555,6 +555,7 @@ async function handlePadamPeserta() {
             alert('❌ Ralat memadam peserta.');
         }
     }
+}
 
 // (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
 async function resetSemuaData() {
@@ -569,6 +570,7 @@ async function resetSemuaData() {
             alert("❌ Gagal reset.");
         }
     }
+}
 
 // --- ANALISIS 3: PASUKAN MENGIKUT KATEGORI UMUR (BAHARU) ---
     analisisPemenangPasukanKategoriUmur() {
