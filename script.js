@@ -377,7 +377,7 @@ class Kejohanan {
                 if (top3.length >= 3) {
                     k.markah = top3.reduce((sum, p) => sum + p.kedudukan, 0);
                     k.penyumbangMata = top3;
-                    k.tieBreaker = sortedPeserta.find(p => p.kedudukan === 10) || null;
+                    k.tieBreaker = sortedPeserta[9] || null;
                     k.layak = true;
                 } else {
                     k.layak = false;
