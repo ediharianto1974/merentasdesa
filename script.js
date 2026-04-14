@@ -192,101 +192,119 @@ class Kejohanan {
         return petaKategori;
     }
 
-    // --- D. PAPARAN DAN ANALISIS KEPUTUSAN --- 
+// --- D. PAPARAN DAN ANALISIS KEPUTUSAN --- 
     
-    paparSemuaPesertaDalamJadual() {
-        if (this.senaraiPeserta.length === 0) return '<p>Tiada peserta didaftarkan.</p>';
+paparSemuaPesertaDalamJadual() {
+    if (this.senaraiPeserta.length === 0) return '<p>Tiada peserta didaftarkan.</p>';
 
-        let htmlOutput = '<table>';
-        htmlOutput += '<tr><th>NO. BADAN</th><th>NAMA PENUH</th><th>JANTINA</th><th>KATEGORI</th><th>PASUKAN</th><th>KEDUDUKAN</th><th>MASA LARIAN (minit)</th></tr>';
+    // PENAMBAHAN: Bekas (Container) untuk Butang Cetak supaya berada di sebelah kanan
+    let htmlOutput = `
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
+            <button onclick="cetakSenaraiPeserta()" style="padding: 10px 20px; background-color: #0284c7; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <span>🖨️</span> Cetak Senarai Peserta
+            </button>
+        </div>
+    `;
 
-        const senaraiTersusun = [...this.senaraiPeserta].sort((a, b) => a.noBadan.localeCompare(b.noBadan)); 
+    htmlOutput += '<table>';
+    htmlOutput += '<tr><th>NO. BADAN</th><th>NAMA PENUH</th><th>JANTINA</th><th>KATEGORI</th><th>PASUKAN</th><th>KEDUDUKAN</th><th>MASA LARIAN (minit)</th></tr>';
 
-        senaraiTersusun.forEach(p => {
-            const kedudukanDisplay = p.kedudukan > 0 ? p.kedudukan : '';
-            const masaDisplay = p.masaLarian !== null ? p.masaLarian.toFixed(2) : '';
+    const senaraiTersusun = [...this.senaraiPeserta].sort((a, b) => a.noBadan.localeCompare(b.noBadan)); 
 
-            const isEditable = isAdmin() ? `contenteditable="true"` : '';
-            const kedudukanCellClass = isAdmin() ? `class="edit-cell kedudukan-cell"` : '';
-            const masaCellClass = isAdmin() ? `class="edit-cell masa-cell"` : '';
+    senaraiTersusun.forEach(p => {
+        const kedudukanDisplay = p.kedudukan > 0 ? p.kedudukan : '';
+        const masaDisplay = p.masaLarian !== null ? p.masaLarian.toFixed(2) : '';
+
+        const isEditable = isAdmin() ? `contenteditable="true"` : '';
+        const kedudukanCellClass = isAdmin() ? `class="edit-cell kedudukan-cell"` : '';
+        const masaCellClass = isAdmin() ? `class="edit-cell masa-cell"` : '';
+
+        htmlOutput += `<tr>
+            <td data-nobadan="${escapeHtml(p.noBadan)}">${escapeHtml(p.noBadan)}</td>
+            <td>${escapeHtml(p.namaPenuh)}</td>
+            <td>${escapeHtml(p.jantina)}</td>
+            <td>${escapeHtml(p.kategoriUmur)}</td>
+            <td>${escapeHtml(p.sekolahKelas)}</td>
+            <td ${isEditable} ${kedudukanCellClass} data-nobadan="${escapeHtml(p.noBadan)}" data-field="kedudukan">${kedudukanDisplay}</td>
+            <td ${isEditable} ${masaCellClass} data-nobadan="${escapeHtml(p.noBadan)}" data-field="masaLarian">${masaDisplay}</td>
+        </tr>`;
+    });
+    
+    htmlOutput += '</table>';
+    htmlOutput += `<p>Jumlah Keseluruhan: <strong>${this.senaraiPeserta.length}</strong></p>`;
+
+    if (isAdmin()) {
+        htmlOutput += `
+        <div style="text-align: center; margin: 20px 0;">
+            <button id="btn-simpan" onclick="simpanSemuaKeputusan()" style="padding: 12px 24px; font-size: 16px; font-weight: bold; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                💾 Simpan Semua Keputusan
+            </button>
+            <p style="font-size: 0.8em; color: #666; margin-top: 5px;">*Ingat: Tekan butang ini selepas selesai memasukkan markah.</p>
+        </div>
+        `;
+    }
+
+    return htmlOutput;
+}
+
+analisisPemenangIndividuKategori() {
+    const pemenangKategori = this.dapatkanPemenangTersusunMengikutKategori();
+    let htmlOutput = '';
+
+    if (Object.keys(pemenangKategori).length === 0) return '<p>Tiada keputusan direkodkan.</p>';
+
+    // OPSYENAL: Anda juga boleh menambah butang cetak analisis di sini jika mahu
+    htmlOutput += `
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+            <button onclick="handleCetakAnalisis()" style="padding: 8px 16px; background-color: #6366f1; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                🖨️ Cetak Laporan Pemenang
+            </button>
+        </div>
+    `;
+
+    for (const kategori in pemenangKategori) {
+        const senarai = pemenangKategori[kategori];
+        
+        let masaRank15 = null;
+        const rank15Peserta = senarai.find((p, index) => index === 14 && p.masaLarian !== null);
+        if (rank15Peserta) masaRank15 = rank15Peserta.masaLarian;
+
+        htmlOutput += `<h4>== KATEGORI: ${escapeHtml(kategori)} ==</h4>`;
+        
+        if (masaRank15 === null && senarai.length >= 16) {
+            htmlOutput += `<p style="color:red; font-size: 0.9em;">⚠️ Sila masukkan masa untuk Rank 15 bagi mengaktifkan pengiraan automatik Rank 16+.</p>`;
+        }
+        
+        htmlOutput += '<table>';
+        htmlOutput += '<tr><th>RANK</th><th>OVERALL</th><th>MASA</th><th>NAMA</th><th>SEKOLAH</th><th>NO. BADAN</th></tr>'; 
+        
+        for (let i = 0; i < senarai.length; i++) {
+            const p = senarai[i];
+            const rankKategori = i + 1;
+            
+            let masaDisplay = '';
+            let masaActual = p.masaLarian;
+
+            if (rankKategori >= 16 && masaRank15 !== null) {
+                masaActual = masaRank15 + ((rankKategori - 15) * 0.03);
+            }
+            
+            if (masaActual !== null) masaDisplay = masaActual.toFixed(2);
+            else if (p.kedudukan > 0) masaDisplay = '-';
 
             htmlOutput += `<tr>
-                <td data-nobadan="${escapeHtml(p.noBadan)}">${escapeHtml(p.noBadan)}</td>
+                <td>${rankKategori}</td>
+                <td>${p.kedudukan}</td>
+                <td>${masaDisplay}</td>
                 <td>${escapeHtml(p.namaPenuh)}</td>
-                <td>${escapeHtml(p.jantina)}</td>
-                <td>${escapeHtml(p.kategoriUmur)}</td>
                 <td>${escapeHtml(p.sekolahKelas)}</td>
-                <td ${isEditable} ${kedudukanCellClass} data-nobadan="${escapeHtml(p.noBadan)}" data-field="kedudukan">${kedudukanDisplay}</td>
-                <td ${isEditable} ${masaCellClass} data-nobadan="${escapeHtml(p.noBadan)}" data-field="masaLarian">${masaDisplay}</td>
+                <td>${escapeHtml(p.no_badan || p.noBadan)}</td>
             </tr>`;
-        });
-        
+        }
         htmlOutput += '</table>';
-        htmlOutput += `<p>Jumlah Keseluruhan: <strong>${this.senaraiPeserta.length}</strong></p>`;
-
-        if (isAdmin()) {
-            htmlOutput += `
-            <div style="text-align: center; margin: 20px 0;">
-                <button id="btn-simpan" onclick="simpanSemuaKeputusan()" style="padding: 12px 24px; font-size: 16px; font-weight: bold; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    💾 Simpan Semua Keputusan
-                </button>
-                <p style="font-size: 0.8em; color: #666; margin-top: 5px;">*Ingat: Tekan butang ini selepas selesai memasukkan markah.</p>
-            </div>
-            `;
-        }
-
-        return htmlOutput;
     }
-    
-    analisisPemenangIndividuKategori() {
-        const pemenangKategori = this.dapatkanPemenangTersusunMengikutKategori();
-        let htmlOutput = '';
-
-        if (Object.keys(pemenangKategori).length === 0) return '<p>Tiada keputusan direkodkan.</p>';
-
-        for (const kategori in pemenangKategori) {
-            const senarai = pemenangKategori[kategori];
-            
-            let masaRank15 = null;
-            const rank15Peserta = senarai.find((p, index) => index === 14 && p.masaLarian !== null);
-            if (rank15Peserta) masaRank15 = rank15Peserta.masaLarian;
-
-            htmlOutput += `<h4>== KATEGORI: ${escapeHtml(kategori)} ==</h4>`;
-            
-            if (masaRank15 === null && senarai.length >= 16) {
-                htmlOutput += `<p style="color:red; font-size: 0.9em;">⚠️ Sila masukkan masa untuk Rank 15 bagi mengaktifkan pengiraan automatik Rank 16+.</p>`;
-            }
-            
-            htmlOutput += '<table>';
-            htmlOutput += '<tr><th>RANK</th><th>OVERALL</th><th>MASA</th><th>NAMA</th><th>SEKOLAH</th><th>NO. BADAN</th></tr>'; 
-            
-            for (let i = 0; i < senarai.length; i++) {
-                const p = senarai[i];
-                const rankKategori = i + 1;
-                
-                let masaDisplay = '';
-                let masaActual = p.masaLarian;
-
-                if (rankKategori >= 16 && masaRank15 !== null) {
-                    masaActual = masaRank15 + ((rankKategori - 15) * 0.03);
-                }
-                
-                if (masaActual !== null) masaDisplay = masaActual.toFixed(2);
-                else if (p.kedudukan > 0) masaDisplay = '-';
-
-                htmlOutput += `<tr>
-                    <td>${rankKategori}</td>
-                    <td>${p.kedudukan}</td>
-                    <td>${masaDisplay}</td>
-                    <td>${escapeHtml(p.namaPenuh)}</td>
-                    <td>${escapeHtml(p.sekolahKelas)}</td>
-                    <td>${escapeHtml(p.noBadan)}</td>
-                </tr>`;
-            }
-            htmlOutput += '</table>';
-        }
-        return htmlOutput;
-    }
+    return htmlOutput;
+}
     
 // ==========================================================
     // FUNGSI JOHAN KESELURUHAN (FORMULA 2L+1P / 1L+2P)
