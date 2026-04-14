@@ -27,129 +27,124 @@
         <form id="login-form">
             <div class="form-group">
                 <label for="login-email">Emel:</label>
-                <input type="email" id="login-email" required placeholder="nama@sekolah.com">
+                <input type="email" id="login-email" required placeholder="admin@kmdpk.com">
             </div>
             <div class="form-group">
-                <label for="login-password">Kata Laluan:</label>
-                <input type="password" id="login-password" required>
+                <label for="login-pw">Kata Laluan:</label>
+                <input type="password" id="login-pw" required>
             </div>
-            <button type="submit" class="btn-primary">Log Masuk</button>
-            <p id="login-status" class="status-msg error"></p>
+            <button type="submit" class="btn btn-primary">Log Masuk</button>
         </form>
+        <p id="login-msg" class="error-msg"></p>
     </div>
 
-    <main style="display: none;">
+    <main id="dashboard-container" class="container" style="display: none;">
         
-        <div class="main-tab-buttons">
-            <button id="data-tab-btn" class="main-tab-link active" onclick="openMainTab(event, 'data-tab')">📊 Pengurusan Data</button>
-            <button id="analisis-tab-btn" class="main-tab-link" onclick="openMainTab(event, 'analisis-tab')">📈 Analisis & Cetakan</button>
-        </div>
-        
-        <div id="data-tab" class="main-tab-content active">
+        <nav class="main-nav">
+            <button class="nav-link active" onclick="openTab(event, 'home-tab')">🏠 Utama</button>
+            <button class="nav-link" id="nav-daftar" onclick="openTab(event, 'daftar-tab')">📝 Daftar Peserta</button>
+            <button class="nav-link" onclick="openTab(event, 'statistik-tab')">📊 Statistik & Semakan</button>
+            <button class="nav-link" onclick="openTab(event, 'result-tab')">🏅 Keputusan</button>
+        </nav>
+
+        <div class="tab-content-wrapper">
             
-            <section class="card">
-                <h2>1. Pendaftaran & Muat Naik Data</h2>
-                <div class="upload-section">
-                    <h3>Import Fail CSV</h3>
-                    <div class="alert-info">
-                        <strong>Format CSV Diperlukan:</strong><br>
-                        NoBadan, NamaPenuh, Jantina(L/P), Kategori(L17/P17), Pasukan/Sekolah
+            <section id="home-tab" class="tab-content active">
+                <h2>Selamat Datang</h2>
+                <div id="user-info-display"></div>
+                <p>Gunakan menu navigasi di atas untuk menguruskan data kejohanan atau melihat keputusan terkini.</p>
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <h3 id="stat-total-peserta">0</h3>
+                        <p>Jumlah Peserta</p>
                     </div>
-                    <div class="file-upload-wrapper">
-                        <input type="file" id="csv-input" accept=".csv">
-                        <button onclick="handleMuatNaikCSV()" class="btn-success">Muat Naik & Daftar</button>
+                    <div class="stat-card">
+                        <h3 id="stat-kategori-count">6</h3>
+                        <p>Kategori Umur</p>
                     </div>
-                    <p id="csv-status" class="status-msg"></p>
                 </div>
             </section>
 
-<section class="card">
-                <h2>2. Penyelenggaraan Data (Admin)</h2>
+            <section id="daftar-tab" class="tab-content">
+                <h2>Pendaftaran Peserta</h2>
+                <div id="admin-only-section">
+                    <div class="action-box">
+                        <h3>Muat Naik CSV</h3>
+                        <p>Format CSV: No.Badan, Nama, Jantina, Kategori, Pasukan</p>
+                        <input type="file" id="csv-file" accept=".csv">
+                        <button onclick="prosesCSV()" class="btn btn-success">📤 Proses & Simpan ke Cloud</button>
+                    </div>
+                    <hr>
+                    <div class="action-box">
+                        <h3>Tambah Peserta Secara Manual</h3>
+                        <form id="manual-form">
+                            <input type="text" id="m-nobadan" placeholder="No. Badan" required>
+                            <input type="text" id="m-nama" placeholder="Nama Penuh" required>
+                            <select id="m-jantina">
+                                <option value="L">Lelaki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                            <select id="m-kategori">
+                                <option value="L12">L12</option>
+                                <option value="P12">P12</option>
+                                <option value="L15">L15</option>
+                                <option value="P15">P15</option>
+                                <option value="L19">L19</option>
+                                <option value="P19">P19</option>
+                            </select>
+                            <input type="text" id="m-sekolah" placeholder="Pasukan/Sekolah" required>
+                            <button type="submit" class="btn btn-primary">➕ Tambah Peserta</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section id="statistik-tab" class="tab-content">
+                <h2>Semakan Data & Kemas Kini Kedudukan</h2>
+                <div class="filter-area">
+                    <label>Tapis Kategori:</label>
+                    <select id="filter-kategori-check" onchange="paparSemuaPeserta()">
+                        <option value="SEMUA">Semua Peserta</option>
+                        <option value="L12">L12</option>
+                        <option value="P12">P12</option>
+                        <option value="L15">L15</option>
+                        <option value="P15">P15</option>
+                        <option value="L19">L19</option>
+                        <option value="P19">P19</option>
+                    </select>
+                    <input type="text" id="search-nama" placeholder="Cari Nama/No. Badan..." onkeyup="paparSemuaPeserta()">
+                </div>
+
+                <div id="admin-save-area" style="margin: 10px 0;">
+                    <button id="btn-save-all" onclick="simpanSemuaKedudukan()" class="btn btn-danger">💾 Simpan Semua Keputusan Kedudukan</button>
+                </div>
+
+                <div class="table-container">
+                    <table id="table-peserta">
+                        <thead>
+                            <tr>
+                                <th>No. Badan</th>
+                                <th>Nama Peserta</th>
+                                <th>Kategori</th>
+                                <th>Pasukan</th>
+                                <th>Kedudukan</th>
+                                <th>Masa (Min)</th>
+                                <th>Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body-peserta"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="result-tab" class="tab-content">
+                <h2>Analisis Keputusan Rasmi</h2>
                 
-                <div class="admin-grid">
-                    
-                    <div class="admin-box box-safe">
-                        <h3 class="box-header">💾 Pengurusan Fail</h3>
-                        
-                        <p><strong>Langkah 1: Simpan Data</strong><br>
-                        <small>Muat turun data semasa ke komputer.</small></p>
-                        <button onclick="handleBackupDownload()" class="btn-info" style="width:100%">
-                            📥 Muat Turun Backup (.json)
-                        </button>
-
-                        <div class="divider"></div>
-
-                        <p><strong>Langkah 2: Pulihkan Data</strong><br>
-                        <small>Muat naik fail .json untuk restore.</small></p>
-                        
-                        <div class="file-upload-wrapper">
-                            <input type="file" id="backup-file-input" accept=".json" style="width:100%; margin-bottom:5px;">
-                            <button onclick="handleRestoreDariFail()" class="btn-success" style="width:100%">
-                                ♻️ Upload & Restore
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="admin-box box-danger">
-                        <h3 class="box-header">⚠️ Zon Bahaya</h3>
-                        
-                        <div class="alert-warning" style="margin-bottom: 15px;">
-                            <small><strong>AMARAN:</strong> Pastikan anda telah memuat turun <strong>Backup</strong> di sebelah kiri sebelum memadam apa-apa data di sini.</small>
-                        </div>
-
-                        <p><strong>Padam Individu</strong><br>
-                        <small>Padam peserta tertentu sahaja.</small></p>
-                        <button onclick="handlePadamPeserta()" class="btn-warning" style="width:100%">
-                            ❌ Padam Peserta (Individu)
-                        </button>
-
-                        <div class="divider"></div>
-
-                        <p><strong>Reset Sistem</strong><br>
-                        <small style="color:red;">Memadam SEMUA data dalam sistem.</small></p>
-                        <button onclick="handlePadamSemua()" class="btn-danger" style="width:100%">
-                            🗑️ PADAM SEMUA DATA
-                        </button>
-                    </div>
-
-                </div>
-            </section>
-
-            <section class="card">
-                <h2>3. Senarai Peserta (Kemasukan Pemenang)</h2>
-                <p>Cari peserta dan masukkan nombor <strong>KEDUDUKAN</strong> dalam kotak yang disediakan.</p>
-                <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="🔍 Cari Nama atau No Badan...">
-                
-                <div class="table-responsive">
-                    <div id="result-senarai" class="result-area">
-                        <p class="text-center">Senarai peserta akan dipaparkan di sini...</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <div id="analisis-tab" class="main-tab-content">
-            
-            <section class="card admin-panel-container" style="border-left: 5px solid #17a2b8;">
-                <h2>🖨️ Pusat Cetakan Laporan</h2>
-                <p>Jana laporan rasmi untuk edaran atau simpanan fail.</p>
-                <div class="action-buttons-grid">
-                    <button onclick="handleCetakKeputusan()" class="btn-info">
-                        📄 Cetak Senarai Penuh Peserta
-                    </button>
-                    <button onclick="handleCetakAnalisis()" class="btn-info">
-                        📊 Cetak Analisis Pemenang & Pasukan
-                    </button>
-                </div>
-            </section>
-
-            <section class="card">
-                <h2>Keputusan Rasmi Kejohanan</h2>
-                
-                <div class="tab-container">
+                <div class="sub-tab-container">
                     <div class="tab-buttons">
                         <button class="sub-tab-link active" onclick="openSubTab(event, 'individu-tab', analisisIndividu)">🏅 Individu</button>
-                        <button class="sub-tab-link" onclick="openSubTab(event, 'kumpulan-tab', analisisKumpulan)">🏛️ Pasukan Terbaik</button>
+                        <button class="sub-tab-link" onclick="openSubTab(event, 'kumpulan-tab', analisisKumpulan)">🏛️ Pasukan Terbaik (Keseluruhan)</button>
+                        <button id="btnAnalisisPasukanKategori" class="sub-tab-link">🏆 Pasukan Ikut Umur</button>
                     </div>
 
                     <div id="individu-tab" class="sub-tab-content active">
@@ -159,9 +154,9 @@
                     </div>
 
                     <div id="kumpulan-tab" class="sub-tab-content">
-                        <h3>Johan Keseluruhan (Sistem Mata)</h3>
+                        <h3>Johan Pasukan Terbaik</h3>
                         <div class="alert-info">
-                            <small>Pengiraan: Jumlah mata kedudukan 3 peserta gabungan (L/P) terbaik dari setiap Kategori Umur. Peserta ke-10 sebagai penentu seri (Tie-Breaker).</small>
+                            <small>Nota: Memaparkan ranking sekolah berdasarkan jumlah mata terkumpul dari ketiga-tiga peringkat umur (12, 15, dan 19).</small>
                         </div>
                         <div id="result-kumpulan" class="result-area"></div>
                     </div>
@@ -176,9 +171,46 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, navlinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            navlinks = document.getElementsByClassName("nav-link");
+            for (i = 0; i < navlinks.length; i++) {
+                navlinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function openSubTab(evt, subTabName, callbackFunc) {
+            var i, subtabcontent, subtablinks;
+            subtabcontent = document.getElementsByClassName("sub-tab-content");
+            for (i = 0; i < subtabcontent.length; i++) {
+                subtabcontent[i].classList.remove("active");
+            }
+            subtablinks = document.getElementsByClassName("sub-tab-link");
+            for (i = 0; i < subtablinks.length; i++) {
+                subtablinks[i].classList.remove("active");
+            }
+            document.getElementById(subTabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            
+            if (callbackFunc) callbackFunc();
+        }
+
+        // Fungsi pembantu untuk memanggil method class kejohanan
+        function analisisIndividu() {
+            document.getElementById('result-individu').innerHTML = kejohanan.paparRankingIndividu();
+        }
+
+        function analisisKumpulan() {
+            document.getElementById('result-kumpulan').innerHTML = kejohanan.analisisPemenangKumpulan();
+        }
+    </script>
 </body>
 </html>
-
-
-
-
