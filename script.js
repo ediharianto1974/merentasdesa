@@ -461,6 +461,7 @@ class Kejohanan {
 
         return htmlOutput;
     }
+}
     
 // ==========================================================
 // 2. INISIALISASI & PENGENDALI ACARA
