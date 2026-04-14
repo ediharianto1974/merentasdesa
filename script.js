@@ -555,9 +555,8 @@ async function handlePadamPeserta() {
             alert('❌ Ralat memadam peserta.');
         }
     }
-}
+} // <-- Pastikan ada penutup ini!
 
-// (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
 async function resetSemuaData() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
     if (confirm("❗ AMARAN: Padam SEMUA data?")) {
