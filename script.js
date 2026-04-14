@@ -449,91 +449,126 @@ analisisPemenangKumpulan() {
         htmlOutput += '</table>';
 
         return htmlOutput;
+    }
+}
 
+// ==========================================================
+// 2. INISIALISASI & PENGENDALI ACARA
+// ==========================================================
 
-    // --- ANALISIS 3: PASUKAN MENGIKUT KATEGORI UMUR (BAHARU) ---
-    analisisPemenangPasukanKategoriUmur() {
-        const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
+const kejohanan = new Kejohanan();
+
+async function handleMuatNaikCSV() {
+    if (!isAdmin()) {
+        alert('❌ Akses Ditolak.');
+        return;
+    }
+    
+    const fileInput = document.getElementById('csv-input');
+    const file = fileInput.files[0];
+    const statusElement = document.getElementById('csv-status');
+
+    if (!file) {
+        statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const text = e.target.result;
+        const baris = text.split(/\r?\n/); 
+        let berjaya = 0;
+        let ralat = 0;
+
+        for (let i = 1; i < baris.length; i++) {
+            const rawLine = baris[i].trim();
+            if (!rawLine) continue;
+
+            // Pembersihan asas: buang quote jika CSV ada quote
+            const data = rawLine.split(',').map(d => d.trim().replace(/^"|"$/g, ''));
+            
+            if (data.length >= 5 && data[0] && data[1]) { 
+                try {
+                    const p = new Peserta(data[0], data[1], data[2], data[3], data[4]);
+                    const exists = kejohanan.senaraiPeserta.some(peserta => peserta.noBadan.trim() === p.noBadan.trim());
+                    
+                    if (!exists) {
+                         if (await kejohanan.daftarPeserta(p)) berjaya++;
+                         else ralat++; 
+                    } else {
+                        ralat++; 
+                    }
+                } catch (error) {
+                    ralat++;
+                }
+            } else {
+                 ralat++;
+            }
+        }
+        statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
+        paparSemuaPeserta(); 
+    };
+    reader.readAsText(file);
+}
+
+// PENGENDALI KEMASUKAN KEDUDUKAN & MASA (OPTIMIZED)
+function handleEditCell(e) {
+    if (!isAdmin()) return;
+
+    if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
+        const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
         
-        const petaPasukan = pesertaSelesai.reduce((acc, peserta) => {
-            const pasukan = peserta.sekolahKelas;
-            if (!acc[pasukan]) acc[pasukan] = [];
-            acc[pasukan].push(peserta);
-            return acc;
-        }, {});
+        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
+        
+        e.target.onkeydown = function(event) {
+            const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
+            const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
 
-        const kiraKombinasi = (lelaki, perempuan) => {
-            let kombA = null; 
-            if (lelaki.length >= 2 && perempuan.length >= 1) {
-                kombA = {
-                    markah: lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan,
-                    peserta: [lelaki[0], lelaki[1], perempuan[0]]
-                };
+            if (event.keyCode === 13) { // Tombol Enter
+                event.preventDefault(); // Mencegah tombol enter membuat baris baru di dalam kotak
+                return;
             }
-            let kombB = null; 
-            if (lelaki.length >= 1 && perempuan.length >= 2) {
-                kombB = {
-                    markah: lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan,
-                    peserta: [lelaki[0], perempuan[0], perempuan[1]]
-                };
-            }
-            if (kombA !== null && kombB !== null) return (kombA.markah < kombB.markah) ? kombA : kombB;
-            if (kombA !== null) return kombA; 
-            if (kombB !== null) return kombB; 
-            return null; 
-        };
 
-        const umurSenarai = [
-            { kod: 12, label: "KATEGORI BAWAH 12 TAHUN (L12 & P12)", L: 'L12', P: 'P12' },
-            { kod: 15, label: "KATEGORI BAWAH 15 TAHUN (L15 & P15)", L: 'L15', P: 'P15' },
-            { kod: 19, label: "KATEGORI BAWAH 19 TAHUN (L19 & P19)", L: 'L19', P: 'P19' }
-        ];
-
-        let htmlOutput = '<h3>== KEPUTUSAN PASUKAN MENGIKUT UMUR ==</h3>';
-
-        umurSenarai.forEach(kategori => {
-            const keputusan = [];
-            for (const pasukan in petaPasukan) {
-                const senaraiUmur = petaPasukan[pasukan].filter(p => p.kategoriUmur === kategori.L || p.kategoriUmur === kategori.P);
-                senaraiUmur.sort((a, b) => a.kedudukan - b.kedudukan);
-                const lelaki = senaraiUmur.filter(p => p.kategoriUmur === kategori.L);
-                const perempuan = senaraiUmur.filter(p => p.kategoriUmur === kategori.P);
-                const hasil = kiraKombinasi(lelaki, perempuan);
-
-                if (hasil !== null) {
-                    let pesertaKe4 = (senaraiUmur.length >= 4) ? senaraiUmur[3] : null;
-                    keputusan.push({
-                        sekolah: pasukan,
-                        markah: hasil.markah,
-                        penyumbang: hasil.peserta,
-                        tieBreaker: pesertaKe4 ? pesertaKe4.kedudukan : null,
-                        pesertaTieBreaker: pesertaKe4
-                    });
+            // Validasi agar hanya angka yang bisa diketik
+            if (field === 'kedudukan') {
+                if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
+            } else if (field === 'masaLarian') {
+                 // Izinkan angka dan titik desimal (key code 190 atau 110)
+                 if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
+                    event.preventDefault();
                 }
             }
+        };
+    }
+}
 
-            keputusan.sort((a, b) => {
-                if (a.markah !== b.markah) return a.markah - b.markah;
-                if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker - b.tieBreaker;
-                return 0;
-            });
+document.getElementById('result-senarai').addEventListener('click', handleEditCell);
 
-            htmlOutput += `<h4 style="margin-top: 30px; color: #2980b9; border-bottom: 2px solid #ccc;">${kategori.label}</h4>`;
-            if (keputusan.length === 0) {
-                htmlOutput += '<p>Tiada pasukan yang memenuhi kuota (2L+1P atau 1L+2P).</p>';
-            } else {
-                htmlOutput += '<table style="width: 100%; border-collapse: collapse;">';
-                htmlOutput += '<tr><th>RANK</th><th>PASUKAN & PENYUMBANG</th><th>MARKAH</th><th>T-B (P4)</th></tr>';
-                keputusan.forEach((k, index) => {
-                    let htmlPenyumbang = `<div style="font-size: 0.8em;">`;
-                    k.penyumbang.forEach(p => htmlPenyumbang += `- ${p.namaPenuh} (${p.kedudukan})<br>`);
-                    htmlPenyumbang += `</div>`;
-                    htmlOutput += `<tr><td>${index + 1}</td><td><strong>${k.sekolah}</strong>${htmlPenyumbang}</td><td>${k.markah}</td><td>${k.tieBreaker || '-'}</td></tr>`;
-                });
-                htmlOutput += '</table>';
-            }
-        });
-        return htmlOutput;
+async function handlePadamPeserta() {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+    const noBadan = prompt("Masukkan No. Badan peserta:");
+    if (noBadan) {
+        if (await kejohanan.padamPesertaIndividu(noBadan.trim())) {
+            alert(`✅ Peserta ${noBadan.trim()} dipadam.`);
+            paparSemuaPeserta(); 
+        } else {
+            alert('❌ Ralat memadam peserta.');
+        }
+    }
+}
+
+// (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
+async function resetSemuaData() {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+    if (confirm("❗ AMARAN: Padam SEMUA data?")) {
+        if (await kejohanan.resetSemuaData()) {
+            alert("✅ Sistem di-reset.");
+            paparSemuaPeserta();
+            document.getElementById('result-individu').innerHTML = "";
+            document.getElementById('result-kumpulan').innerHTML = "";
+        } else {
+            alert("❌ Gagal reset.");
+        }
     }
 }
 
@@ -1037,136 +1072,4 @@ async function simpanSemuaKeputusan() {
     alert(`✅ Proses selesai! Data dikemaskini: ${berjaya} | Ralat: ${ralat}`);
     paparSemuaPeserta(); // Segarkan semula jadual
 }
-    }
-}
 
-// ==========================================================
-// 2. INISIALISASI & PENGENDALI ACARA
-// ==========================================================
-
-const kejohanan = new Kejohanan();
-
-async function handleMuatNaikCSV() {
-    if (!isAdmin()) {
-        alert('❌ Akses Ditolak.');
-        return;
-    }
-    
-    const fileInput = document.getElementById('csv-input');
-    const file = fileInput.files[0];
-    const statusElement = document.getElementById('csv-status');
-
-    if (!file) {
-        statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-        const text = e.target.result;
-        const baris = text.split(/\r?\n/); 
-        let berjaya = 0;
-        let ralat = 0;
-
-        for (let i = 1; i < baris.length; i++) {
-            const rawLine = baris[i].trim();
-            if (!rawLine) continue;
-
-            // Pembersihan asas: buang quote jika CSV ada quote
-            const data = rawLine.split(',').map(d => d.trim().replace(/^"|"$/g, ''));
-            
-            if (data.length >= 5 && data[0] && data[1]) { 
-                try {
-                    const p = new Peserta(data[0], data[1], data[2], data[3], data[4]);
-                    const exists = kejohanan.senaraiPeserta.some(peserta => peserta.noBadan.trim() === p.noBadan.trim());
-                    
-                    if (!exists) {
-                         if (await kejohanan.daftarPeserta(p)) berjaya++;
-                         else ralat++; 
-                    } else {
-                        ralat++; 
-                    }
-                } catch (error) {
-                    ralat++;
-                }
-            } else {
-                 ralat++;
-            }
-        }
-        statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
-        paparSemuaPeserta(); 
-    };
-    reader.readAsText(file);
-}
-
-// PENGENDALI KEMASUKAN KEDUDUKAN & MASA (OPTIMIZED)
-function handleEditCell(e) {
-    if (!isAdmin()) return;
-
-    if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
-        const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
-        
-        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
-        
-        e.target.onkeydown = function(event) {
-            const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
-            const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
-
-            if (event.keyCode === 13) { // Tombol Enter
-                event.preventDefault(); // Mencegah tombol enter membuat baris baru di dalam kotak
-                return;
-            }
-
-            // Validasi agar hanya angka yang bisa diketik
-            if (field === 'kedudukan') {
-                if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
-            } else if (field === 'masaLarian') {
-                 // Izinkan angka dan titik desimal (key code 190 atau 110)
-                 if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
-                    event.preventDefault();
-                }
-            }
-        };
-    }
-}
-
-document.getElementById('result-senarai').addEventListener('click', handleEditCell);
-
-async function handlePadamPeserta() {
-    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
-    const noBadan = prompt("Masukkan No. Badan peserta:");
-    if (noBadan) {
-        if (await kejohanan.padamPesertaIndividu(noBadan.trim())) {
-            alert(`✅ Peserta ${noBadan.trim()} dipadam.`);
-            paparSemuaPeserta(); 
-        } else {
-            alert('❌ Ralat memadam peserta.');
-        }
-    }
-}
-
-// (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
-async function resetSemuaData() {
-    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
-    if (confirm("❗ AMARAN: Padam SEMUA data?")) {
-        if (await kejohanan.resetSemuaData()) {
-            alert("✅ Sistem di-reset.");
-            paparSemuaPeserta();
-            document.getElementById('result-individu').innerHTML = "";
-            document.getElementById('result-kumpulan').innerHTML = "";
-        } else {
-            alert("❌ Gagal reset.");
-        }
-    }
-  }
-
-// Listener untuk butang kategori baharu
-document.getElementById('btnAnalisisPasukanKategori')?.addEventListener('click', () => {
-    const outputDiv = document.getElementById('result-kategori'); 
-    if (outputDiv) {
-        outputDiv.innerHTML = '<p>Sedang menganalisis...</p>';
-        setTimeout(() => {
-            outputDiv.innerHTML = kejohanan.analisisPemenangPasukanKategoriUmur();
-        }, 500);
-    }
-});
