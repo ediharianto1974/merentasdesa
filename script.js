@@ -1166,3 +1166,17 @@ async function simpanSemuaKeputusan() {
     paparSemuaPeserta(); // Segarkan semula jadual
 }
 
+// ==========================================================
+// TAMPAL KOD INI DI BARIS PALING BAWAH SEKALI (Langkah 2)
+// ==========================================================
+document.getElementById('btnAnalisisPasukanKategori')?.addEventListener('click', () => {
+    const outputDiv = document.getElementById('result-kategori'); 
+    
+    if (outputDiv) {
+        outputDiv.innerHTML = '<p>Sedang menganalisis pemenang pasukan bagi setiap kategori umur...</p>';
+        setTimeout(() => {
+            outputDiv.innerHTML = kejohanan.analisisPemenangPasukanKategoriUmur();
+        }, 500);
+    }
+});
+
