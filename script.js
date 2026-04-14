@@ -481,6 +481,140 @@ analisisPemenangKumpulan() {
     }
 }
 
+analisisPemenangPasukanKategoriUmur() {
+        const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
+        
+        // Kumpulkan semua peserta mengikut sekolah/pasukan
+        const petaPasukan = pesertaSelesai.reduce((acc, peserta) => {
+            const pasukan = peserta.sekolahKelas;
+            if (!acc[pasukan]) acc[pasukan] = [];
+            acc[pasukan].push(peserta);
+            return acc;
+        }, {});
+
+        // Fungsi bantu kira markah (hanya untuk 3 orang)
+        const kiraKombinasi = (lelaki, perempuan) => {
+            let kombA = null; 
+            if (lelaki.length >= 2 && perempuan.length >= 1) {
+                kombA = {
+                    markah: lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan,
+                    peserta: [lelaki[0], lelaki[1], perempuan[0]]
+                };
+            }
+            let kombB = null; 
+            if (lelaki.length >= 1 && perempuan.length >= 2) {
+                kombB = {
+                    markah: lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan,
+                    peserta: [lelaki[0], perempuan[0], perempuan[1]]
+                };
+            }
+            if (kombA !== null && kombB !== null) return (kombA.markah < kombB.markah) ? kombA : kombB;
+            if (kombA !== null) return kombA; 
+            if (kombB !== null) return kombB; 
+            return null; 
+        };
+
+        // Takrifkan 3 kumpulan yang akan dianalisis
+        const umurSenarai = [
+            { kod: 12, label: "KATEGORI BAWAH 12 TAHUN (L12 & P12)", L: 'L12', P: 'P12' },
+            { kod: 15, label: "KATEGORI BAWAH 15 TAHUN (L15 & P15)", L: 'L15', P: 'P15' },
+            { kod: 19, label: "KATEGORI BAWAH 19 TAHUN (L19 & P19)", L: 'L19', P: 'P19' }
+        ];
+
+        let htmlOutput = '<h3>== KEPUTUSAN PASUKAN MENGIKUT UMUR ==</h3>';
+
+        // Lakukan pengiraan berasingan untuk setiap peringkat umur
+        umurSenarai.forEach(kategori => {
+            const keputusan = [];
+
+            for (const pasukan in petaPasukan) {
+                // Ambil peserta pasukan ini utk kategori umur spesifik ini sahaja
+                const senaraiUmur = petaPasukan[pasukan].filter(p => p.kategoriUmur === kategori.L || p.kategoriUmur === kategori.P);
+                senaraiUmur.sort((a, b) => a.kedudukan - b.kedudukan); // Susun ikut kedudukan
+
+                const lelaki = senaraiUmur.filter(p => p.kategoriUmur === kategori.L);
+                const perempuan = senaraiUmur.filter(p => p.kategoriUmur === kategori.P);
+
+                const hasil = kiraKombinasi(lelaki, perempuan);
+
+                if (hasil !== null) {
+                    // Tie-breaker: Cari peserta ke-4 (Index 3) dari umur ini untuk pemutus seri
+                    let pesertaKe4 = null;
+                    if (senaraiUmur.length >= 4) {
+                        pesertaKe4 = senaraiUmur[3]; 
+                    }
+
+                    keputusan.push({
+                        sekolah: pasukan,
+                        markah: hasil.markah,
+                        penyumbang: hasil.peserta,
+                        tieBreaker: pesertaKe4 ? pesertaKe4.kedudukan : null,
+                        pesertaTieBreaker: pesertaKe4
+                    });
+                }
+            }
+
+            // Susun keputusan dari markah terendah ke tertinggi
+            keputusan.sort((a, b) => {
+                if (a.markah !== b.markah) return a.markah - b.markah;
+                // Logik Tie-Breaker (Peserta ke-4)
+                if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker - b.tieBreaker;
+                if (a.tieBreaker === null && b.tieBreaker !== null) return 1;  
+                if (a.tieBreaker !== null && b.tieBreaker === null) return -1; 
+                return 0; 
+            });
+
+            // Jana Paparan HTML untuk Kategori Ini
+            htmlOutput += `<h4 style="margin-top: 40px; color: #2980b9; padding-bottom: 5px; border-bottom: 2px solid #ccc;">${kategori.label}</h4>`;
+            
+            if (keputusan.length === 0) {
+                htmlOutput += '<p style="color: #7f8c8d;">Tiada pasukan yang memenuhi kuota (2L+1P atau 1L+2P) bagi kategori umur ini.</p>';
+            } else {
+                htmlOutput += '<table style="width: 100%; border-collapse: collapse;">';
+                htmlOutput += '<tr><th>RANK</th><th>PASUKAN & PENYUMBANG</th><th>MARKAH</th><th>TIE-BREAKER (P. Ke-4)</th></tr>';
+                
+                keputusan.forEach((k, index) => {
+                    const rank = index + 1;
+                    let rankClass = '';
+                    if (rank === 1) rankClass = 'rank-1';
+                    else if (rank === 2) rankClass = 'rank-2';
+                    else if (rank === 3) rankClass = 'rank-3';
+
+                    let htmlPenyumbang = `<div style="font-size: 0.85em; margin-top: 10px; color: #444; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 4px;">`;
+                    htmlPenyumbang += `<strong style="color: #000;">3 Penyumbang Utama:</strong><ul style="margin: 5px 0 10px 0; padding-left: 20px;">`;
+                    
+                    k.penyumbang.sort((a, b) => a.kategoriUmur.localeCompare(b.kategoriUmur));
+                    k.penyumbang.forEach(p => {
+                        htmlPenyumbang += `<li>[${p.kategoriUmur}] ${escapeHtml(p.namaPenuh)} <strong>(Ke-${p.kedudukan})</strong></li>`;
+                    });
+                    htmlPenyumbang += `</ul>`;
+
+                    if (k.pesertaTieBreaker) {
+                        htmlPenyumbang += `<div style="color: #27ae60;"><strong>Peserta Ke-4:</strong><br> [${k.pesertaTieBreaker.kategoriUmur}] ${escapeHtml(k.pesertaTieBreaker.namaPenuh)} <strong>(Ke-${k.pesertaTieBreaker.kedudukan})</strong></div>`;
+                    } else {
+                        htmlPenyumbang += `<div style="color: #c0392b;"><em>Tiada peserta ke-4</em></div>`;
+                    }
+                    htmlPenyumbang += `</div>`;
+
+                    const tbDisplay = k.tieBreaker !== null ? k.tieBreaker : '-';
+
+                    htmlOutput += `<tr class="${rankClass}">
+                        <td style="vertical-align: top; padding-top: 15px;">${rank}</td>
+                        <td style="vertical-align: top;">
+                            <strong style="font-size: 1.1em;">${escapeHtml(k.sekolah)}</strong>
+                            ${htmlPenyumbang}
+                        </td>
+                        <td style="vertical-align: top; padding-top: 15px;"><strong style="font-size: 1.3em;">${k.markah}</strong></td>
+                        <td style="vertical-align: top; padding-top: 15px;">${tbDisplay}</td>
+                    </tr>`;
+                });
+                htmlOutput += '</table>';
+            }
+        });
+
+        return htmlOutput;
+    }
+
 // ==========================================================
 // 2. INISIALISASI & PENGENDALI ACARA
 // ==========================================================
@@ -493,12 +627,12 @@ async function handleMuatNaikCSV() {
         return;
     }
     
-    const fileInput = document.getElementById('csv-input');
-    const file = fileInput.files[0];
+    const fileInput = document.getElementById('csv-input'); // Pastikan ID ini wujud di HTML, atau guna 'csv-file' mengikut HTML anda
+    const file = fileInput ? fileInput.files[0] : null;
     const statusElement = document.getElementById('csv-status');
 
     if (!file) {
-        statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
+        if (statusElement) statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
         return;
     }
 
@@ -534,7 +668,7 @@ async function handleMuatNaikCSV() {
                  ralat++;
             }
         }
-        statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
+        if (statusElement) statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
         paparSemuaPeserta(); 
     };
     reader.readAsText(file);
@@ -571,7 +705,25 @@ function handleEditCell(e) {
     }
 }
 
-document.getElementById('result-senarai').addEventListener('click', handleEditCell);
+// Event Listener sedia ada
+document.getElementById('result-senarai')?.addEventListener('click', handleEditCell);
+
+// ==========================================================
+// PENAMBAHAN BAHARU: BUTANG ANALISIS PASUKAN IKUT UMUR
+// ==========================================================
+document.getElementById('btnAnalisisPasukanKategori')?.addEventListener('click', () => {
+    // Kita gunakan 'result-kumpulan' sebagai kawasan paparan 
+    const outputDiv = document.getElementById('result-kumpulan'); 
+    
+    if (outputDiv) {
+        outputDiv.innerHTML = '<p>Sedang menganalisis pemenang pasukan bagi setiap kategori umur...</p>';
+        
+        // Letakkan sedikit 'delay' untuk kesan visual yang lebih profesional
+        setTimeout(() => {
+            outputDiv.innerHTML = kejohanan.analisisPemenangPasukanKategoriUmur();
+        }, 500);
+    }
+});
 
 async function handlePadamPeserta() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
