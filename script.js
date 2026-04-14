@@ -241,6 +241,13 @@ paparSemuaPesertaDalamJadual() {
             </button>
             <p style="font-size: 0.8em; color: #666; margin-top: 5px;">*Ingat: Tekan butang ini selepas selesai memasukkan markah.</p>
         </div>
+
+        <div style="text-align: center;">
+                <button id="btn-reset" onclick="resetSemuaKeputusan()" style="padding: 12px 24px; font-size: 16px; font-weight: bold; background-color: #dc2626; color: white; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    ⚠️ Reset Keputusan
+                </button>
+                <p style="font-size: 0.8em; color: #dc2626; margin-top: 5px;">*Kosongkan markah tanpa padam peserta.</p>
+            </div>
         `;
     }
 
