@@ -641,6 +641,12 @@ function analisisIndividu() {
     document.getElementById('result-individu').innerHTML = html;
 }
 
+function analisisPasukanKategori() {
+    // Kita panggil fungsi dari analisakategori.js dan hantar data kejohanan.senaraiPeserta
+    const html = janaAnalisisPasukanKategori(kejohanan.senaraiPeserta);
+    document.getElementById('result-pasukan-kategori').innerHTML = html;
+}
+
 function analisisKumpulan() {
     const html = kejohanan.analisisPemenangKumpulan();
     document.getElementById('result-kumpulan').innerHTML = html;
