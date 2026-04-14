@@ -614,6 +614,7 @@ analisisPemenangPasukanKategoriUmur() {
 
         return htmlOutput;
     }
+}
 
 // ==========================================================
 // 2. INISIALISASI & PENGENDALI ACARA
