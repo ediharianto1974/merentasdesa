@@ -555,7 +555,6 @@ async function handlePadamPeserta() {
             alert('❌ Ralat memadam peserta.');
         }
     }
-}
 
 // (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
 async function resetSemuaData() {
