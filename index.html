@@ -38,7 +38,7 @@
         <p id="login-error" class="error-text"></p>
     </div>
 
-    <main id="main-content" style="display:none;">
+    <main id="app-container" style="display: none;">
         <nav class="main-nav">
             <button class="tab-link active" onclick="openTab(event, 'pendaftaran-tab')">📝 Pendaftaran</button>
             <button class="tab-link" onclick="openTab(event, 'kemasukan-tab')">⏱️ Kemasukan Keputusan</button>
@@ -182,6 +182,33 @@
                 </div>
             </section>
         </div>
+
+        <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="sub-tab-link active" onclick="openSubTab(event, 'individu-tab', analisisIndividu)">🏅 Individu</button>
+                        
+                        <button class="sub-tab-link" id="btnAnalisisPasukanKategori" onclick="openSubTab(event, 'kategori-umur-tab')">👥 Pasukan (Ikut Umur)</button>
+                        
+                        <button class="sub-tab-link" onclick="openSubTab(event, 'kumpulan-tab', analisisKumpulan)">🏛️ Pasukan Terbaik (Keseluruhan)</button>
+                    </div>
+
+                    <div id="individu-tab" class="sub-tab-content active">
+                        <h3>Ranking Individu (Mengikut Kategori)</h3>
+                        <div id="result-individu" class="result-area"></div>
+                    </div>
+
+                    <div id="kategori-umur-tab" class="sub-tab-content">
+                        <h3>Pemenang Pasukan Mengikut Kategori Umur</h3>
+                        <div id="result-kategori" class="result-area">
+                            <p class="text-center">Klik tab ini untuk memuatkan analisis pemenang mengikut umur.</p>
+                        </div>
+                    </div>
+
+                    <div id="kumpulan-tab" class="sub-tab-content">
+                        <h3>Johan Keseluruhan (Sistem Mata)</h3>
+                        <div id="result-kumpulan" class="result-area"></div>
+                    </div>
+                </div>
         
     </main>
 
