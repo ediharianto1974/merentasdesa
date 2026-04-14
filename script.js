@@ -572,6 +572,91 @@ async function resetSemuaData() {
     }
 }
 
+// --- ANALISIS 3: PASUKAN MENGIKUT KATEGORI UMUR (BAHARU) ---
+    analisisPemenangPasukanKategoriUmur() {
+        const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
+        
+        const petaPasukan = pesertaSelesai.reduce((acc, peserta) => {
+            const pasukan = peserta.sekolahKelas;
+            if (!acc[pasukan]) acc[pasukan] = [];
+            acc[pasukan].push(peserta);
+            return acc;
+        }, {});
+
+        const kiraKombinasi = (lelaki, perempuan) => {
+            let kombA = null; 
+            if (lelaki.length >= 2 && perempuan.length >= 1) {
+                kombA = {
+                    markah: lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan,
+                    peserta: [lelaki[0], lelaki[1], perempuan[0]]
+                };
+            }
+            let kombB = null; 
+            if (lelaki.length >= 1 && perempuan.length >= 2) {
+                kombB = {
+                    markah: lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan,
+                    peserta: [lelaki[0], perempuan[0], perempuan[1]]
+                };
+            }
+            if (kombA !== null && kombB !== null) return (kombA.markah < kombB.markah) ? kombA : kombB;
+            if (kombA !== null) return kombA; 
+            if (kombB !== null) return kombB; 
+            return null; 
+        };
+
+        const umurSenarai = [
+            { kod: 12, label: "KATEGORI BAWAH 12 TAHUN (L12 & P12)", L: 'L12', P: 'P12' },
+            { kod: 15, label: "KATEGORI BAWAH 15 TAHUN (L15 & P15)", L: 'L15', P: 'P15' },
+            { kod: 19, label: "KATEGORI BAWAH 19 TAHUN (L19 & P19)", L: 'L19', P: 'P19' }
+        ];
+
+        let htmlOutput = '<h3>== KEPUTUSAN PASUKAN MENGIKUT UMUR ==</h3>';
+
+        umurSenarai.forEach(kategori => {
+            const keputusan = [];
+            for (const pasukan in petaPasukan) {
+                const senaraiUmur = petaPasukan[pasukan].filter(p => p.kategoriUmur === kategori.L || p.kategoriUmur === kategori.P);
+                senaraiUmur.sort((a, b) => a.kedudukan - b.kedudukan);
+                const lelaki = senaraiUmur.filter(p => p.kategoriUmur === kategori.L);
+                const perempuan = senaraiUmur.filter(p => p.kategoriUmur === kategori.P);
+                const hasil = kiraKombinasi(lelaki, perempuan);
+
+                if (hasil !== null) {
+                    let pesertaKe4 = (senaraiUmur.length >= 4) ? senaraiUmur[3] : null;
+                    keputusan.push({
+                        sekolah: pasukan,
+                        markah: hasil.markah,
+                        penyumbang: hasil.peserta,
+                        tieBreaker: pesertaKe4 ? pesertaKe4.kedudukan : null,
+                        pesertaTieBreaker: pesertaKe4
+                    });
+                }
+            }
+
+            keputusan.sort((a, b) => {
+                if (a.markah !== b.markah) return a.markah - b.markah;
+                if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker - b.tieBreaker;
+                return 0;
+            });
+
+            htmlOutput += `<h4 style="margin-top: 30px; color: #2980b9; border-bottom: 2px solid #ccc;">${kategori.label}</h4>`;
+            if (keputusan.length === 0) {
+                htmlOutput += '<p>Tiada pasukan yang memenuhi kuota (2L+1P atau 1L+2P).</p>';
+            } else {
+                htmlOutput += '<table style="width: 100%; border-collapse: collapse;">';
+                htmlOutput += '<tr><th>RANK</th><th>PASUKAN & PENYUMBANG</th><th>MARKAH</th><th>T-B (P4)</th></tr>';
+                keputusan.forEach((k, index) => {
+                    let htmlPenyumbang = `<div style="font-size: 0.8em;">`;
+                    k.penyumbang.forEach(p => htmlPenyumbang += `- ${p.namaPenuh} (${p.kedudukan})<br>`);
+                    htmlPenyumbang += `</div>`;
+                    htmlOutput += `<tr><td>${index + 1}</td><td><strong>${k.sekolah}</strong>${htmlPenyumbang}</td><td>${k.markah}</td><td>${k.tieBreaker || '-'}</td></tr>`;
+                });
+                htmlOutput += '</table>';
+            }
+        });
+        return htmlOutput;
+    }
+
 // ==========================================================
 // --- FUNGSI PAPARAN ---
 // ==========================================================
@@ -1073,3 +1158,13 @@ async function simpanSemuaKeputusan() {
     paparSemuaPeserta(); // Segarkan semula jadual
 }
 
+// Listener untuk butang kategori baharu
+document.getElementById('btnAnalisisPasukanKategori')?.addEventListener('click', () => {
+    const outputDiv = document.getElementById('result-kategori'); 
+    if (outputDiv) {
+        outputDiv.innerHTML = '<p>Sedang menganalisis...</p>';
+        setTimeout(() => {
+            outputDiv.innerHTML = kejohanan.analisisPemenangPasukanKategoriUmur();
+        }, 500);
+    }
+});
