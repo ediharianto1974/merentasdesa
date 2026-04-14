@@ -449,129 +449,9 @@ analisisPemenangKumpulan() {
         htmlOutput += '</table>';
 
         return htmlOutput;
-    }
-}
 
-// ==========================================================
-// 2. INISIALISASI & PENGENDALI ACARA
-// ==========================================================
 
-const kejohanan = new Kejohanan();
-
-async function handleMuatNaikCSV() {
-    if (!isAdmin()) {
-        alert('❌ Akses Ditolak.');
-        return;
-    }
-    
-    const fileInput = document.getElementById('csv-input');
-    const file = fileInput.files[0];
-    const statusElement = document.getElementById('csv-status');
-
-    if (!file) {
-        statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-        const text = e.target.result;
-        const baris = text.split(/\r?\n/); 
-        let berjaya = 0;
-        let ralat = 0;
-
-        for (let i = 1; i < baris.length; i++) {
-            const rawLine = baris[i].trim();
-            if (!rawLine) continue;
-
-            // Pembersihan asas: buang quote jika CSV ada quote
-            const data = rawLine.split(',').map(d => d.trim().replace(/^"|"$/g, ''));
-            
-            if (data.length >= 5 && data[0] && data[1]) { 
-                try {
-                    const p = new Peserta(data[0], data[1], data[2], data[3], data[4]);
-                    const exists = kejohanan.senaraiPeserta.some(peserta => peserta.noBadan.trim() === p.noBadan.trim());
-                    
-                    if (!exists) {
-                         if (await kejohanan.daftarPeserta(p)) berjaya++;
-                         else ralat++; 
-                    } else {
-                        ralat++; 
-                    }
-                } catch (error) {
-                    ralat++;
-                }
-            } else {
-                 ralat++;
-            }
-        }
-        statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
-        paparSemuaPeserta(); 
-    };
-    reader.readAsText(file);
-}
-
-// PENGENDALI KEMASUKAN KEDUDUKAN & MASA (OPTIMIZED)
-function handleEditCell(e) {
-    if (!isAdmin()) return;
-
-    if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
-        const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
-        
-        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
-        
-        e.target.onkeydown = function(event) {
-            const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
-            const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
-
-            if (event.keyCode === 13) { // Tombol Enter
-                event.preventDefault(); // Mencegah tombol enter membuat baris baru di dalam kotak
-                return;
-            }
-
-            // Validasi agar hanya angka yang bisa diketik
-            if (field === 'kedudukan') {
-                if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
-            } else if (field === 'masaLarian') {
-                 // Izinkan angka dan titik desimal (key code 190 atau 110)
-                 if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
-                    event.preventDefault();
-                }
-            }
-        };
-    }
-}
-
-document.getElementById('result-senarai').addEventListener('click', handleEditCell);
-
-async function handlePadamPeserta() {
-    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
-    const noBadan = prompt("Masukkan No. Badan peserta:");
-    if (noBadan) {
-        if (await kejohanan.padamPesertaIndividu(noBadan.trim())) {
-            alert(`✅ Peserta ${noBadan.trim()} dipadam.`);
-            paparSemuaPeserta(); 
-        } else {
-            alert('❌ Ralat memadam peserta.');
-        }
-    }
-} // <-- Pastikan ada penutup ini!
-
-async function resetSemuaData() {
-    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
-    if (confirm("❗ AMARAN: Padam SEMUA data?")) {
-        if (await kejohanan.resetSemuaData()) {
-            alert("✅ Sistem di-reset.");
-            paparSemuaPeserta();
-            document.getElementById('result-individu').innerHTML = "";
-            document.getElementById('result-kumpulan').innerHTML = "";
-        } else {
-            alert("❌ Gagal reset.");
-        }
-    }
-}
-
-// --- ANALISIS 3: PASUKAN MENGIKUT KATEGORI UMUR (BAHARU) ---
+    // --- ANALISIS 3: PASUKAN MENGIKUT KATEGORI UMUR (BAHARU) ---
     analisisPemenangPasukanKategoriUmur() {
         const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
         
@@ -1157,6 +1037,128 @@ async function simpanSemuaKeputusan() {
     alert(`✅ Proses selesai! Data dikemaskini: ${berjaya} | Ralat: ${ralat}`);
     paparSemuaPeserta(); // Segarkan semula jadual
 }
+    }
+}
+
+// ==========================================================
+// 2. INISIALISASI & PENGENDALI ACARA
+// ==========================================================
+
+const kejohanan = new Kejohanan();
+
+async function handleMuatNaikCSV() {
+    if (!isAdmin()) {
+        alert('❌ Akses Ditolak.');
+        return;
+    }
+    
+    const fileInput = document.getElementById('csv-input');
+    const file = fileInput.files[0];
+    const statusElement = document.getElementById('csv-status');
+
+    if (!file) {
+        statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const text = e.target.result;
+        const baris = text.split(/\r?\n/); 
+        let berjaya = 0;
+        let ralat = 0;
+
+        for (let i = 1; i < baris.length; i++) {
+            const rawLine = baris[i].trim();
+            if (!rawLine) continue;
+
+            // Pembersihan asas: buang quote jika CSV ada quote
+            const data = rawLine.split(',').map(d => d.trim().replace(/^"|"$/g, ''));
+            
+            if (data.length >= 5 && data[0] && data[1]) { 
+                try {
+                    const p = new Peserta(data[0], data[1], data[2], data[3], data[4]);
+                    const exists = kejohanan.senaraiPeserta.some(peserta => peserta.noBadan.trim() === p.noBadan.trim());
+                    
+                    if (!exists) {
+                         if (await kejohanan.daftarPeserta(p)) berjaya++;
+                         else ralat++; 
+                    } else {
+                        ralat++; 
+                    }
+                } catch (error) {
+                    ralat++;
+                }
+            } else {
+                 ralat++;
+            }
+        }
+        statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
+        paparSemuaPeserta(); 
+    };
+    reader.readAsText(file);
+}
+
+// PENGENDALI KEMASUKAN KEDUDUKAN & MASA (OPTIMIZED)
+function handleEditCell(e) {
+    if (!isAdmin()) return;
+
+    if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
+        const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
+        
+        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
+        
+        e.target.onkeydown = function(event) {
+            const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
+            const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
+
+            if (event.keyCode === 13) { // Tombol Enter
+                event.preventDefault(); // Mencegah tombol enter membuat baris baru di dalam kotak
+                return;
+            }
+
+            // Validasi agar hanya angka yang bisa diketik
+            if (field === 'kedudukan') {
+                if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
+            } else if (field === 'masaLarian') {
+                 // Izinkan angka dan titik desimal (key code 190 atau 110)
+                 if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
+                    event.preventDefault();
+                }
+            }
+        };
+    }
+}
+
+document.getElementById('result-senarai').addEventListener('click', handleEditCell);
+
+async function handlePadamPeserta() {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+    const noBadan = prompt("Masukkan No. Badan peserta:");
+    if (noBadan) {
+        if (await kejohanan.padamPesertaIndividu(noBadan.trim())) {
+            alert(`✅ Peserta ${noBadan.trim()} dipadam.`);
+            paparSemuaPeserta(); 
+        } else {
+            alert('❌ Ralat memadam peserta.');
+        }
+    }
+}
+
+// (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
+async function resetSemuaData() {
+    if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
+    if (confirm("❗ AMARAN: Padam SEMUA data?")) {
+        if (await kejohanan.resetSemuaData()) {
+            alert("✅ Sistem di-reset.");
+            paparSemuaPeserta();
+            document.getElementById('result-individu').innerHTML = "";
+            document.getElementById('result-kumpulan').innerHTML = "";
+        } else {
+            alert("❌ Gagal reset.");
+        }
+    }
+  }
 
 // Listener untuk butang kategori baharu
 document.getElementById('btnAnalisisPasukanKategori')?.addEventListener('click', () => {
