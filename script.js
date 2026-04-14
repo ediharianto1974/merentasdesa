@@ -347,38 +347,33 @@ analisisPemenangKumpulan() {
 
         const keputusanPasukan = [];
 
-        // Fungsi pembantu (helper) diubah suai untuk memulangkan markah BESERTA objek peserta
+        // Fungsi pembantu (helper) untuk mengira kombinasi markah terbaik bagi setiap peringkat umur
         const kiraMarkahUmur = (lelaki, perempuan) => {
-            let kombA = null; // Kombinasi A: 2 Lelaki + 1 Perempuan
+            let markahA = null; // Kombinasi A: 2 Lelaki + 1 Perempuan
             if (lelaki.length >= 2 && perempuan.length >= 1) {
-                kombA = {
-                    markah: lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan,
-                    peserta: [lelaki[0], lelaki[1], perempuan[0]] // Simpan identiti peserta
-                };
+                markahA = lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan;
             }
 
-            let kombB = null; // Kombinasi B: 1 Lelaki + 2 Perempuan
+            let markahB = null; // Kombinasi B: 1 Lelaki + 2 Perempuan
             if (lelaki.length >= 1 && perempuan.length >= 2) {
-                kombB = {
-                    markah: lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan,
-                    peserta: [lelaki[0], perempuan[0], perempuan[1]] // Simpan identiti peserta
-                };
+                markahB = lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan;
             }
 
-            // Pilih kombinasi dengan markah terendah (terbaik)
-            if (kombA !== null && kombB !== null) return (kombA.markah < kombB.markah) ? kombA : kombB;
-            if (kombA !== null) return kombA; 
-            if (kombB !== null) return kombB; 
-            return null; // Gagal sediakan kombinasi sah
+            // Pilih markah terendah (terbaik) jika kedua-dua kombinasi wujud
+            if (markahA !== null && markahB !== null) return Math.min(markahA, markahB);
+            if (markahA !== null) return markahA; // Hanya Kombinasi A wujud
+            if (markahB !== null) return markahB; // Hanya Kombinasi B wujud
+            return null; // Pasukan gagal sediakan kombinasi sah untuk umur ini
         };
 
         // 2. Analisis setiap pasukan secara individu
         for (const pasukan in petaPasukan) {
             const senarai = petaPasukan[pasukan];
             
-            // Susun keseluruhan ahli pasukan mengikut kedudukan
+            // Susun keseluruhan ahli pasukan mengikut kedudukan (untuk tujuan Tie-Breaker nanti)
             senarai.sort((a, b) => a.kedudukan - b.kedudukan);
 
+            // Asingkan peserta mengikut kategori umur dan jantina
             const L12 = senarai.filter(p => p.kategoriUmur === 'L12');
             const P12 = senarai.filter(p => p.kategoriUmur === 'P12');
             const L15 = senarai.filter(p => p.kategoriUmur === 'L15');
@@ -386,53 +381,53 @@ analisisPemenangKumpulan() {
             const L19 = senarai.filter(p => p.kategoriUmur === 'L19');
             const P19 = senarai.filter(p => p.kategoriUmur === 'P19');
 
-            const hasil12 = kiraMarkahUmur(L12, P12);
-            const hasil15 = kiraMarkahUmur(L15, P15);
-            const hasil19 = kiraMarkahUmur(L19, P19);
+            // Kira markah bagi setiap peringkat umur (sudah disusun secara automatik kerana 'senarai' dah disusun)
+            const markah12 = kiraMarkahUmur(L12, P12);
+            const markah15 = kiraMarkahUmur(L15, P15);
+            const markah19 = kiraMarkahUmur(L19, P19);
 
-            // 3. Syarat Utama: Wajib ada markah (dan penyumbang) bagi ke-3 peringkat umur
-            if (hasil12 !== null && hasil15 !== null && hasil19 !== null) {
-                const jumlahMarkah = hasil12.markah + hasil15.markah + hasil19.markah;
+            // 3. Syarat Utama Kelayakan: Pasukan wajib ada markah bagi ke-3 peringkat umur
+            if (markah12 !== null && markah15 !== null && markah19 !== null) {
+                const jumlahMarkah = markah12 + markah15 + markah19;
                 
-                // Gabungkan kesemua 9 penyumbang markah
-                const senaraiPenyumbang = [...hasil12.peserta, ...hasil15.peserta, ...hasil19.peserta];
-
-                // Cari kedudukan peserta ke-10
-                let tieBreakerVal = null;
-                let pesertaTieBreaker = null;
+                // Pemutus seri: Cari kedudukan peserta ke-10 (Index ke-9 dalam tatasusunan)
+                let tieBreaker = null;
                 if (senarai.length >= 10) {
-                    pesertaTieBreaker = senarai[9]; // Objek peserta ke-10
-                    tieBreakerVal = pesertaTieBreaker.kedudukan;
+                    tieBreaker = senarai[9].kedudukan; // Markah keseluruhan peserta ke-10
                 }
 
                 keputusanPasukan.push({
                     sekolah: pasukan,
                     markah: jumlahMarkah,
-                    tieBreaker: tieBreakerVal,
-                    jumlahPeserta: senarai.length,
-                    penyumbang: senaraiPenyumbang,
-                    pesertaKe10: pesertaTieBreaker
+                    tieBreaker: tieBreaker,
+                    jumlahPeserta: senarai.length
                 });
             }
         }
 
+        // 4. Jika tiada langsung pasukan yang melepasi syarat wajib
         if (keputusanPasukan.length === 0) {
             return '<p>Tiada pasukan yang layak. (Syarat: Lengkap peserta 12, 15, dan 19 tahun dengan kombinasi L/P yang sah).</p>';
         }
 
-        // 4. Susun senarai keputusan dari Johan ke bawah
+        // 5. Susun senarai keputusan dari Johan ke bawah
         keputusanPasukan.sort((a, b) => {
-            if (a.markah !== b.markah) return a.markah - b.markah;
-            if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker - b.tieBreaker;
-            if (a.tieBreaker === null && b.tieBreaker !== null) return 1;  
-            if (a.tieBreaker !== null && b.tieBreaker === null) return -1; 
-            return 0; 
+            if (a.markah !== b.markah) return a.markah - b.markah; // Markah terendah di atas
+            
+            // Logik Tie-Breaker (Jika markah sama)
+            if (a.tieBreaker !== null && b.tieBreaker !== null) {
+                return a.tieBreaker - b.tieBreaker; // Peserta ke-10 kedudukan terendah menang
+            }
+            if (a.tieBreaker === null && b.tieBreaker !== null) return 1;  // Pasukan B menang sebab ada peserta ke-10
+            if (a.tieBreaker !== null && b.tieBreaker === null) return -1; // Pasukan A menang sebab ada peserta ke-10
+            
+            return 0; // Seri sepenuhnya (Keduanya tiada peserta ke-10)
         });
 
-        // 5. Jana paparan (HTML Output) dengan elemen penyumbang
+        // 6. Jana paparan (HTML Output)
         let htmlOutput = `<h4>== KEPUTUSAN PASUKAN TERBAIK KESELURUHAN ==</h4>`;
-        htmlOutput += '<table style="width: 100%; border-collapse: collapse;">';
-        htmlOutput += '<tr><th>RANK</th><th>PASUKAN / SEKOLAH & PENYUMBANG MATA</th><th>MARKAH</th><th>TIE-BREAKER</th><th>JUM. PESERTA</th></tr>';
+        htmlOutput += '<table>';
+        htmlOutput += '<tr><th>RANK</th><th>PASUKAN / SEKOLAH</th><th>MARKAH</th><th>TIE-BREAKER (Peserta Ke-10)</th><th>JUM. PESERTA</th></tr>';
         
         keputusanPasukan.forEach((k, index) => {
             const rank = index + 1;
@@ -441,175 +436,17 @@ analisisPemenangKumpulan() {
             else if (rank === 2) rankClass = 'rank-2';
             else if (rank === 3) rankClass = 'rank-3';
 
-            // --- JANA HTML UNTUK SENARAI PENYUMBANG ---
-            let htmlPenyumbang = `<div style="font-size: 0.85em; margin-top: 10px; color: #444; text-align: left; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 4px;">`;
-            htmlPenyumbang += `<strong style="color: #000;">9 Penyumbang Mata Utama:</strong><ul style="margin: 5px 0 10px 0; padding-left: 20px;">`;
-            
-            // Susun nama penyumbang ikut kategori supaya lebih kemas dibaca
-            k.penyumbang.sort((a, b) => a.kategoriUmur.localeCompare(b.kategoriUmur));
-            
-            k.penyumbang.forEach(p => {
-                htmlPenyumbang += `<li>[${p.kategoriUmur}] ${escapeHtml(p.namaPenuh)} <strong>(Ke-${p.kedudukan})</strong></li>`;
-            });
-            htmlPenyumbang += `</ul>`;
-
-            // Tambah info peserta ke-10 di bawah penyumbang
-            if (k.pesertaKe10) {
-                htmlPenyumbang += `<div style="color: #27ae60;"><strong>Peserta Ke-10 (Pemutus Seri):</strong><br> [${k.pesertaKe10.kategoriUmur}] ${escapeHtml(k.pesertaKe10.namaPenuh)} <strong>(Ke-${k.pesertaKe10.kedudukan})</strong></div>`;
-            } else {
-                htmlPenyumbang += `<div style="color: #c0392b;"><em>Tiada peserta ke-10 (Tiada kelebihan Tie-Breaker)</em></div>`;
-            }
-            htmlPenyumbang += `</div>`;
-            // ------------------------------------------
-
             const tieBreakerDisplay = k.tieBreaker !== null ? k.tieBreaker : '-';
 
             htmlOutput += `<tr class="${rankClass}">
-                <td style="vertical-align: top; padding-top: 15px;">${rank}</td>
-                <td style="vertical-align: top;">
-                    <strong style="font-size: 1.1em;">${escapeHtml(k.sekolah)}</strong>
-                    ${htmlPenyumbang}
-                </td>
-                <td style="vertical-align: top; padding-top: 15px;"><strong style="font-size: 1.3em;">${k.markah}</strong></td>
-                <td style="vertical-align: top; padding-top: 15px;">${tieBreakerDisplay}</td>
-                <td style="vertical-align: top; padding-top: 15px;">${k.jumlahPeserta}</td>
+                <td>${rank}</td>
+                <td>${escapeHtml(k.sekolah)}</td>
+                <td>${k.markah}</td>
+                <td>${tieBreakerDisplay}</td>
+                <td>${k.jumlahPeserta}</td>
             </tr>`;
         });
         htmlOutput += '</table>';
-
-        return htmlOutput;
-    }
-
-analisisPemenangPasukanKategoriUmur() {
-        const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
-        
-        // Kumpulkan semua peserta mengikut sekolah/pasukan
-        const petaPasukan = pesertaSelesai.reduce((acc, peserta) => {
-            const pasukan = peserta.sekolahKelas;
-            if (!acc[pasukan]) acc[pasukan] = [];
-            acc[pasukan].push(peserta);
-            return acc;
-        }, {});
-
-        // Fungsi bantu kira markah (hanya untuk 3 orang)
-        const kiraKombinasi = (lelaki, perempuan) => {
-            let kombA = null; 
-            if (lelaki.length >= 2 && perempuan.length >= 1) {
-                kombA = {
-                    markah: lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan,
-                    peserta: [lelaki[0], lelaki[1], perempuan[0]]
-                };
-            }
-            let kombB = null; 
-            if (lelaki.length >= 1 && perempuan.length >= 2) {
-                kombB = {
-                    markah: lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan,
-                    peserta: [lelaki[0], perempuan[0], perempuan[1]]
-                };
-            }
-            if (kombA !== null && kombB !== null) return (kombA.markah < kombB.markah) ? kombA : kombB;
-            if (kombA !== null) return kombA; 
-            if (kombB !== null) return kombB; 
-            return null; 
-        };
-
-        // Takrifkan 3 kumpulan yang akan dianalisis
-        const umurSenarai = [
-            { kod: 12, label: "KATEGORI BAWAH 12 TAHUN (L12 & P12)", L: 'L12', P: 'P12' },
-            { kod: 15, label: "KATEGORI BAWAH 15 TAHUN (L15 & P15)", L: 'L15', P: 'P15' },
-            { kod: 19, label: "KATEGORI BAWAH 19 TAHUN (L19 & P19)", L: 'L19', P: 'P19' }
-        ];
-
-        let htmlOutput = '<h3>== KEPUTUSAN PASUKAN MENGIKUT UMUR ==</h3>';
-
-        // Lakukan pengiraan berasingan untuk setiap peringkat umur
-        umurSenarai.forEach(kategori => {
-            const keputusan = [];
-
-            for (const pasukan in petaPasukan) {
-                // Ambil peserta pasukan ini utk kategori umur spesifik ini sahaja
-                const senaraiUmur = petaPasukan[pasukan].filter(p => p.kategoriUmur === kategori.L || p.kategoriUmur === kategori.P);
-                senaraiUmur.sort((a, b) => a.kedudukan - b.kedudukan); // Susun ikut kedudukan
-
-                const lelaki = senaraiUmur.filter(p => p.kategoriUmur === kategori.L);
-                const perempuan = senaraiUmur.filter(p => p.kategoriUmur === kategori.P);
-
-                const hasil = kiraKombinasi(lelaki, perempuan);
-
-                if (hasil !== null) {
-                    // Tie-breaker: Cari peserta ke-4 (Index 3) dari umur ini untuk pemutus seri
-                    let pesertaKe4 = null;
-                    if (senaraiUmur.length >= 4) {
-                        pesertaKe4 = senaraiUmur[3]; 
-                    }
-
-                    keputusan.push({
-                        sekolah: pasukan,
-                        markah: hasil.markah,
-                        penyumbang: hasil.peserta,
-                        tieBreaker: pesertaKe4 ? pesertaKe4.kedudukan : null,
-                        pesertaTieBreaker: pesertaKe4
-                    });
-                }
-            }
-
-            // Susun keputusan dari markah terendah ke tertinggi
-            keputusan.sort((a, b) => {
-                if (a.markah !== b.markah) return a.markah - b.markah;
-                // Logik Tie-Breaker (Peserta ke-4)
-                if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker - b.tieBreaker;
-                if (a.tieBreaker === null && b.tieBreaker !== null) return 1;  
-                if (a.tieBreaker !== null && b.tieBreaker === null) return -1; 
-                return 0; 
-            });
-
-            // Jana Paparan HTML untuk Kategori Ini
-            htmlOutput += `<h4 style="margin-top: 40px; color: #2980b9; padding-bottom: 5px; border-bottom: 2px solid #ccc;">${kategori.label}</h4>`;
-            
-            if (keputusan.length === 0) {
-                htmlOutput += '<p style="color: #7f8c8d;">Tiada pasukan yang memenuhi kuota (2L+1P atau 1L+2P) bagi kategori umur ini.</p>';
-            } else {
-                htmlOutput += '<table style="width: 100%; border-collapse: collapse;">';
-                htmlOutput += '<tr><th>RANK</th><th>PASUKAN & PENYUMBANG</th><th>MARKAH</th><th>TIE-BREAKER (P. Ke-4)</th></tr>';
-                
-                keputusan.forEach((k, index) => {
-                    const rank = index + 1;
-                    let rankClass = '';
-                    if (rank === 1) rankClass = 'rank-1';
-                    else if (rank === 2) rankClass = 'rank-2';
-                    else if (rank === 3) rankClass = 'rank-3';
-
-                    let htmlPenyumbang = `<div style="font-size: 0.85em; margin-top: 10px; color: #444; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 4px;">`;
-                    htmlPenyumbang += `<strong style="color: #000;">3 Penyumbang Utama:</strong><ul style="margin: 5px 0 10px 0; padding-left: 20px;">`;
-                    
-                    k.penyumbang.sort((a, b) => a.kategoriUmur.localeCompare(b.kategoriUmur));
-                    k.penyumbang.forEach(p => {
-                        htmlPenyumbang += `<li>[${p.kategoriUmur}] ${escapeHtml(p.namaPenuh)} <strong>(Ke-${p.kedudukan})</strong></li>`;
-                    });
-                    htmlPenyumbang += `</ul>`;
-
-                    if (k.pesertaTieBreaker) {
-                        htmlPenyumbang += `<div style="color: #27ae60;"><strong>Peserta Ke-4:</strong><br> [${k.pesertaTieBreaker.kategoriUmur}] ${escapeHtml(k.pesertaTieBreaker.namaPenuh)} <strong>(Ke-${k.pesertaTieBreaker.kedudukan})</strong></div>`;
-                    } else {
-                        htmlPenyumbang += `<div style="color: #c0392b;"><em>Tiada peserta ke-4</em></div>`;
-                    }
-                    htmlPenyumbang += `</div>`;
-
-                    const tbDisplay = k.tieBreaker !== null ? k.tieBreaker : '-';
-
-                    htmlOutput += `<tr class="${rankClass}">
-                        <td style="vertical-align: top; padding-top: 15px;">${rank}</td>
-                        <td style="vertical-align: top;">
-                            <strong style="font-size: 1.1em;">${escapeHtml(k.sekolah)}</strong>
-                            ${htmlPenyumbang}
-                        </td>
-                        <td style="vertical-align: top; padding-top: 15px;"><strong style="font-size: 1.3em;">${k.markah}</strong></td>
-                        <td style="vertical-align: top; padding-top: 15px;">${tbDisplay}</td>
-                    </tr>`;
-                });
-                htmlOutput += '</table>';
-            }
-        });
 
         return htmlOutput;
     }
@@ -627,12 +464,12 @@ async function handleMuatNaikCSV() {
         return;
     }
     
-    const fileInput = document.getElementById('csv-input'); // Pastikan ID ini wujud di HTML, atau guna 'csv-file' mengikut HTML anda
-    const file = fileInput ? fileInput.files[0] : null;
+    const fileInput = document.getElementById('csv-input');
+    const file = fileInput.files[0];
     const statusElement = document.getElementById('csv-status');
 
     if (!file) {
-        if (statusElement) statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
+        statusElement.innerHTML = '<span style="color: red;">Sila pilih fail CSV dahulu.</span>';
         return;
     }
 
@@ -668,7 +505,7 @@ async function handleMuatNaikCSV() {
                  ralat++;
             }
         }
-        if (statusElement) statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
+        statusElement.innerHTML = `<span style="color: green;">Selesai. Berjaya: ${berjaya}, Ralat: ${ralat}.</span>`;
         paparSemuaPeserta(); 
     };
     reader.readAsText(file);
@@ -679,20 +516,24 @@ function handleEditCell(e) {
     if (!isAdmin()) return;
 
     if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
-        const field = e.target.getAttribute('data-field'); 
+        const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
+        
+        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
         
         e.target.onkeydown = function(event) {
-            const allowedKeys = [8, 9, 37, 39, 46, 13]; 
+            const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
             const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
 
-            if (event.keyCode === 13) { 
-                event.preventDefault(); 
+            if (event.keyCode === 13) { // Tombol Enter
+                event.preventDefault(); // Mencegah tombol enter membuat baris baru di dalam kotak
                 return;
             }
 
+            // Validasi agar hanya angka yang bisa diketik
             if (field === 'kedudukan') {
                 if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
             } else if (field === 'masaLarian') {
+                 // Izinkan angka dan titik desimal (key code 190 atau 110)
                  if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
                     event.preventDefault();
                 }
@@ -701,24 +542,7 @@ function handleEditCell(e) {
     }
 }
 
-// 1. DIBETULKAN: Tukar 'result-senarai' kepada 'table-peserta' dan tambah tanda '?'
-document.getElementById('table-peserta')?.addEventListener('click', handleEditCell);
-
-
-// ==========================================================
-// 2. BUTANG ANALISIS PASUKAN IKUT UMUR
-// ==========================================================
-// 2. DIBETULKAN: Pastikan butang ini juga ada tanda '?' 
-document.getElementById('btnAnalisisPasukanKategori')?.addEventListener('click', () => {
-    const outputDiv = document.getElementById('result-kumpulan'); 
-    
-    if (outputDiv) {
-        outputDiv.innerHTML = '<p>Sedang menganalisis pemenang pasukan bagi setiap kategori umur...</p>';
-        setTimeout(() => {
-            outputDiv.innerHTML = kejohanan.analisisPemenangPasukanKategoriUmur();
-        }, 500);
-    }
-});
+document.getElementById('result-senarai').addEventListener('click', handleEditCell);
 
 async function handlePadamPeserta() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
