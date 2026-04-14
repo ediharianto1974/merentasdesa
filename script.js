@@ -782,22 +782,31 @@ function openSubTab(evt, tabName, analysisFunction = null) {
 // 4. FUNGSI ADMIN TAMBAHAN (CETAKAN & BACKUP)
 // ==========================================================
 
-function handleCetakKeputusan() {
-    const kandungan = document.getElementById('result-senarai').innerHTML;
-    cetakTetingkap("KEPUTUSAN PENUH KEJOHANAN", kandungan);
-}
-
 function handleCetakAnalisis() {
+    // Ambil kandungan daripada ketiga-tiga bahagian analisis
     const individu = document.getElementById('result-individu').innerHTML;
+    const pasukanKategori = document.getElementById('result-pasukan-kategori').innerHTML; // DATA BAHARU
     const kumpulan = document.getElementById('result-kumpulan').innerHTML;
     
+    // Elak cetak jika analisis belum dijana / masih kosong
+    if (!individu && !pasukanKategori && !kumpulan) {
+        alert("Tiada data analisis untuk dicetak. Sila jana analisis terlebih dahulu.");
+        return;
+    }
+
     const kandungan = `
-        <h2>KEPUTUSAN INDIVIDU</h2>
+        <h2>1. KEPUTUSAN INDIVIDU (MENGIKUT KATEGORI)</h2>
         ${individu}
+        
         <div style="page-break-before: always;"></div>
-        <h2>KEPUTUSAN PASUKAN</h2>
+        <h2>2. KEPUTUSAN PASUKAN (MENGIKUT KUMPULAN UMUR)</h2>
+        ${pasukanKategori}
+        
+        <div style="page-break-before: always;"></div>
+        <h2>3. JOHAN KESELURUHAN (SISTEM MATA)</h2>
         ${kumpulan}
     `;
+    
     cetakTetingkap("ANALISIS RASMI KEJOHANAN", kandungan);
 }
 
@@ -820,9 +829,12 @@ function cetakTetingkap(tajuk, isiKandungan) {
     tetingkapCetak.document.write(isiKandungan);
     tetingkapCetak.document.write('</body></html>');
     tetingkapCetak.document.close();
-    tetingkapCetak.print();
+    
+    // Beri sedikit masa untuk CSS dimuatkan sebelum print dialog keluar
+    setTimeout(() => {
+        tetingkapCetak.print();
+    }, 500);
 }
-
 async function handlePadamSemua() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
     if (!confirm("⚠️ AMARAN KERAS:\n\nAdakah anda pasti mahu memadam SEMUA data?\nTindakan ini tidak boleh diundur.")) return;
