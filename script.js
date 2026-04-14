@@ -679,24 +679,20 @@ function handleEditCell(e) {
     if (!isAdmin()) return;
 
     if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
-        const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
-        
-        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
+        const field = e.target.getAttribute('data-field'); 
         
         e.target.onkeydown = function(event) {
-            const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
+            const allowedKeys = [8, 9, 37, 39, 46, 13]; 
             const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
 
-            if (event.keyCode === 13) { // Tombol Enter
-                event.preventDefault(); // Mencegah tombol enter membuat baris baru di dalam kotak
+            if (event.keyCode === 13) { 
+                event.preventDefault(); 
                 return;
             }
 
-            // Validasi agar hanya angka yang bisa diketik
             if (field === 'kedudukan') {
                 if (!(isNumber || allowedKeys.includes(event.keyCode))) event.preventDefault();
             } else if (field === 'masaLarian') {
-                 // Izinkan angka dan titik desimal (key code 190 atau 110)
                  if (!(isNumber || allowedKeys.includes(event.keyCode) || event.keyCode === 190 || event.keyCode === 110)) {
                     event.preventDefault();
                 }
@@ -705,20 +701,19 @@ function handleEditCell(e) {
     }
 }
 
-// Event Listener sedia ada
-document.getElementById('result-senarai')?.addEventListener('click', handleEditCell);
+// 1. DIBETULKAN: Tukar 'result-senarai' kepada 'table-peserta' dan tambah tanda '?'
+document.getElementById('table-peserta')?.addEventListener('click', handleEditCell);
+
 
 // ==========================================================
-// PENAMBAHAN BAHARU: BUTANG ANALISIS PASUKAN IKUT UMUR
+// 2. BUTANG ANALISIS PASUKAN IKUT UMUR
 // ==========================================================
+// 2. DIBETULKAN: Pastikan butang ini juga ada tanda '?' 
 document.getElementById('btnAnalisisPasukanKategori')?.addEventListener('click', () => {
-    // Kita gunakan 'result-kumpulan' sebagai kawasan paparan 
     const outputDiv = document.getElementById('result-kumpulan'); 
     
     if (outputDiv) {
         outputDiv.innerHTML = '<p>Sedang menganalisis pemenang pasukan bagi setiap kategori umur...</p>';
-        
-        // Letakkan sedikit 'delay' untuk kesan visual yang lebih profesional
         setTimeout(() => {
             outputDiv.innerHTML = kejohanan.analisisPemenangPasukanKategoriUmur();
         }, 500);
