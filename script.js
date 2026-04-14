@@ -229,7 +229,7 @@ class Kejohanan {
 
     // --- D. PAPARAN DAN ANALISIS KEPUTUSAN --- 
     
-paparSemuaPesertaDalamJadual() {
+    paparSemuaPesertaDalamJadual() {
         if (this.senaraiPeserta.length === 0) return '<p>Tiada peserta didaftarkan.</p>';
 
         let htmlOutput = '<table>';
@@ -280,7 +280,7 @@ paparSemuaPesertaDalamJadual() {
         return htmlOutput;
     }
     
-analisisPemenangIndividuKategori() {
+    analisisPemenangIndividuKategori() {
         const pemenangKategori = this.dapatkanPemenangTersusunMengikutKategori();
         let htmlOutput = '';
 
@@ -333,120 +333,156 @@ analisisPemenangIndividuKategori() {
         return htmlOutput;
     }
     
-analisisPemenangKumpulan() {
-        // Ambil semua peserta yang menamatkan larian sahaja
+    // ==========================================================
+    // FUNGSI ANALISIS KUMPULAN YANG TELAH DIBAIKI SEPENUHNYA
+    // ==========================================================
+    analisisPemenangKumpulan() {
         const pesertaSelesai = this.senaraiPeserta.filter(p => p.kedudukan > 0);
         
-        // 1. Kumpulkan semua peserta mengikut sekolah/pasukan
-        const petaPasukan = pesertaSelesai.reduce((acc, peserta) => {
-            const pasukan = peserta.sekolahKelas;
-            if (!acc[pasukan]) acc[pasukan] = [];
-            acc[pasukan].push(peserta);
-            return acc;
-        }, {});
+        if (pesertaSelesai.length === 0) {
+            return '<div class="alert-info">Tiada data kedudukan dikesan. Sila masukkan kedudukan peserta dan simpan keputusan dahulu.</div>';
+        }
 
-        const keputusanPasukan = [];
+        let htmlOutput = '';
 
-        // Fungsi pembantu (helper) untuk mengira kombinasi markah terbaik bagi setiap peringkat umur
-        const kiraMarkahUmur = (lelaki, perempuan) => {
-            let markahA = null; // Kombinasi A: 2 Lelaki + 1 Perempuan
-            if (lelaki.length >= 2 && perempuan.length >= 1) {
-                markahA = lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan;
+        // --- BAHAGIAN 1: PASUKAN TERBAIK MENGIKUT KATEGORI ---
+        htmlOutput += '<h3 style="color: #17a2b8;">🏆 Keputusan Pasukan (Mengikut Kategori)</h3>';
+
+        // Peta untuk menyimpan peserta mengikut Kategori -> Sekolah
+        const petaKategori = {};
+        pesertaSelesai.forEach(p => {
+            if (!petaKategori[p.kategoriUmur]) petaKategori[p.kategoriUmur] = {};
+            if (!petaKategori[p.kategoriUmur][p.sekolahKelas]) {
+                petaKategori[p.kategoriUmur][p.sekolahKelas] = {
+                    sekolah: p.sekolahKelas,
+                    peserta: [],
+                    kategori: p.kategoriUmur
+                };
             }
+            petaKategori[p.kategoriUmur][p.sekolahKelas].peserta.push(p);
+        });
 
-            let markahB = null; // Kombinasi B: 1 Lelaki + 2 Perempuan
-            if (lelaki.length >= 1 && perempuan.length >= 2) {
-                markahB = lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan;
-            }
+        // Pembolehubah untuk menyimpan Mata Johan Keseluruhan
+        const mataKeseluruhanSekolah = {}; 
 
-            // Pilih markah terendah (terbaik) jika kedua-dua kombinasi wujud
-            if (markahA !== null && markahB !== null) return Math.min(markahA, markahB);
-            if (markahA !== null) return markahA; // Hanya Kombinasi A wujud
-            if (markahB !== null) return markahB; // Hanya Kombinasi B wujud
-            return null; // Pasukan gagal sediakan kombinasi sah untuk umur ini
-        };
-
-        // 2. Analisis setiap pasukan secara individu
-        for (const pasukan in petaPasukan) {
-            const senarai = petaPasukan[pasukan];
+        for (const kategori in petaKategori) {
+            htmlOutput += `<h4>== KATEGORI: ${escapeHtml(kategori)} ==</h4>`;
             
-            // Susun keseluruhan ahli pasukan mengikut kedudukan (untuk tujuan Tie-Breaker nanti)
-            senarai.sort((a, b) => a.kedudukan - b.kedudukan);
-
-            // Asingkan peserta mengikut kategori umur dan jantina
-            const L12 = senarai.filter(p => p.kategoriUmur === 'L12');
-            const P12 = senarai.filter(p => p.kategoriUmur === 'P12');
-            const L15 = senarai.filter(p => p.kategoriUmur === 'L15');
-            const P15 = senarai.filter(p => p.kategoriUmur === 'P15');
-            const L19 = senarai.filter(p => p.kategoriUmur === 'L19');
-            const P19 = senarai.filter(p => p.kategoriUmur === 'P19');
-
-            // Kira markah bagi setiap peringkat umur (sudah disusun secara automatik kerana 'senarai' dah disusun)
-            const markah12 = kiraMarkahUmur(L12, P12);
-            const markah15 = kiraMarkahUmur(L15, P15);
-            const markah19 = kiraMarkahUmur(L19, P19);
-
-            // 3. Syarat Utama Kelayakan: Pasukan wajib ada markah bagi ke-3 peringkat umur
-            if (markah12 !== null && markah15 !== null && markah19 !== null) {
-                const jumlahMarkah = markah12 + markah15 + markah19;
+            const senaraiPasukan = Object.values(petaKategori[kategori]).map(k => {
+                // Susun peserta pasukan mengikut kedudukan
+                const sortedPeserta = k.peserta.sort((a, b) => a.kedudukan - b.kedudukan);
+                const top3 = sortedPeserta.slice(0, 3);
                 
-                // Pemutus seri: Cari kedudukan peserta ke-10 (Index ke-9 dalam tatasusunan)
-                let tieBreaker = null;
-                if (senarai.length >= 10) {
-                    tieBreaker = senarai[9].kedudukan; // Markah keseluruhan peserta ke-10
+                // Syarat: Pasukan perlukan minima 3 peserta tamat larian untuk menjana mata
+                if (top3.length >= 3) {
+                    k.markah = top3.reduce((sum, p) => sum + p.kedudukan, 0);
+                    k.penyumbangMata = top3;
+                    k.tieBreaker = sortedPeserta.find(p => p.kedudukan === 10) || null;
+                    k.layak = true;
+                } else {
+                    k.layak = false;
                 }
+                k.jumlahPeserta = sortedPeserta.length;
+                return k;
+            }).filter(k => k.layak).sort((a, b) => {
+                if (a.markah !== b.markah) return a.markah - b.markah; // Markah terendah menang
+                // Jika seri, guna peserta ke-10 (Tie-Breaker)
+                if (a.tieBreaker && b.tieBreaker) return a.tieBreaker.kedudukan - b.tieBreaker.kedudukan;
+                if (a.tieBreaker) return -1;
+                if (b.tieBreaker) return 1;
+                return 0; 
+            });
 
-                keputusanPasukan.push({
-                    sekolah: pasukan,
-                    markah: jumlahMarkah,
-                    tieBreaker: tieBreaker,
-                    jumlahPeserta: senarai.length
-                });
+            if (senaraiPasukan.length === 0) {
+                htmlOutput += '<p class="text-muted">Tiada pasukan yang mempunyai sekurang-kurangnya 3 peserta yang tamat larian bagi kategori ini.</p>';
+                continue;
             }
+
+            htmlOutput += `
+            <table class="table-pemenang">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Pasukan/Sekolah</th>
+                        <th>Mata</th>
+                        <th>Penyumbang Mata (Top 3)</th>
+                        <th>Tie-Breaker (No.10)</th>
+                        <th>Penamat</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+            senaraiPasukan.forEach((k, index) => {
+                const rank = index + 1;
+                const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                
+                // Tambah mata pasukan ke dalam kiraan Johan Keseluruhan
+                if (!mataKeseluruhanSekolah[k.sekolah]) {
+                    mataKeseluruhanSekolah[k.sekolah] = { sekolah: k.sekolah, markahTotal: 0, butiran: [] };
+                }
+                mataKeseluruhanSekolah[k.sekolah].markahTotal += k.markah;
+                mataKeseluruhanSekolah[k.sekolah].butiran.push(`<b>${escapeHtml(kategori)}</b>: ${k.markah} mata`);
+
+                // Paparan Tie-Breaker
+                const tieBreakerDisplay = k.tieBreaker ? 
+                    `${escapeHtml(k.tieBreaker.namaPenuh)} (No.${k.tieBreaker.kedudukan})` : 
+                    '<span style="color:gray; font-size:0.85em;">Tiada</span>';
+                
+                // Paparan Kolum Penyumbang (Nama Penuh, No. Badan, Kedudukan)
+                const penyumbangDisplay = k.penyumbangMata.map(p => 
+                    `<div style="font-size: 0.85em; margin-bottom: 2px;">
+                        ${escapeHtml(p.namaPenuh)} [${escapeHtml(p.noBadan)}] <i>(No.${p.kedudukan})</i>
+                    </div>`
+                ).join('');
+
+                htmlOutput += `
+                    <tr class="${rankClass}">
+                        <td>${rank}</td>
+                        <td><strong>${escapeHtml(k.sekolah)}</strong></td>
+                        <td><strong>${k.markah}</strong></td>
+                        <td>${penyumbangDisplay}</td>
+                        <td>${tieBreakerDisplay}</td>
+                        <td>${k.jumlahPeserta}</td>
+                    </tr>`;
+            });
+            htmlOutput += '</tbody></table>';
         }
 
-        // 4. Jika tiada langsung pasukan yang melepasi syarat wajib
-        if (keputusanPasukan.length === 0) {
-            return '<p>Tiada pasukan yang layak. (Syarat: Lengkap peserta 12, 15, dan 19 tahun dengan kombinasi L/P yang sah).</p>';
-        }
-
-        // 5. Susun senarai keputusan dari Johan ke bawah
-        keputusanPasukan.sort((a, b) => {
-            if (a.markah !== b.markah) return a.markah - b.markah; // Markah terendah di atas
-            
-            // Logik Tie-Breaker (Jika markah sama)
-            if (a.tieBreaker !== null && b.tieBreaker !== null) {
-                return a.tieBreaker - b.tieBreaker; // Peserta ke-10 kedudukan terendah menang
-            }
-            if (a.tieBreaker === null && b.tieBreaker !== null) return 1;  // Pasukan B menang sebab ada peserta ke-10
-            if (a.tieBreaker !== null && b.tieBreaker === null) return -1; // Pasukan A menang sebab ada peserta ke-10
-            
-            return 0; // Seri sepenuhnya (Keduanya tiada peserta ke-10)
-        });
-
-        // 6. Jana paparan (HTML Output)
-        let htmlOutput = `<h4>== KEPUTUSAN PASUKAN TERBAIK KESELURUHAN ==</h4>`;
-        htmlOutput += '<table>';
-        htmlOutput += '<tr><th>RANK</th><th>PASUKAN / SEKOLAH</th><th>MARKAH</th><th>TIE-BREAKER (Peserta Ke-10)</th><th>JUM. PESERTA</th></tr>';
+        // --- BAHAGIAN 2: JOHAN KESELURUHAN PASUKAN ---
+        htmlOutput += '<br><hr style="border-top: 2px dashed #17a2b8;"><br>';
+        htmlOutput += '<h3 style="color: #28a745;">🏆 Johan Keseluruhan Pasukan (Agregat Mata)</h3>';
         
-        keputusanPasukan.forEach((k, index) => {
-            const rank = index + 1;
-            let rankClass = '';
-            if (rank === 1) rankClass = 'rank-1';
-            else if (rank === 2) rankClass = 'rank-2';
-            else if (rank === 3) rankClass = 'rank-3';
+        const senaraiKeseluruhan = Object.values(mataKeseluruhanSekolah).sort((a, b) => a.markahTotal - b.markahTotal);
 
-            const tieBreakerDisplay = k.tieBreaker !== null ? k.tieBreaker : '-';
-
-            htmlOutput += `<tr class="${rankClass}">
-                <td>${rank}</td>
-                <td>${escapeHtml(k.sekolah)}</td>
-                <td>${k.markah}</td>
-                <td>${tieBreakerDisplay}</td>
-                <td>${k.jumlahPeserta}</td>
-            </tr>`;
-        });
-        htmlOutput += '</table>';
+        if (senaraiKeseluruhan.length === 0) {
+            htmlOutput += '<p>Tiada data agregat yang cukup untuk dikira.</p>';
+        } else {
+            htmlOutput += `
+            <table class="table-pemenang">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Pasukan/Sekolah</th>
+                        <th>Jumlah Mata Keseluruhan</th>
+                        <th>Pecahan Mata (Kategori)</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            
+            senaraiKeseluruhan.forEach((k, index) => {
+                const rank = index + 1;
+                const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                
+                htmlOutput += `
+                    <tr class="${rankClass}">
+                        <td>${rank}</td>
+                        <td><strong>${escapeHtml(k.sekolah)}</strong></td>
+                        <td><strong>${k.markahTotal}</strong></td>
+                        <td><div style="font-size:0.85em;">${k.butiran.join('<br>')}</div></td>
+                    </tr>`;
+            });
+            htmlOutput += '</tbody></table>';
+        }
 
         return htmlOutput;
     }
@@ -518,8 +554,6 @@ function handleEditCell(e) {
     if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.target.classList.contains('edit-cell')) {
         const field = e.target.getAttribute('data-field'); // 'kedudukan' atau 'masaLarian'
         
-        // Bagian onblur (auto-save) telah dihapus sepenuhnya di sini.
-        
         e.target.onkeydown = function(event) {
             const allowedKeys = [8, 9, 37, 39, 46, 13]; // Backspace, Tab, Arrows, Del, Enter
             const isNumber = (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105);
@@ -557,7 +591,6 @@ async function handlePadamPeserta() {
     }
 }
 
-// (Fungsi Reset lama ini dikekalkan sebagai sokongan, walaupun butang utama menggunakan handleBackupDanPadam)
 async function resetSemuaData() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
     if (confirm("❗ AMARAN: Padam SEMUA data?")) {
@@ -834,7 +867,7 @@ function cetakTetingkap(tajuk, isiKandungan) {
     tetingkapCetak.document.write(`
         <style>
             body { font-family: sans-serif; padding: 20px; }
-            h1, h2 { text-align: center; }
+            h1, h2, h3, h4 { text-align: center; }
             table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
             th, td { border: 1px solid #000; padding: 5px; text-align: left; }
             th { background-color: #f2f2f2; }
@@ -868,9 +901,7 @@ async function handlePadamSemua() {
             return;
         }
 
-        // Firestore batch limit ialah 500. Jika data banyak, kita perlu loop chunk.
-        // Untuk sistem sekolah kecil, batch tunggal biasanya cukup, 
-        // tapi ini cara selamat jika data < 500.
+        // Firestore batch limit ialah 500.
         snapshot.docs.forEach((doc) => {
             batch.delete(doc.ref);
         });
@@ -957,11 +988,6 @@ async function handleRestoreDariFail() {
                 throw new Error("Format fail tidak sah. Mesti array data peserta.");
             }
 
-            // Proses Restore menggunakan Batch
-            // Nota: Firestore Batch max 500 operasi. Kita buat loop mudah.
-            // Jika data > 500, kita perlu pecahkan batch. 
-            // Kod di bawah support sehingga 500 peserta serentak.
-            
             const batch = db.batch();
             let count = 0;
 
@@ -1072,4 +1098,3 @@ async function simpanSemuaKeputusan() {
     alert(`✅ Proses selesai! Data dikemaskini: ${berjaya} | Ralat: ${ralat}`);
     paparSemuaPeserta(); // Segarkan semula jadual
 }
-
