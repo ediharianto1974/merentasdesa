@@ -450,7 +450,6 @@ analisisPemenangKumpulan() {
 
         return htmlOutput;
     }
-}
 
 // ==========================================================
     // TAMPAL KOD INI DI SINI (Langkah 1)
