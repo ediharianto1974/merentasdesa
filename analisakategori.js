@@ -1,59 +1,102 @@
 // ==========================================================
-// FAIL KHUSUS: ANALISIS PASUKAN MENGIKUT KATEGORI
+// FAIL KHUSUS: ANALISIS PASUKAN MENGIKUT KUMPULAN UMUR
 // ==========================================================
 
 function janaAnalisisPasukanKategori(senaraiPeserta) {
     const pesertaSelesai = senaraiPeserta.filter(p => p.kedudukan > 0);
     
-    // 1. Asingkan peserta mengikut Kategori Umur
-    const petaKategori = pesertaSelesai.reduce((acc, p) => {
-        if (!acc[p.kategoriUmur]) acc[p.kategoriUmur] = [];
-        acc[p.kategoriUmur].push(p);
-        return acc;
-    }, {});
+    if (pesertaSelesai.length === 0) return '<div class="alert-info">Tiada keputusan direkodkan.</div>';
+
+    // 1. Kumpulkan data mengikut Kumpulan Umur (12, 15, 19) dan Sekolah
+    const dataKumpulanUmur = {};
+
+    pesertaSelesai.forEach(p => {
+        // Ekstrak umur sahaja (Cth: "L12" atau "L 12" menjadi "12")
+        const umur = p.kategoriUmur.replace(/[^0-9]/g, '');
+        // Tentukan jantina berdasarkan huruf L atau P
+        const jantina = p.kategoriUmur.toUpperCase().includes('L') ? 'L' : 'P';
+        const sekolah = p.sekolahKelas;
+
+        if (!umur) return; // Abaikan jika tiada format umur yang sah
+
+        if (!dataKumpulanUmur[umur]) {
+            dataKumpulanUmur[umur] = {};
+        }
+        if (!dataKumpulanUmur[umur][sekolah]) {
+            dataKumpulanUmur[umur][sekolah] = {
+                sekolah: sekolah,
+                semuaPeserta: [], // Untuk Tie-Breaker (Ke-4)
+                lelaki: [],
+                perempuan: []
+            };
+        }
+
+        // Masukkan data ke dalam kumpulan masing-masing
+        dataKumpulanUmur[umur][sekolah].semuaPeserta.push(p);
+        if (jantina === 'L') {
+            dataKumpulanUmur[umur][sekolah].lelaki.push(p);
+        } else {
+            dataKumpulanUmur[umur][sekolah].perempuan.push(p);
+        }
+    });
 
     let htmlOutput = '';
-    const sortedKategori = Object.keys(petaKategori).sort();
-    
-    if (sortedKategori.length === 0) return '<div class="alert-info">Tiada keputusan direkodkan.</div>';
+    // Susun umur (Cth: 12, 15, 19)
+    const sortedUmur = Object.keys(dataKumpulanUmur).sort((a, b) => parseInt(a) - parseInt(b));
 
-    // 2. Proses setiap kategori
-    sortedKategori.forEach(kategori => {
-        const senaraiKategori = petaKategori[kategori];
+    // HELPER FUNCTION: Kalkulator Kombinasi (2L+1P atau 1L+2P)
+    function kiraKombinasiTerbaik(lelaki, perempuan) {
+        lelaki.sort((a, b) => a.kedudukan - b.kedudukan);
+        perempuan.sort((a, b) => a.kedudukan - b.kedudukan);
+
+        let skorA = null, skorB = null;
+        let penyumbangA = [], penyumbangB = [];
+
+        // Pilihan A: 2 Lelaki + 1 Perempuan
+        if (lelaki.length >= 2 && perempuan.length >= 1) {
+            skorA = lelaki[0].kedudukan + lelaki[1].kedudukan + perempuan[0].kedudukan;
+            penyumbangA = [lelaki[0], lelaki[1], perempuan[0]];
+        }
         
-        // Kumpulkan mengikut pasukan dalam kategori ini
-        const petaPasukan = senaraiKategori.reduce((acc, p) => {
-            if (!acc[p.sekolahKelas]) acc[p.sekolahKelas] = [];
-            acc[p.sekolahKelas].push(p);
-            return acc;
-        }, {});
+        // Pilihan B: 1 Lelaki + 2 Perempuan
+        if (lelaki.length >= 1 && perempuan.length >= 2) {
+            skorB = lelaki[0].kedudukan + perempuan[0].kedudukan + perempuan[1].kedudukan;
+            penyumbangB = [lelaki[0], perempuan[0], perempuan[1]];
+        }
 
+        // Pilih markah yang paling rendah (paling baik)
+        if (skorA !== null && skorB !== null) {
+            return skorA < skorB ? { skor: skorA, penyumbang: penyumbangA, format: "2L+1P" } : { skor: skorB, penyumbang: penyumbangB, format: "1L+2P" };
+        } else if (skorA !== null) {
+            return { skor: skorA, penyumbang: penyumbangA, format: "2L+1P" };
+        } else if (skorB !== null) {
+            return { skor: skorB, penyumbang: penyumbangB, format: "1L+2P" };
+        }
+        return null; // Tiada kombinasi yang sah
+    }
+
+    // 2. Proses setiap Kumpulan Umur (12, 15, 19)
+    sortedUmur.forEach(umur => {
+        const senaraiSekolah = dataKumpulanUmur[umur];
         const keputusanPasukan = [];
 
-        for (const pasukan in petaPasukan) {
-            const ahli = petaPasukan[pasukan];
-            // Susun ahli pasukan mengikut kedudukan (terbaik di atas)
-            ahli.sort((a, b) => a.kedudukan - b.kedudukan); 
+        for (const namaSekolah in senaraiSekolah) {
+            const dataSekolah = senaraiSekolah[namaSekolah];
+            
+            // Dapatkan mata kombinasi terbaik untuk pasukan ini
+            const kombinasi = kiraKombinasiTerbaik(dataSekolah.lelaki, dataSekolah.perempuan);
 
-            // Syarat: Pasukan mesti ada sekurang-kurangnya 3 peserta penamat
-            if (ahli.length >= 3) { 
-                const mata = ahli[0].kedudukan + ahli[1].kedudukan + ahli[2].kedudukan;
-                
-                // Guna escapeHtml dari script.js untuk keselamatan
-                const penyumbang = `
-                    ${window.escapeHtml(ahli[0].namaPenuh)} [${window.escapeHtml(ahli[0].noBadan)}] (No.${ahli[0].kedudukan})<br>
-                    ${window.escapeHtml(ahli[1].namaPenuh)} [${window.escapeHtml(ahli[1].noBadan)}] (No.${ahli[1].kedudukan})<br>
-                    ${window.escapeHtml(ahli[2].namaPenuh)} [${window.escapeHtml(ahli[2].noBadan)}] (No.${ahli[2].kedudukan})
-                `;
-                // Peserta ke-4 sebagai Tie-Breaker
-                const tieBreaker = ahli.length >= 4 ? ahli[3].kedudukan : null;
-                
+            if (kombinasi) {
+                // Cari Tie-Breaker (Peserta ke-4 gabungan dari umur tersebut)
+                dataSekolah.semuaPeserta.sort((a, b) => a.kedudukan - b.kedudukan);
+                const tieBreaker = dataSekolah.semuaPeserta[3] || null; // Index 3 adalah orang ke-4
+
                 keputusanPasukan.push({
-                    pasukan: pasukan,
-                    mata: mata,
-                    penyumbang: penyumbang,
+                    pasukan: namaSekolah,
+                    mata: kombinasi.skor,
+                    kombinasi: kombinasi,
                     tieBreaker: tieBreaker,
-                    penamat: ahli.length
+                    jumlahPenamat: dataSekolah.semuaPeserta.length
                 });
             }
         }
@@ -62,38 +105,47 @@ function janaAnalisisPasukanKategori(senaraiPeserta) {
         keputusanPasukan.sort((a, b) => {
             if (a.mata !== b.mata) return a.mata - b.mata; // Mata terendah di atas
             
-            // Logik Tie-Breaker (Jika mata seri)
-            if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker - b.tieBreaker;
-            if (a.tieBreaker !== null && b.tieBreaker === null) return -1; // A menang (ada peserta ke-4)
-            if (a.tieBreaker === null && b.tieBreaker !== null) return 1;  // B menang (ada peserta ke-4)
+            // Logik Tie-Breaker (Jika mata seri, bandingkan kedudukan peserta ke-4)
+            if (a.tieBreaker !== null && b.tieBreaker !== null) return a.tieBreaker.kedudukan - b.tieBreaker.kedudukan;
+            if (a.tieBreaker !== null && b.tieBreaker === null) return -1; // Pasukan A menang (ada peserta ke-4)
+            if (a.tieBreaker === null && b.tieBreaker !== null) return 1;  // Pasukan B menang (ada peserta ke-4)
             return 0;
         });
 
         // 4. Bina HTML Jadual
         if (keputusanPasukan.length > 0) {
-            htmlOutput += `<h4 style="margin-top: 30px; color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 5px;">== KATEGORI: ${window.escapeHtml(kategori)} ==</h4>`;
+            htmlOutput += `<h4 style="margin-top: 30px; color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 5px;">== KATEGORI UMUR: BAWAH ${umur} TAHUN ==</h4>`;
             htmlOutput += '<table class="table-pemenang" style="margin-top: 10px;">';
-            htmlOutput += '<thead><tr><th>RANK</th><th>PASUKAN/SEKOLAH</th><th>MATA</th><th>PENYUMBANG MATA (TOP 3)</th><th>TIE-BREAKER (Ke-4)</th><th>PENAMAT</th></tr></thead><tbody>';
+            htmlOutput += '<thead><tr><th style="width: 5%;">RANK</th><th style="width: 25%;">PASUKAN/SEKOLAH</th><th style="width: 10%;">MATA</th><th style="width: 35%;">PENYUMBANG MATA (Top 3 Bersyarat)</th><th style="width: 20%;">TIE-BREAKER (Ke-4 Gabungan)</th><th style="width: 5%;">PENAMAT</th></tr></thead><tbody>';
             
             keputusanPasukan.forEach((k, idx) => {
-                let tbDisplay = k.tieBreaker !== null ? `No. ${k.tieBreaker}` : '<span style="color:red">-</span>';
+                let tbDisplay = k.tieBreaker !== null ? 
+                    `<strong>${window.escapeHtml(k.tieBreaker.namaPenuh)}</strong><br><small>[${window.escapeHtml(k.tieBreaker.kategoriUmur)}] (No.${k.tieBreaker.kedudukan})</small>` : 
+                    '<span style="color:red; font-size: 0.85em;">Tiada Peserta Ke-4</span>';
+                
                 let rankClass = '';
                 if (idx === 0) rankClass = 'rank-1';
                 else if (idx === 1) rankClass = 'rank-2';
                 else if (idx === 2) rankClass = 'rank-3';
                 
+                // Format teks penyumbang mata
+                let penyumbangHTML = `<strong style="color:#0284c7;"><small>Format: Kombinasi ${k.kombinasi.format}</small></strong><br>`;
+                k.kombinasi.penyumbang.forEach(p => {
+                    penyumbangHTML += `- ${window.escapeHtml(p.namaPenuh)} [${window.escapeHtml(p.kategoriUmur)}] (No.${p.kedudukan})<br>`;
+                });
+                
                 htmlOutput += `<tr class="${rankClass}">
                     <td style="text-align:center;"><strong>${idx + 1}</strong></td>
                     <td><strong>${window.escapeHtml(k.pasukan)}</strong></td>
-                    <td style="text-align:center; font-size:1.2em; color:#d97706;"><strong>${k.mata}</strong></td>
-                    <td style="font-size: 0.85em; line-height: 1.4;">${k.penyumbang}</td>
-                    <td style="text-align: center; background-color:#f8f9fa;"><strong>${tbDisplay}</strong></td>
-                    <td style="text-align: center;">${k.penamat}</td>
+                    <td style="text-align:center; font-size:1.3em; color:#d97706;"><strong>${k.mata}</strong></td>
+                    <td style="font-size: 0.85em; line-height: 1.4;">${penyumbangHTML}</td>
+                    <td style="text-align: center; background-color:#f8f9fa;">${tbDisplay}</td>
+                    <td style="text-align: center;">${k.jumlahPenamat}</td>
                 </tr>`;
             });
             htmlOutput += '</tbody></table>';
         }
     });
 
-    return htmlOutput === '' ? '<div class="alert-info">Tiada pasukan yang memenuhi syarat (minima 3 peserta tamat) untuk mana-mana kategori.</div>' : htmlOutput;
+    return htmlOutput === '' ? '<div class="alert-info">Tiada pasukan yang memenuhi syarat (membentuk kombinasi 2L+1P atau 1L+2P) untuk mana-mana kategori umur.</div>' : htmlOutput;
 }
