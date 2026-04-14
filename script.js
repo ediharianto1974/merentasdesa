@@ -634,7 +634,7 @@ function handleEditCell(e) {
     }
 }
 
-document.getElementById('result-senarai').addEventListener('click', handleEditCell);
+document.getElementById('result-senarai')?.addEventListener('click', handleEditCell);
 
 async function handlePadamPeserta() {
     if (!isAdmin()) { alert('❌ Akses Ditolak.'); return; }
@@ -791,7 +791,7 @@ function filterTable() {
 // 3. LOG MASUK & NAVIGASI
 // ==========================================================
 
-document.getElementById('login-form').addEventListener('submit', handleLogin);
+document.getElementById('login-form')?.addEventListener('submit', handleLogin);
 
 async function handleLogin(e) {
     e.preventDefault();
