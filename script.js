@@ -571,7 +571,6 @@ async function resetSemuaData() {
         }
     }
   }
-}
 
 // --- ANALISIS 3: PASUKAN MENGIKUT KATEGORI UMUR (BAHARU) ---
     analisisPemenangPasukanKategoriUmur() {
@@ -657,6 +656,7 @@ async function resetSemuaData() {
         });
         return htmlOutput;
     }
+}
 
 // ==========================================================
 // --- FUNGSI PAPARAN ---
